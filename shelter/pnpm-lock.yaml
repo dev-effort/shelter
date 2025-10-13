@@ -50,12 +50,6 @@ importers:
       '@radix-ui/react-toast':
         specifier: ^1.2.15
         version: 1.2.15(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      '@stackflow/plugin-basic-ui':
-        specifier: ^1.15.1
-        version: 1.15.1(@stackflow/core@1.3.0)(@stackflow/react@1.7.0(@stackflow/config@1.2.1)(@stackflow/core@1.3.0)(@types/react@19.0.10)(react@19.0.0))(@types/react@19.0.10)(react@19.0.0)
-      '@stackflow/plugin-history-sync':
-        specifier: ^1.8.0
-        version: 1.8.0(@stackflow/config@1.2.1)(@stackflow/core@1.3.0)(@stackflow/react@1.7.0(@stackflow/config@1.2.1)(@stackflow/core@1.3.0)(@types/react@19.0.10)(react@19.0.0))(@types/react@19.0.10)(react@19.0.0)
       '@types/react-router':
         specifier: ^5.1.20
         version: 5.1.20
@@ -92,9 +86,6 @@ importers:
       react-router-dom:
         specifier: ^5.3.4
         version: 5.3.4(react@19.0.0)
-      stackflow:
-        specifier: ^2.1.0
-        version: 2.1.0
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.3.1
@@ -778,9 +769,6 @@ packages:
 
   '@cypress/xvfb@1.2.4':
     resolution: {integrity: sha512-skbBzPggOVYCbnGgV+0dmBdW/s77ZkAOXIC1knS8NagwDjBrNC1LuXtQJeiN6l+m7lzmHtaoUw/ctJKdqkG57Q==}
-
-  '@emotion/hash@0.9.2':
-    resolution: {integrity: sha512-MyqliTZGuOm3+5ZRSaaBGP3USLw6+EGykkwZns2EPC5g8jJ4z9OrdZY9apkl3+UP9+sdz76YYkwCKP5gh8iY3g==}
 
   '@esbuild/aix-ppc64@0.20.2':
     resolution: {integrity: sha512-D+EBOJHXdNZcLJRBkhENNG8Wji2kgc9AZ9KiPr1JuZjsNtyHzrsfLRrY0tk2H2aoFu6RANO1y1iPPUCDYWkb5g==}
@@ -1563,45 +1551,6 @@ packages:
   '@sinclair/typebox@0.34.41':
     resolution: {integrity: sha512-6gS8pZzSXdyRHTIqoqSVknxolr1kzfy4/CeDnrzsVz8TTIWUbOBr6gnzOmTYJ3eXQNh4IYHIGi5aIL7sOZ2G/g==}
 
-  '@stackflow/config@1.2.1':
-    resolution: {integrity: sha512-ri2grP+BOOsIZvsFFLHZKhd1HJVPg4j8Ums09waP+voQm3hzFPnMKCEMh/cMzcSxKb+j9skWTCzDEJMTeXTQBA==}
-
-  '@stackflow/core@1.3.0':
-    resolution: {integrity: sha512-y2AXD6PKWdFnt9khXS+qfYT8yGvp0EvBM+/3doaI3v0itU6/0gII94A5lBhJpwb38gIpHfws1cvwODjTb9Ttfg==}
-
-  '@stackflow/plugin-basic-ui@1.15.1':
-    resolution: {integrity: sha512-pfPw9coYyLHlrYoyn5JHMgFO9rGgWqZ/d78Mg196lgRXAhD7vm0JyI/MsqvEremumr3yHU6/QLdSTjqbJ3KcSA==}
-    peerDependencies:
-      '@stackflow/core': ^1.1.0-canary.0
-      '@stackflow/react': ^1.3.2-canary.0
-      '@types/react': '>=16.8.0'
-      react: '>=16.8.0'
-
-  '@stackflow/plugin-history-sync@1.8.0':
-    resolution: {integrity: sha512-3NYrd7CDzhwD9I70N60wSoxbi5ThzY+GWsMIliIZ4p6nLas7gRTjvaxf/GkHktthyuqNrTNDw+fGyTmCfOacOA==}
-    peerDependencies:
-      '@stackflow/config': ^1.0.1-canary.0
-      '@stackflow/core': ^1.1.0-canary.0
-      '@stackflow/react': ^1.3.2-canary.0
-      '@types/react': '>=16.8.0'
-      react: '>=16.8.0'
-
-  '@stackflow/react-ui-core@1.3.2':
-    resolution: {integrity: sha512-q6UaLJB6Coa8vJEHzagGnemPC4Vg307frEGD4sFEpFibIUcuh26xNVMsfYJft5sI+l1j4FwNbGGvDs6/hJo3hA==}
-    peerDependencies:
-      '@stackflow/core': ^1.1.0-canary.0
-      '@stackflow/react': ^1.3.2-canary.0
-      '@types/react': '>=16.8.0'
-      react: '>=16.8.0'
-
-  '@stackflow/react@1.7.0':
-    resolution: {integrity: sha512-ifZomhNFv5+fCIRLPU5W4Q+R2jQCh5T+4JWig4VWUyHr3fX9xDb9nmqXedSsIgN7mmZ+a0yZ2GxuzAf6IvhB+g==}
-    peerDependencies:
-      '@stackflow/config': ^1.0.1-canary.0
-      '@stackflow/core': ^1.1.0-canary.0
-      '@types/react': '>=16.8.0'
-      react: '>=16.8.0'
-
   '@stencil/core@4.38.0':
     resolution: {integrity: sha512-oC3QFKO0X1yXVvETgc8OLY525MNKhn9vISBrbtKnGoPlokJ6rI8Vk1RK22TevnNrHLI4SExNLbcDnqilKR35JQ==}
     engines: {node: '>=16.0.0', npm: '>=7.10.0'}
@@ -1789,20 +1738,6 @@ packages:
   '@typescript-eslint/visitor-keys@8.46.0':
     resolution: {integrity: sha512-FrvMpAK+hTbFy7vH5j1+tMYHMSKLE6RzluFJlkFNKD0p9YsUT75JlBSmr5so3QRzvMwU5/bIEdeNrxm8du8l3Q==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-
-  '@vanilla-extract/css@1.17.4':
-    resolution: {integrity: sha512-m3g9nQDWPtL+sTFdtCGRMI1Vrp86Ay4PBYq1Bo7Bnchj5ElNtAJpOqD+zg+apthVA4fB7oVpMWNjwpa6ElDWFQ==}
-
-  '@vanilla-extract/dynamic@2.1.5':
-    resolution: {integrity: sha512-QGIFGb1qyXQkbzx6X6i3+3LMc/iv/ZMBttMBL+Wm/DetQd36KsKsFg5CtH3qy+1hCA/5w93mEIIAiL4fkM8ycw==}
-
-  '@vanilla-extract/private@1.0.9':
-    resolution: {integrity: sha512-gT2jbfZuaaCLrAxwXbRgIhGhcXbRZCG3v4TTUnjw0EJ7ArdBRxkq4msNJkbuRkCgfIK5ATmprB5t9ljvLeFDEA==}
-
-  '@vanilla-extract/recipes@0.5.7':
-    resolution: {integrity: sha512-Fvr+htdyb6LVUu+PhH61UFPhwkjgDEk8L4Zq9oIdte42sntpKrgFy90MyTRtGwjVALmrJ0pwRUVr8UoByYeW8A==}
-    peerDependencies:
-      '@vanilla-extract/css': ^1.0.0
 
   '@vitejs/plugin-legacy@5.4.3':
     resolution: {integrity: sha512-wsyXK9mascyplcqvww1gA1xYiy29iRHfyciw+a0t7qRNdzX6PdfSWmOoCi74epr87DujM+5J+rnnSv+4PazqVg==}
@@ -2253,10 +2188,6 @@ packages:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
 
-  css-what@6.2.2:
-    resolution: {integrity: sha512-u/O3vwbptzhMs3L1fQE82ZSLHQQfto5gyZzwteVIEyeaY5Fc7R4dapF/BvRoSYFeqfBk4m0V1Vafq5Pjv25wvA==}
-    engines: {node: '>= 6'}
-
   css.escape@1.5.1:
     resolution: {integrity: sha512-YUifsXXuknHlUsmlgyY0PKzgPOr7/FjCePfHNt0jxm83wHZi44VDMQ7/fGNkjY3/jV1MC+1CmZbaHzugyeRtpg==}
 
@@ -2324,27 +2255,12 @@ packages:
   decimal.js@10.6.0:
     resolution: {integrity: sha512-YpgQiITW3JXGntzdUmyUR1V812Hn8T1YVXhCu+wO3OpS4eU9l4YdD3qjyiKdV6mvV29zapkMeD390UVEf2lkUg==}
 
-  dedent@1.7.0:
-    resolution: {integrity: sha512-HGFtf8yhuhGhqO07SV79tRp+br4MnbdjeVxotpn1QBl30pcLLCQjX5b2295ll0fv8RKDKsmWYrl05usHM9CewQ==}
-    peerDependencies:
-      babel-plugin-macros: ^3.1.0
-    peerDependenciesMeta:
-      babel-plugin-macros:
-        optional: true
-
   deep-eql@5.0.2:
     resolution: {integrity: sha512-h5k/5U50IJJFpzfL6nO9jaaumfjO/f2NjK/oYB2Djzm4p9L+3T9qWpZqZ2hAbLPuuYq9wrU08WQyBTL5GbPk5Q==}
     engines: {node: '>=6'}
 
   deep-is@0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
-
-  deep-object-diff@1.1.9:
-    resolution: {integrity: sha512-Rn+RuwkmkDwCi2/oXOFS9Gsr5lJZu/yTGpK7wAaAIE75CC+LCGEZHpY6VQJa/RoJcrmaA/docWJZvYohlNkWPA==}
-
-  deepmerge@4.3.1:
-    resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}
-    engines: {node: '>=0.10.0'}
 
   defaults@1.0.4:
     resolution: {integrity: sha512-eFuaLoy/Rxalv2kr+lqMlUnrDWV+3j4pljOIJgLIhI058IQfWJ7vXhyEIHu+HtC738klGALYxOKDO0bQP3tg8A==}
@@ -2803,9 +2719,6 @@ packages:
   history@4.10.1:
     resolution: {integrity: sha512-36nwAD620w12kuzPAsyINPWJqlNbij+hpK1k9XRloDtym8mxzGYl2c17LnV6IAGB2Dmg4tEa7G7DlawS0+qjew==}
 
-  history@5.3.0:
-    resolution: {integrity: sha512-ZqaKwjjrAYUYfLG+htGaIIZ4nioX2L70ZUMIFysS3xvBsSG4x/n1V6TXV3N8ZYNuFGlDirFg32T7B6WOUPDYcQ==}
-
   hoist-non-react-statics@3.3.2:
     resolution: {integrity: sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==}
 
@@ -3240,9 +3153,6 @@ packages:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
 
-  media-query-parser@2.0.2:
-    resolution: {integrity: sha512-1N4qp+jE0pL5Xv4uEcwVUhIkwdUO3S/9gML90nqKA7v7FcOS5vUtatfzok9S9U1EJU8dHWlcv95WLnKmmxZI9w==}
-
   meow@13.2.0:
     resolution: {integrity: sha512-pxQJQzB6djGPXh08dacEloMFopsOqGVRKFPYvPOt9XDZ1HasbgDZA74CJGreSU4G3Ak7EFJGoiH2auq+yXISgA==}
     engines: {node: '>=18'}
@@ -3312,9 +3222,6 @@ packages:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
     engines: {node: '>=10'}
     hasBin: true
-
-  modern-ahocorasick@1.1.0:
-    resolution: {integrity: sha512-sEKPVl2rM+MNVkGQt3ChdmD8YsigmXdn5NifZn6jiwn9LRJpWm8F3guhaqrJT/JOat6pwpbXEk6kv+b9DMIjsQ==}
 
   mrmime@2.0.1:
     resolution: {integrity: sha512-Y3wQdFg2Va6etvQ5I82yUhGdsKrcYox6p7FfL1LbK2J4V01F9TGlepTIhnK24t7koZibmg82KGglhA1XK5IsLQ==}
@@ -3693,9 +3600,6 @@ packages:
     peerDependencies:
       react: ^19.0.0
 
-  react-fast-compare@3.2.2:
-    resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
-
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -3748,11 +3652,6 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
-
-  react18-use@0.4.1:
-    resolution: {integrity: sha512-NY59qMAOxmpjg3XJGfSotwmH9BVAD1kB4kZqjfB28yr6jQKaGh1F5i7X1N9OTn6dD5r8yqSH3X4SslcqxAxQCw==}
-    peerDependencies:
-      react: '>=18.0.0'
 
   react@19.0.0:
     resolution: {integrity: sha512-V8AVnmPIICiWpGfm6GLzCR/W5FXLchHop40W4nXBmdlEceh16rCN8O8LNWm5bh5XUX91fh7KpA+W0TgMKmgTpQ==}
@@ -3974,9 +3873,6 @@ packages:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
 
-  sowpods@1.1.0:
-    resolution: {integrity: sha512-4caMiCCqnjLkiw32kXQfestV3+w5LChq4KLrc0Osoa3kxaxpJPYTWTh0m5fZ4yj+ub0o0b8Y8xN9ihmRHqsVAw==}
-
   split2@4.2.0:
     resolution: {integrity: sha512-UcjcJOWknrNkF6PLX83qcHM6KHgVKNkV62Y8a5uYDVv9ydGQVwAHMKqHdJje1VTWpljG0WYpCDhrCdAOYH4TWg==}
     engines: {node: '>= 10.x'}
@@ -3992,10 +3888,6 @@ packages:
 
   stackback@0.0.2:
     resolution: {integrity: sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==}
-
-  stackflow@2.1.0:
-    resolution: {integrity: sha512-vgA1K/Bt46uivNf5p12r6R8rphP+eOZKZEv0acGtOkneDEfxWGzEnQcKAi+VohqeGoU2EprHnTuBQHXelFXP8g==}
-    hasBin: true
 
   std-env@3.9.0:
     resolution: {integrity: sha512-UGvjygr6F6tpH7o2qyqR6QYpwraIjKSdtzyBdyytFOHmPZY917kwdwLG0RbOjWOnKmnm3PeHjaoLLMie7kPLQw==}
@@ -4284,10 +4176,6 @@ packages:
 
   url-parse@1.5.10:
     resolution: {integrity: sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==}
-
-  url-pattern@1.0.3:
-    resolution: {integrity: sha512-uQcEj/2puA4aq1R3A2+VNVBgaWYR24FdWjl7VNW83rnWftlhyzOZ/tBjezRiC2UkIzuxC8Top3IekN3vUf1WxA==}
-    engines: {node: '>=0.12.0'}
 
   use-callback-ref@1.3.3:
     resolution: {integrity: sha512-jQL3lRnocaFtu3V00JToYz/4QkNWswxijDaCVNZRiRTO3HQDLsdu1ZtmIUvV4yPp+rvWm5j0y0TG/S61cuijTg==}
@@ -5284,8 +5172,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@emotion/hash@0.9.2': {}
-
   '@esbuild/aix-ppc64@0.20.2':
     optional: true
 
@@ -5986,54 +5872,6 @@ snapshots:
 
   '@sinclair/typebox@0.34.41': {}
 
-  '@stackflow/config@1.2.1': {}
-
-  '@stackflow/core@1.3.0':
-    dependencies:
-      react-fast-compare: 3.2.2
-
-  '@stackflow/plugin-basic-ui@1.15.1(@stackflow/core@1.3.0)(@stackflow/react@1.7.0(@stackflow/config@1.2.1)(@stackflow/core@1.3.0)(@types/react@19.0.10)(react@19.0.0))(@types/react@19.0.10)(react@19.0.0)':
-    dependencies:
-      '@stackflow/core': 1.3.0
-      '@stackflow/react': 1.7.0(@stackflow/config@1.2.1)(@stackflow/core@1.3.0)(@types/react@19.0.10)(react@19.0.0)
-      '@stackflow/react-ui-core': 1.3.2(@stackflow/core@1.3.0)(@stackflow/react@1.7.0(@stackflow/config@1.2.1)(@stackflow/core@1.3.0)(@types/react@19.0.10)(react@19.0.0))(@types/react@19.0.10)(react@19.0.0)
-      '@types/react': 19.0.10
-      '@vanilla-extract/css': 1.17.4
-      '@vanilla-extract/dynamic': 2.1.5
-      '@vanilla-extract/private': 1.0.9
-      '@vanilla-extract/recipes': 0.5.7(@vanilla-extract/css@1.17.4)
-      clsx: 2.1.1
-      react: 19.0.0
-    transitivePeerDependencies:
-      - babel-plugin-macros
-
-  '@stackflow/plugin-history-sync@1.8.0(@stackflow/config@1.2.1)(@stackflow/core@1.3.0)(@stackflow/react@1.7.0(@stackflow/config@1.2.1)(@stackflow/core@1.3.0)(@types/react@19.0.10)(react@19.0.0))(@types/react@19.0.10)(react@19.0.0)':
-    dependencies:
-      '@stackflow/config': 1.2.1
-      '@stackflow/core': 1.3.0
-      '@stackflow/react': 1.7.0(@stackflow/config@1.2.1)(@stackflow/core@1.3.0)(@types/react@19.0.10)(react@19.0.0)
-      '@types/react': 19.0.10
-      flatted: 3.3.3
-      history: 5.3.0
-      react: 19.0.0
-      react18-use: 0.4.1(react@19.0.0)
-      url-pattern: 1.0.3
-
-  '@stackflow/react-ui-core@1.3.2(@stackflow/core@1.3.0)(@stackflow/react@1.7.0(@stackflow/config@1.2.1)(@stackflow/core@1.3.0)(@types/react@19.0.10)(react@19.0.0))(@types/react@19.0.10)(react@19.0.0)':
-    dependencies:
-      '@stackflow/core': 1.3.0
-      '@stackflow/react': 1.7.0(@stackflow/config@1.2.1)(@stackflow/core@1.3.0)(@types/react@19.0.10)(react@19.0.0)
-      '@types/react': 19.0.10
-      react: 19.0.0
-
-  '@stackflow/react@1.7.0(@stackflow/config@1.2.1)(@stackflow/core@1.3.0)(@types/react@19.0.10)(react@19.0.0)':
-    dependencies:
-      '@stackflow/config': 1.2.1
-      '@stackflow/core': 1.3.0
-      '@types/react': 19.0.10
-      react: 19.0.0
-      react-fast-compare: 3.2.2
-
   '@stencil/core@4.38.0':
     optionalDependencies:
       '@rollup/rollup-darwin-arm64': 4.34.9
@@ -6287,33 +6125,6 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 8.46.0
       eslint-visitor-keys: 4.2.1
-
-  '@vanilla-extract/css@1.17.4':
-    dependencies:
-      '@emotion/hash': 0.9.2
-      '@vanilla-extract/private': 1.0.9
-      css-what: 6.2.2
-      cssesc: 3.0.0
-      csstype: 3.1.3
-      dedent: 1.7.0
-      deep-object-diff: 1.1.9
-      deepmerge: 4.3.1
-      lru-cache: 10.4.3
-      media-query-parser: 2.0.2
-      modern-ahocorasick: 1.1.0
-      picocolors: 1.1.1
-    transitivePeerDependencies:
-      - babel-plugin-macros
-
-  '@vanilla-extract/dynamic@2.1.5':
-    dependencies:
-      '@vanilla-extract/private': 1.0.9
-
-  '@vanilla-extract/private@1.0.9': {}
-
-  '@vanilla-extract/recipes@0.5.7(@vanilla-extract/css@1.17.4)':
-    dependencies:
-      '@vanilla-extract/css': 1.17.4
 
   '@vitejs/plugin-legacy@5.4.3(terser@5.44.0)(vite@5.2.14(@types/node@24.7.2)(terser@5.44.0))':
     dependencies:
@@ -6791,8 +6602,6 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  css-what@6.2.2: {}
-
   css.escape@1.5.1: {}
 
   cssesc@3.0.0: {}
@@ -6895,15 +6704,9 @@ snapshots:
 
   decimal.js@10.6.0: {}
 
-  dedent@1.7.0: {}
-
   deep-eql@5.0.2: {}
 
   deep-is@0.1.4: {}
-
-  deep-object-diff@1.1.9: {}
-
-  deepmerge@4.3.1: {}
 
   defaults@1.0.4:
     dependencies:
@@ -7511,10 +7314,6 @@ snapshots:
       tiny-warning: 1.0.3
       value-equal: 1.0.1
 
-  history@5.3.0:
-    dependencies:
-      '@babel/runtime': 7.28.4
-
   hoist-non-react-statics@3.3.2:
     dependencies:
       react-is: 16.13.1
@@ -7963,10 +7762,6 @@ snapshots:
 
   math-intrinsics@1.1.0: {}
 
-  media-query-parser@2.0.2:
-    dependencies:
-      '@babel/runtime': 7.28.4
-
   meow@13.2.0: {}
 
   merge-stream@2.0.0: {}
@@ -8018,8 +7813,6 @@ snapshots:
       yallist: 4.0.0
 
   mkdirp@1.0.4: {}
-
-  modern-ahocorasick@1.1.0: {}
 
   mrmime@2.0.1: {}
 
@@ -8330,8 +8123,6 @@ snapshots:
       react: 19.0.0
       scheduler: 0.25.0
 
-  react-fast-compare@3.2.2: {}
-
   react-is@16.13.1: {}
 
   react-is@17.0.2: {}
@@ -8390,10 +8181,6 @@ snapshots:
       tslib: 2.8.1
     optionalDependencies:
       '@types/react': 19.0.10
-
-  react18-use@0.4.1(react@19.0.0):
-    dependencies:
-      react: 19.0.0
 
   react@19.0.0: {}
 
@@ -8668,8 +8455,6 @@ snapshots:
 
   source-map@0.6.1: {}
 
-  sowpods@1.1.0: {}
-
   split2@4.2.0: {}
 
   sshpk@1.18.0:
@@ -8689,10 +8474,6 @@ snapshots:
       escape-string-regexp: 2.0.0
 
   stackback@0.0.2: {}
-
-  stackflow@2.1.0:
-    dependencies:
-      sowpods: 1.1.0
 
   std-env@3.9.0: {}
 
@@ -9029,8 +8810,6 @@ snapshots:
     dependencies:
       querystringify: 2.2.0
       requires-port: 1.0.0
-
-  url-pattern@1.0.3: {}
 
   use-callback-ref@1.3.3(@types/react@19.0.10)(react@19.0.0):
     dependencies:
