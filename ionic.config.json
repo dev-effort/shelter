@@ -1,7 +1,0 @@
-{
-  "name": "shelter",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "react-vite"
-}
