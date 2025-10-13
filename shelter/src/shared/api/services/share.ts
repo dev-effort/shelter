@@ -171,31 +171,56 @@ class ShareServiceImpl implements ShareService {
    */
   private async checkAndroidShare(): Promise<SharedUrlInfo | null> {
     try {
-      // Check if there's a pending share
-      const { value: sharePending } = await Preferences.get({ key: 'shelter_share_pending' });
+      console.log('🔍 Checking Android share data...');
 
-      if (sharePending !== 'true') {
+      // Check if there's a pending share
+      const pendingResult = await Preferences.get({ key: 'shelter_share_pending' });
+      console.log('shelter_share_pending:', pendingResult);
+
+      if (pendingResult.value !== 'true') {
+        console.log('No pending share found');
         return null;
       }
 
       // Get shared URL and title
-      const { value: sharedUrl } = await Preferences.get({ key: 'shelter_shared_url' });
-      const { value: sharedTitle } = await Preferences.get({ key: 'shelter_shared_title' });
+      const urlResult = await Preferences.get({ key: 'shelter_shared_url' });
+      const titleResult = await Preferences.get({ key: 'shelter_shared_title' });
 
-      if (!sharedUrl) {
+      console.log('shelter_shared_url:', urlResult);
+      console.log('shelter_shared_title:', titleResult);
+
+      if (!urlResult.value) {
+        console.log('No shared URL found');
         return null;
       }
 
-      // Clear the pending flag
-      await Preferences.set({ key: 'shelter_share_pending', value: 'false' });
+      // DON'T clear here - let ShareReceiverPage clear it after using the data
+      // This allows multiple checks without losing data
 
-      return {
-        url: sharedUrl,
-        title: sharedTitle || undefined,
+      const shareInfo = {
+        url: urlResult.value,
+        title: titleResult.value || undefined,
       };
+
+      console.log('✅ Returning share info:', shareInfo);
+      return shareInfo;
     } catch (error) {
-      console.error('Failed to check Android share:', error);
+      console.error('❌ Failed to check Android share:', error);
       return null;
+    }
+  }
+
+  /**
+   * Clear shared data (called by ShareReceiverPage after using the data)
+   */
+  async clearSharedData(): Promise<void> {
+    try {
+      await Preferences.set({ key: 'shelter_share_pending', value: 'false' });
+      await Preferences.remove({ key: 'shelter_shared_url' });
+      await Preferences.remove({ key: 'shelter_shared_title' });
+      console.log('✅ Share data cleared');
+    } catch (error) {
+      console.error('❌ Failed to clear share data:', error);
     }
   }
 }

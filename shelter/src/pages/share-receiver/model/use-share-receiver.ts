@@ -57,6 +57,9 @@ export function useShareReceiver() {
         folderId,
       });
 
+      // Clear shared data from storage
+      await shareService.clearSharedData();
+
       // 성공 시 홈으로 이동
       setSharedInfo(null);
       history.replace('/home');
@@ -71,7 +74,10 @@ export function useShareReceiver() {
   /**
    * 공유 취소
    */
-  const cancelShare = () => {
+  const cancelShare = async () => {
+    // Clear shared data from storage
+    await shareService.clearSharedData();
+
     setSharedInfo(null);
     history.replace('/home');
   };

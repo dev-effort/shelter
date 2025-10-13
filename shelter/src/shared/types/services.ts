@@ -156,6 +156,11 @@ export interface ShareService {
    * Check if app was launched with a shared URL
    */
   checkLaunchUrl(): Promise<SharedUrlInfo | null>;
+
+  /**
+   * Clear shared data from storage
+   */
+  clearSharedData(): Promise<void>;
 }
 
 /**

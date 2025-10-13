@@ -39,16 +39,20 @@ setupIonicReact({
 const AppContent: React.FC = () => {
   const history = useHistory();
   const shareListenerRef = useRef<((info: any) => void) | null>(null);
+  const isCheckingShareRef = useRef(false);
 
   useEffect(() => {
+    let mounted = true;
+
     // Initialize share service
     shareService.initialize().catch((error) => {
       console.error('Failed to initialize share service:', error);
     });
 
     // Handle share events by redirecting to /share page
-    const handleShare = () => {
-      console.log('Share event received, navigating to /share');
+    const handleShare = (info: any) => {
+      if (!mounted) return;
+      console.log('Share event received, navigating to /share', info);
       // Use push instead of replace to allow back navigation
       history.push('/share');
     };
@@ -56,15 +60,49 @@ const AppContent: React.FC = () => {
     shareListenerRef.current = handleShare;
     shareService.addListener(handleShare);
 
-    // Check if app was launched with a share
-    shareService.checkLaunchUrl().then((info) => {
-      if (info) {
-        console.log('App launched with shared URL:', info);
+    // Check for shared data multiple times with delays
+    const checkShare = async () => {
+      if (isCheckingShareRef.current) return;
+      isCheckingShareRef.current = true;
+
+      console.log('🔄 Starting share data check...');
+
+      // Try after 1.5 seconds (MainActivity saves after 1 second)
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      let info = await shareService.checkLaunchUrl();
+      if (info && mounted) {
+        console.log('✅ Share data found after 1.5s:', info);
         history.replace('/share');
+        return;
       }
+
+      // Try after another 500ms (total 2s)
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      info = await shareService.checkLaunchUrl();
+      if (info && mounted) {
+        console.log('✅ Share data found after 2s:', info);
+        history.replace('/share');
+        return;
+      }
+
+      // Try after another 500ms (total 2.5s)
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      info = await shareService.checkLaunchUrl();
+      if (info && mounted) {
+        console.log('✅ Share data found after 2.5s:', info);
+        history.replace('/share');
+        return;
+      }
+
+      console.log('❌ No share data found after 2.5 seconds');
+    };
+
+    checkShare().catch((error) => {
+      console.error('Error checking share:', error);
     });
 
     return () => {
+      mounted = false;
       if (shareListenerRef.current) {
         shareService.removeListener(shareListenerRef.current);
       }
