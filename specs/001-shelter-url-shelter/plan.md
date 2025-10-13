@@ -43,6 +43,7 @@ Shelter is a mobile link organization app that allows users to save and categori
 ### Design Philosophy
 
 **Modern Minimalism**: 최대한 심플하고 깔끔한 디자인을 추구합니다.
+
 - 불필요한 장식 요소 제거
 - 콘텐츠 중심의 레이아웃
 - 명확한 시각적 계층 구조
@@ -51,16 +52,19 @@ Shelter is a mobile link organization app that allows users to save and categori
 ### Core Design Principles
 
 1. **Simplicity First (심플함 우선)**
+
    - 한 화면에 하나의 주요 작업에 집중
    - 복잡한 기능은 단계적으로 표시
    - 불필요한 버튼이나 옵션 숨기기
 
 2. **Content-Focused (콘텐츠 중심)**
+
    - 링크와 폴더가 주인공
    - UI 요소는 최소화하고 콘텐츠 강조
    - 광고 영역도 자연스럽게 통합
 
 3. **Touch-Friendly (터치 친화적)**
+
    - 최소 터치 영역 44x44px
    - 제스처 기반 인터랙션 (스와이프, 롱프레스)
    - 손가락으로 쉽게 닿는 위치에 주요 액션 배치
@@ -73,35 +77,41 @@ Shelter is a mobile link organization app that allows users to save and categori
 ### shadcn/ui Components Usage
 
 **Primary Components**:
+
 - **Button**: 주요 액션 (폴더/문서 생성, 저장, 삭제)
   - Variant: `default`, `ghost`, `outline`
   - Size: `lg` (모바일 터치 최적화)
-  
 - **Sheet**: 모바일에 최적화된 바텀 시트
+
   - 폴더/링크 생성 양식
   - 상세 정보 표시
   - 필터/정렬 옵션
 
 - **Dialog**: 중요한 확인 (삭제 등)
+
   - 간결한 메시지
   - 명확한 액션 버튼
 
 - **Input**: 텍스트 입력
+
   - 제목, URL, 설명 입력
   - 검색 바
   - 큰 터치 영역 확보
 
 - **Card**: 폴더/링크 표시
+
   - List 모드: 전체 너비 카드
   - Grid 모드: 2열 그리드
   - 깔끔한 그림자 효과
 
 - **Badge**: 태그 표시
+
   - 둥근 모서리
   - 부드러운 색상
   - 터치 가능한 크기
 
 - **Select**: 드롭다운 선택
+
   - 폴더 선택
   - 정렬 옵션
   - 네이티브 느낌 유지
@@ -114,26 +124,29 @@ Shelter is a mobile link organization app that allows users to save and categori
 ### Color Palette
 
 **Light Mode** (기본):
+
 ```css
---background: 0 0% 100%;          /* 순백색 배경 */
---foreground: 0 0% 3.9%;          /* 거의 검정색 텍스트 */
---primary: 221.2 83.2% 53.3%;     /* 생동감 있는 파란색 */
---primary-foreground: 0 0% 100%;  /* 흰색 */
---muted: 210 40% 96.1%;           /* 연한 회색 */
+--background: 0 0% 100%; /* 순백색 배경 */
+--foreground: 0 0% 3.9%; /* 거의 검정색 텍스트 */
+--primary: 221.2 83.2% 53.3%; /* 생동감 있는 파란색 */
+--primary-foreground: 0 0% 100%; /* 흰색 */
+--muted: 210 40% 96.1%; /* 연한 회색 */
 --muted-foreground: 215.4 16.3% 46.9%; /* 중간 회색 */
---border: 214.3 31.8% 91.4%;      /* 연한 테두리 */
+--border: 214.3 31.8% 91.4%; /* 연한 테두리 */
 ```
 
 **Dark Mode**:
+
 ```css
---background: 0 0% 3.9%;          /* 진한 배경 */
---foreground: 0 0% 98%;           /* 거의 흰색 텍스트 */
---primary: 217.2 91.2% 59.8%;     /* 밝은 파란색 */
---muted: 217.2 32.6% 17.5%;       /* 어두운 회색 */
---border: 217.2 32.6% 17.5%;      /* 어두운 테두리 */
+--background: 0 0% 3.9%; /* 진한 배경 */
+--foreground: 0 0% 98%; /* 거의 흰색 텍스트 */
+--primary: 217.2 91.2% 59.8%; /* 밝은 파란색 */
+--muted: 217.2 32.6% 17.5%; /* 어두운 회색 */
+--border: 217.2 32.6% 17.5%; /* 어두운 테두리 */
 ```
 
 **Tag Colors** (from entities.ts):
+
 - 사전 정의된 8가지 색상 팔레트 사용
 - 부드러운 파스텔 톤
 - 접근성 고려 (충분한 대비)
@@ -141,12 +154,14 @@ Shelter is a mobile link organization app that allows users to save and categori
 ### Typography
 
 **Font Stack**:
+
 ```css
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
-             "Helvetica Neue", Arial, sans-serif;
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  "Helvetica Neue", Arial, sans-serif;
 ```
 
 **Font Sizes** (mobile-optimized):
+
 - **Heading 1**: 28px (폰트 크기 큼, 페이지 타이틀)
 - **Heading 2**: 24px (섹션 헤더)
 - **Heading 3**: 20px (서브 헤더)
@@ -155,12 +170,14 @@ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
 - **Tiny**: 12px (타임스탬프 등)
 
 **Line Heights**:
+
 - Headings: 1.2
 - Body: 1.6 (가독성 향상)
 
 ### Spacing System
 
 Tailwind의 spacing scale 사용:
+
 - **xs**: 4px (아주 작은 간격)
 - **sm**: 8px (작은 간격)
 - **md**: 16px (기본 간격)
@@ -168,6 +185,7 @@ Tailwind의 spacing scale 사용:
 - **xl**: 32px (매우 큰 간격)
 
 **Layout Padding**:
+
 - Mobile: 16px 좌우 여백
 - Content: 최대 너비 제한 없음 (전체 화면 활용)
 
@@ -189,6 +207,7 @@ Tailwind의 spacing scale 사용:
 ```
 
 **특징**:
+
 - 깔끔한 1줄 레이아웃
 - 터치 피드백 (scale 효과)
 - 아이콘으로 타입 구분
@@ -207,6 +226,7 @@ Tailwind의 spacing scale 사용:
 ```
 
 **특징**:
+
 - 정사각형 비율
 - 아이콘 강조
 - 2줄 제목 표시
@@ -227,13 +247,16 @@ Tailwind의 spacing scale 사용:
       <TagInput />
     </div>
     <SheetFooter>
-      <Button size="lg" className="w-full">저장</Button>
+      <Button size="lg" className="w-full">
+        저장
+      </Button>
     </SheetFooter>
   </SheetContent>
 </Sheet>
 ```
 
 **특징**:
+
 - 하단에서 올라오는 시트 (모바일 표준)
 - 큰 입력 필드
 - 전체 너비 버튼
@@ -254,6 +277,7 @@ Tailwind의 spacing scale 사용:
 ```
 
 **특징**:
+
 - 하단 고정
 - 아이콘 + 레이블
 - 동일한 간격
@@ -264,14 +288,12 @@ Tailwind의 spacing scale 사용:
 ```tsx
 <div className="relative">
   <Search className="absolute left-3 top-3 w-5 h-5 text-muted-foreground" />
-  <Input 
-    className="pl-10 h-12" 
-    placeholder="검색..."
-  />
+  <Input className="pl-10 h-12" placeholder="검색..." />
 </div>
 ```
 
 **특징**:
+
 - 왼쪽 검색 아이콘
 - 큰 입력 높이 (12)
 - 부드러운 플레이스홀더
@@ -279,6 +301,7 @@ Tailwind의 spacing scale 사용:
 ### Animation & Transitions
 
 **Micro-interactions**:
+
 ```css
 /* 버튼 press 효과 */
 .active\:scale-\[0\.98\]:active {
@@ -292,12 +315,17 @@ Tailwind의 spacing scale 사용:
 
 /* 스켈레톤 로딩 */
 @keyframes shimmer {
-  0% { background-position: -1000px 0; }
-  100% { background-position: 1000px 0; }
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
 }
 ```
 
 **Page Transitions** (Stackflow):
+
 - Push: 오른쪽에서 슬라이드
 - Pop: 왼쪽으로 슬라이드
 - Duration: 300ms
@@ -314,6 +342,7 @@ Tailwind의 spacing scale 사용:
 ### Responsive Breakpoints
 
 모바일 우선 디자인:
+
 - **Mobile**: 320px - 767px (기본)
 - **Tablet**: 768px - 1023px (넓은 레이아웃)
 - **Desktop**: 1024px+ (웹 프리뷰, 중앙 정렬)
@@ -321,13 +350,12 @@ Tailwind의 spacing scale 사용:
 ### Empty States
 
 빈 상태도 아름답게:
+
 ```tsx
 <div className="flex flex-col items-center justify-center h-[60vh] text-center px-8">
   <Icon className="w-16 h-16 text-muted-foreground mb-4" />
   <h3 className="text-lg font-medium mb-2">아직 링크가 없어요</h3>
-  <p className="text-muted-foreground mb-6">
-    첫 번째 링크를 추가해보세요
-  </p>
+  <p className="text-muted-foreground mb-6">첫 번째 링크를 추가해보세요</p>
   <Button size="lg">
     <Plus className="w-5 h-5 mr-2" />
     링크 추가

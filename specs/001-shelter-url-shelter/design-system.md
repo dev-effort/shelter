@@ -11,14 +11,17 @@
 **"Less is More"** - 불필요한 요소를 제거하고 본질에 집중합니다.
 
 1. **콘텐츠 우선** (Content First)
+
    - 사용자의 링크와 폴더가 주인공
    - UI는 콘텐츠를 돋보이게 하는 조연
 
-2. **명확한 계층** (Clear Hierarchy)  
+2. **명확한 계층** (Clear Hierarchy)
+
    - 중요한 것은 크고 선명하게
    - 부차적인 것은 작고 은은하게
 
 3. **일관성** (Consistency)
+
    - 같은 액션은 항상 같은 위치, 같은 모양
    - 예측 가능한 사용자 경험
 
@@ -32,29 +35,29 @@
 
 ```typescript
 const lightColors = {
-  background: "hsl(0, 0%, 100%)",        // 순백색
-  foreground: "hsl(0, 0%, 3.9%)",        // 거의 검정색
-  card: "hsl(0, 0%, 100%)",              // 카드 배경
-  cardForeground: "hsl(0, 0%, 3.9%)",    // 카드 텍스트
-  
-  primary: "hsl(221, 83%, 53%)",         // 생생한 파란색
+  background: "hsl(0, 0%, 100%)", // 순백색
+  foreground: "hsl(0, 0%, 3.9%)", // 거의 검정색
+  card: "hsl(0, 0%, 100%)", // 카드 배경
+  cardForeground: "hsl(0, 0%, 3.9%)", // 카드 텍스트
+
+  primary: "hsl(221, 83%, 53%)", // 생생한 파란색
   primaryForeground: "hsl(0, 0%, 100%)", // 흰색
-  
-  secondary: "hsl(210, 40%, 96%)",       // 연한 회색
+
+  secondary: "hsl(210, 40%, 96%)", // 연한 회색
   secondaryForeground: "hsl(0, 0%, 3.9%)",
-  
-  muted: "hsl(210, 40%, 96%)",           // 은은한 배경
+
+  muted: "hsl(210, 40%, 96%)", // 은은한 배경
   mutedForeground: "hsl(215, 16%, 47%)", // 은은한 텍스트
-  
-  accent: "hsl(210, 40%, 96%)",          // 강조 배경
+
+  accent: "hsl(210, 40%, 96%)", // 강조 배경
   accentForeground: "hsl(0, 0%, 3.9%)",
-  
-  destructive: "hsl(0, 84%, 60%)",       // 빨간색 (삭제)
+
+  destructive: "hsl(0, 84%, 60%)", // 빨간색 (삭제)
   destructiveForeground: "hsl(0, 0%, 100%)",
-  
-  border: "hsl(214, 32%, 91%)",          // 은은한 테두리
-  input: "hsl(214, 32%, 91%)",           // 입력 테두리
-  ring: "hsl(221, 83%, 53%)",            // 포커스 링
+
+  border: "hsl(214, 32%, 91%)", // 은은한 테두리
+  input: "hsl(214, 32%, 91%)", // 입력 테두리
+  ring: "hsl(221, 83%, 53%)", // 포커스 링
 };
 ```
 
@@ -62,26 +65,26 @@ const lightColors = {
 
 ```typescript
 const darkColors = {
-  background: "hsl(0, 0%, 3.9%)",        // 진한 배경
-  foreground: "hsl(0, 0%, 98%)",         // 밝은 텍스트
+  background: "hsl(0, 0%, 3.9%)", // 진한 배경
+  foreground: "hsl(0, 0%, 98%)", // 밝은 텍스트
   card: "hsl(0, 0%, 3.9%)",
   cardForeground: "hsl(0, 0%, 98%)",
-  
-  primary: "hsl(217, 91%, 60%)",         // 밝은 파란색
+
+  primary: "hsl(217, 91%, 60%)", // 밝은 파란색
   primaryForeground: "hsl(0, 0%, 98%)",
-  
-  secondary: "hsl(217, 33%, 17%)",       // 어두운 회색
+
+  secondary: "hsl(217, 33%, 17%)", // 어두운 회색
   secondaryForeground: "hsl(0, 0%, 98%)",
-  
+
   muted: "hsl(217, 33%, 17%)",
   mutedForeground: "hsl(215, 20%, 65%)",
-  
+
   accent: "hsl(217, 33%, 17%)",
   accentForeground: "hsl(0, 0%, 98%)",
-  
+
   destructive: "hsl(0, 63%, 31%)",
   destructiveForeground: "hsl(0, 0%, 98%)",
-  
+
   border: "hsl(217, 33%, 17%)",
   input: "hsl(217, 33%, 17%)",
   ring: "hsl(217, 91%, 60%)",
@@ -95,9 +98,9 @@ const darkColors = {
 ```typescript
 const tagColors = {
   red: {
-    bg: "hsl(0, 84%, 97%)",      // 라이트 배경
-    text: "hsl(0, 84%, 40%)",    // 진한 텍스트
-    border: "hsl(0, 84%, 90%)",  // 테두리
+    bg: "hsl(0, 84%, 97%)", // 라이트 배경
+    text: "hsl(0, 84%, 40%)", // 진한 텍스트
+    border: "hsl(0, 84%, 90%)", // 테두리
   },
   amber: {
     bg: "hsl(38, 92%, 95%)",
@@ -142,12 +145,13 @@ const tagColors = {
 ### Font Family
 
 ```css
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
-             "Helvetica Neue", Arial, "Noto Sans", sans-serif,
-             "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+  "Segoe UI Emoji", "Segoe UI Symbol";
 ```
 
 네이티브 시스템 폰트 사용으로:
+
 - 빠른 로딩
 - 플랫폼 일관성
 - 최적의 가독성
@@ -156,15 +160,15 @@ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
 
 모바일에 최적화된 크기:
 
-| 용도 | 크기 | 행간 | Weight | 사용처 |
-|------|------|------|--------|--------|
-| **H1** | 28px | 1.2 | 700 | 페이지 타이틀 |
-| **H2** | 24px | 1.3 | 600 | 섹션 헤더 |
-| **H3** | 20px | 1.4 | 600 | 서브 헤더 |
-| **Body Large** | 18px | 1.6 | 400 | 강조 텍스트 |
-| **Body** | 16px | 1.6 | 400 | 기본 텍스트 |
-| **Small** | 14px | 1.5 | 400 | 보조 정보 |
-| **Tiny** | 12px | 1.4 | 400 | 타임스탬프, 라벨 |
+| 용도           | 크기 | 행간 | Weight | 사용처           |
+| -------------- | ---- | ---- | ------ | ---------------- |
+| **H1**         | 28px | 1.2  | 700    | 페이지 타이틀    |
+| **H2**         | 24px | 1.3  | 600    | 섹션 헤더        |
+| **H3**         | 20px | 1.4  | 600    | 서브 헤더        |
+| **Body Large** | 18px | 1.6  | 400    | 강조 텍스트      |
+| **Body**       | 16px | 1.6  | 400    | 기본 텍스트      |
+| **Small**      | 14px | 1.5  | 400    | 보조 정보        |
+| **Tiny**       | 12px | 1.4  | 400    | 타임스탬프, 라벨 |
 
 ### Font Weights
 
@@ -179,17 +183,17 @@ Tailwind spacing scale 사용 (4px 단위):
 
 ```typescript
 const spacing = {
-  0: "0px",       // 간격 없음
-  1: "4px",       // 최소 간격
-  2: "8px",       // 작은 간격
-  3: "12px",      // 중간 간격
-  4: "16px",      // 기본 간격 ⭐
-  5: "20px",      // 
-  6: "24px",      // 큰 간격
-  8: "32px",      // 매우 큰 간격
-  10: "40px",     // 섹션 간격
-  12: "48px",     // 
-  16: "64px",     // 페이지 간격
+  0: "0px", // 간격 없음
+  1: "4px", // 최소 간격
+  2: "8px", // 작은 간격
+  3: "12px", // 중간 간격
+  4: "16px", // 기본 간격 ⭐
+  5: "20px", //
+  6: "24px", // 큰 간격
+  8: "32px", // 매우 큰 간격
+  10: "40px", // 섹션 간격
+  12: "48px", //
+  16: "64px", // 페이지 간격
 };
 ```
 
@@ -212,7 +216,7 @@ const layout = {
 일관된 아이콘 스타일:
 
 ```tsx
-import { 
+import {
   Home, Tag, Search, Settings,      // Navigation
   Folder, FolderOpen, Link2,        // Content
   Plus, MoreVertical, ChevronRight, // Actions
@@ -227,13 +231,13 @@ import {
 
 ### 아이콘 크기 가이드
 
-| 크기 | 용도 | 클래스명 |
-|------|------|----------|
-| 16px | 버튼 내부, 인라인 | `w-4 h-4` |
-| 20px | 리스트 아이템 | `w-5 h-5` |
-| 24px | 네비게이션, 헤더 | `w-6 h-6` |
-| 32px | 대형 아이콘 버튼 | `w-8 h-8` |
-| 48px+ | 빈 상태 일러스트 | `w-12 h-12` |
+| 크기  | 용도              | 클래스명    |
+| ----- | ----------------- | ----------- |
+| 16px  | 버튼 내부, 인라인 | `w-4 h-4`   |
+| 20px  | 리스트 아이템     | `w-5 h-5`   |
+| 24px  | 네비게이션, 헤더  | `w-6 h-6`   |
+| 32px  | 대형 아이콘 버튼  | `w-8 h-8`   |
+| 48px+ | 빈 상태 일러스트  | `w-12 h-12` |
 
 ## 그림자 시스템
 
@@ -246,14 +250,12 @@ import {
 }
 
 .shadow {
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1),
-              0 1px 2px -1px rgb(0 0 0 / 0.1);
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 }
 
 /* 다이얼로그 그림자 */
 .shadow-lg {
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
-              0 4px 6px -4px rgb(0 0 0 / 0.1);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 /* 네비게이션 바 그림자 */
@@ -268,10 +270,10 @@ import {
 
 ```typescript
 const borderRadius = {
-  sm: "6px",      // 작은 요소 (Badge)
-  md: "8px",      // 기본 (Button, Input) ⭐
-  lg: "12px",     // 카드, 다이얼로그
-  xl: "16px",     // 대형 카드
+  sm: "6px", // 작은 요소 (Badge)
+  md: "8px", // 기본 (Button, Input) ⭐
+  lg: "12px", // 카드, 다이얼로그
+  xl: "16px", // 대형 카드
   full: "9999px", // 원형 (아바타, 일부 버튼)
 };
 ```
@@ -288,17 +290,15 @@ const borderRadius = {
       <div className="flex-shrink-0">
         <Folder className="w-5 h-5 text-primary" />
       </div>
-      
+
       {/* 콘텐츠 */}
       <div className="flex-1 min-w-0">
-        <h3 className="font-semibold text-base truncate">
-          {folder.name}
-        </h3>
+        <h3 className="font-semibold text-base truncate">{folder.name}</h3>
         <p className="text-sm text-muted-foreground truncate">
           {folder.linkCount}개 링크 · {folder.folderCount}개 폴더
         </p>
       </div>
-      
+
       {/* 액션 */}
       <button className="flex-shrink-0 p-2 -m-2 hover:bg-muted rounded-md">
         <MoreVertical className="w-5 h-5 text-muted-foreground" />
@@ -309,6 +309,7 @@ const borderRadius = {
 ```
 
 **디자인 포인트**:
+
 - 깔끔한 1줄 레이아웃
 - 왼쪽 아이콘으로 시각적 구분
 - 제목 강조 (semibold)
@@ -324,12 +325,12 @@ const borderRadius = {
     <div className="mb-3">
       <Folder className="w-10 h-10 text-primary" />
     </div>
-    
+
     {/* 제목 (2줄까지) */}
     <h3 className="font-semibold text-base line-clamp-2 flex-1">
       {folder.name}
     </h3>
-    
+
     {/* 하단 메타정보 */}
     <div className="text-xs text-muted-foreground mt-2">
       {folder.linkCount}개 링크
@@ -339,6 +340,7 @@ const borderRadius = {
 ```
 
 **디자인 포인트**:
+
 - 정사각형 비율로 통일감
 - 큰 아이콘으로 시각성 강화
 - 2줄 제목 표시 (line-clamp)
@@ -348,74 +350,50 @@ const borderRadius = {
 
 ```tsx
 <Sheet open={open} onOpenChange={setOpen}>
-  <SheetContent 
-    side="bottom" 
-    className="h-[90vh] rounded-t-2xl"
-  >
+  <SheetContent side="bottom" className="h-[90vh] rounded-t-2xl">
     {/* 헤더 */}
     <SheetHeader className="border-b pb-4">
-      <SheetTitle className="text-left text-xl">
-        새 링크 추가
-      </SheetTitle>
+      <SheetTitle className="text-left text-xl">새 링크 추가</SheetTitle>
     </SheetHeader>
-    
+
     {/* 폼 */}
     <div className="flex-1 overflow-y-auto py-6 space-y-5">
       <div>
-        <label className="text-sm font-medium mb-2 block">
-          제목 *
-        </label>
-        <Input 
-          placeholder="링크 제목을 입력하세요"
-          className="h-12"
-        />
+        <label className="text-sm font-medium mb-2 block">제목 *</label>
+        <Input placeholder="링크 제목을 입력하세요" className="h-12" />
       </div>
-      
+
       <div>
-        <label className="text-sm font-medium mb-2 block">
-          URL *
-        </label>
-        <Input 
-          type="url"
-          placeholder="https://example.com"
-          className="h-12"
-        />
+        <label className="text-sm font-medium mb-2 block">URL *</label>
+        <Input type="url" placeholder="https://example.com" className="h-12" />
       </div>
-      
+
       <div>
-        <label className="text-sm font-medium mb-2 block">
-          설명
-        </label>
-        <Textarea 
+        <label className="text-sm font-medium mb-2 block">설명</label>
+        <Textarea
           placeholder="링크에 대한 설명 (선택사항)"
           className="min-h-24 resize-none"
         />
       </div>
-      
+
       <div>
-        <label className="text-sm font-medium mb-2 block">
-          태그
-        </label>
+        <label className="text-sm font-medium mb-2 block">태그</label>
         <TagInput placeholder="태그 입력 후 Enter" />
       </div>
     </div>
-    
+
     {/* 푸터 */}
     <SheetFooter className="border-t pt-4">
       <div className="flex gap-3 w-full">
-        <Button 
-          variant="outline" 
-          size="lg" 
+        <Button
+          variant="outline"
+          size="lg"
           className="flex-1"
           onClick={() => setOpen(false)}
         >
           취소
         </Button>
-        <Button 
-          size="lg" 
-          className="flex-1"
-          onClick={handleSave}
-        >
+        <Button size="lg" className="flex-1" onClick={handleSave}>
           저장
         </Button>
       </div>
@@ -425,6 +403,7 @@ const borderRadius = {
 ```
 
 **디자인 포인트**:
+
 - 화면의 90% 높이로 충분한 공간
 - 둥근 상단 모서리 (2xl = 16px)
 - 헤더/푸터 구분 (border)
@@ -443,8 +422,8 @@ const borderRadius = {
         className={cn(
           "flex flex-col items-center justify-center flex-1 h-full gap-1",
           "transition-colors",
-          isActive(item.id) 
-            ? "text-primary" 
+          isActive(item.id)
+            ? "text-primary"
             : "text-muted-foreground hover:text-foreground"
         )}
         onClick={() => navigate(item.path)}
@@ -458,6 +437,7 @@ const borderRadius = {
 ```
 
 **디자인 포인트**:
+
 - 고정 하단 배치
 - 64px 높이로 충분한 터치 영역
 - 아이콘 + 레이블 조합
@@ -469,7 +449,7 @@ const borderRadius = {
 ```tsx
 <div className="relative">
   <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-  <Input 
+  <Input
     type="search"
     placeholder="링크, 폴더 검색..."
     className="pl-12 h-12 text-base"
@@ -488,6 +468,7 @@ const borderRadius = {
 ```
 
 **디자인 포인트**:
+
 - 왼쪽 검색 아이콘
 - 큰 입력 영역 (48px)
 - 입력 시 오른쪽에 X 버튼 (지우기)
@@ -510,10 +491,7 @@ const borderRadius = {
     >
       {tag.displayName}
       {removable && (
-        <button
-          className="ml-1 hover:opacity-70"
-          onClick={() => onRemove(tag)}
-        >
+        <button className="ml-1 hover:opacity-70" onClick={() => onRemove(tag)}>
           <X className="w-3 h-3" />
         </button>
       )}
@@ -523,6 +501,7 @@ const borderRadius = {
 ```
 
 **디자인 포인트**:
+
 - 완전히 둥근 모서리 (full)
 - 태그 색상 활용 (15% 투명도 배경)
 - 작지만 터치 가능한 크기
@@ -537,20 +516,19 @@ const borderRadius = {
     <div className="mx-auto w-12 h-12 rounded-full bg-destructive/10 flex items-center justify-center mb-4">
       <AlertCircle className="w-6 h-6 text-destructive" />
     </div>
-    
+
     {/* 제목 */}
     <AlertDialogTitle className="text-center text-xl">
       정말 삭제하시겠어요?
     </AlertDialogTitle>
-    
+
     {/* 설명 */}
     <AlertDialogDescription className="text-center text-base">
-      <span className="font-semibold">{item.name}</span>과(와)
-      모든 하위 항목이 삭제됩니다.
-      <br />
-      이 작업은 되돌릴 수 없습니다.
+      <span className="font-semibold">{item.name}</span>과(와) 모든 하위 항목이
+      삭제됩니다.
+      <br />이 작업은 되돌릴 수 없습니다.
     </AlertDialogDescription>
-    
+
     {/* 액션 */}
     <AlertDialogFooter className="flex-col gap-2 sm:flex-col">
       <AlertDialogAction
@@ -559,15 +537,14 @@ const borderRadius = {
       >
         삭제하기
       </AlertDialogAction>
-      <AlertDialogCancel className="w-full mt-0">
-        취소
-      </AlertDialogCancel>
+      <AlertDialogCancel className="w-full mt-0">취소</AlertDialogCancel>
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>
 ```
 
 **디자인 포인트**:
+
 - 중앙 정렬로 시선 집중
 - 경고 아이콘 (빨간색 배경)
 - 명확한 제목과 설명
@@ -582,19 +559,17 @@ const borderRadius = {
   <div className="mb-6">
     <Folder className="w-20 h-20 text-muted-foreground/50" />
   </div>
-  
+
   {/* 제목 */}
-  <h3 className="text-xl font-semibold mb-2">
-    아직 링크가 없어요
-  </h3>
-  
+  <h3 className="text-xl font-semibold mb-2">아직 링크가 없어요</h3>
+
   {/* 설명 */}
   <p className="text-muted-foreground mb-8 max-w-sm">
     첫 번째 링크를 추가하거나
     <br />
     다른 앱에서 공유해보세요
   </p>
-  
+
   {/* 액션 버튼 */}
   <Button size="lg" className="min-w-[200px]">
     <Plus className="w-5 h-5 mr-2" />
@@ -604,6 +579,7 @@ const borderRadius = {
 ```
 
 **디자인 포인트**:
+
 - 중앙 정렬, 수직 중심
 - 큰 아이콘 (80px)
 - 친근한 메시지
@@ -631,6 +607,7 @@ const borderRadius = {
 ```
 
 **디자인 포인트**:
+
 - 실제 콘텐츠 구조와 동일
 - 부드러운 애니메이션
 - 적절한 개수 표시 (5개)
@@ -708,6 +685,7 @@ const stackflow = {
 ### 키보드 접근성
 
 모든 인터랙티브 요소:
+
 - Tab으로 접근 가능
 - 명확한 focus ring
 - Enter/Space로 활성화
@@ -719,9 +697,9 @@ const stackflow = {
   <Plus className="w-5 h-5" />
 </button>
 
-<img 
-  src={favicon} 
-  alt={`${title} 파비콘`} 
+<img
+  src={favicon}
+  alt={`${title} 파비콘`}
 />
 
 <div role="navigation" aria-label="메인 네비게이션">
@@ -735,10 +713,10 @@ const stackflow = {
 
 ```typescript
 const breakpoints = {
-  sm: "640px",   // 스마트폰 가로
-  md: "768px",   // 태블릿 세로
-  lg: "1024px",  // 태블릿 가로, 작은 노트북
-  xl: "1280px",  // 데스크톱
+  sm: "640px", // 스마트폰 가로
+  md: "768px", // 태블릿 세로
+  lg: "1024px", // 태블릿 가로, 작은 노트북
+  xl: "1280px", // 데스크톱
 };
 ```
 
@@ -789,4 +767,3 @@ const breakpoints = {
 - [WCAG Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
 - [iOS Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/)
 - [Material Design](https://m3.material.io/)
-
