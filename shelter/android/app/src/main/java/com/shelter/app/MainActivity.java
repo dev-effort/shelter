@@ -17,7 +17,7 @@ public class MainActivity extends BridgeActivity {
             if (intent != null) {
                 new Thread(() -> {
                     try {
-                        Thread.sleep(1000); // Wait 1 second for app to fully initialize
+                        Thread.sleep(500); // Wait 0.5 second for app to fully initialize
                         handleShareIntent(intent);
                     } catch (Exception e) {
                         android.util.Log.e("MainActivity", "Error in share thread", e);

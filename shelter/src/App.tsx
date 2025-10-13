@@ -1,7 +1,14 @@
 import { useEffect, useRef } from 'react';
-import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
+import {
+  IonApp,
+  IonRouterOutlet,
+  setupIonicReact,
+  IonPage,
+  IonContent,
+  IonSpinner,
+} from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { Redirect, Route, useHistory } from 'react-router-dom';
+import { Route, useHistory } from 'react-router-dom';
 import HomePage from '@/pages/home/ui/HomePage';
 import FolderDetailPage from '@/pages/folder-detail/ui/FolderDetailPage';
 import LinkDetailPage from '@/pages/link-detail/ui/LinkDetailPage';
@@ -60,45 +67,53 @@ const AppContent: React.FC = () => {
     shareListenerRef.current = handleShare;
     shareService.addListener(handleShare);
 
-    // Check for shared data multiple times with delays
+    // Check for shared data multiple times with delays - FASTER!
     const checkShare = async () => {
       if (isCheckingShareRef.current) return;
       isCheckingShareRef.current = true;
 
       console.log('🔄 Starting share data check...');
 
-      // Try after 1.5 seconds (MainActivity saves after 1 second)
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      // Try after 800ms (MainActivity saves after 500ms)
+      await new Promise((resolve) => setTimeout(resolve, 800));
       let info = await shareService.checkLaunchUrl();
       if (info && mounted) {
-        console.log('✅ Share data found after 1.5s:', info);
+        console.log('✅ Share data found after 0.8s:', info);
         history.replace('/share');
         return;
       }
 
-      // Try after another 500ms (total 2s)
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      // Try after another 400ms (total 1.2s)
+      await new Promise((resolve) => setTimeout(resolve, 400));
       info = await shareService.checkLaunchUrl();
       if (info && mounted) {
-        console.log('✅ Share data found after 2s:', info);
+        console.log('✅ Share data found after 1.2s:', info);
         history.replace('/share');
         return;
       }
 
-      // Try after another 500ms (total 2.5s)
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      // Try after another 400ms (total 1.6s)
+      await new Promise((resolve) => setTimeout(resolve, 400));
       info = await shareService.checkLaunchUrl();
       if (info && mounted) {
-        console.log('✅ Share data found after 2.5s:', info);
+        console.log('✅ Share data found after 1.6s:', info);
         history.replace('/share');
         return;
       }
 
-      console.log('❌ No share data found after 2.5 seconds');
+      // No share data found - go to home
+      console.log('❌ No share data found - navigating to home');
+      if (mounted) {
+        history.replace('/home');
+      }
     };
 
     checkShare().catch((error) => {
       console.error('Error checking share:', error);
+      // On error, navigate to home
+      if (mounted) {
+        history.replace('/home');
+      }
     });
 
     return () => {
@@ -120,7 +135,23 @@ const AppContent: React.FC = () => {
         <Route exact path="/settings" component={SettingsPage} />
         <Route exact path="/share" component={ShareReceiverPage} />
         <Route exact path="/">
-          <Redirect to="/home" />
+          {/* Show loading while checking for shared data */}
+          <IonPage>
+            <IonContent className="ion-padding ion-text-center">
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '100vh',
+                }}
+              >
+                <IonSpinner name="crescent" />
+                <p style={{ marginTop: '16px', color: 'var(--ion-color-medium)' }}>Loading...</p>
+              </div>
+            </IonContent>
+          </IonPage>
         </Route>
       </IonRouterOutlet>
       <Toaster />
