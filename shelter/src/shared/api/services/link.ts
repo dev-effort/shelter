@@ -1,10 +1,30 @@
 import { getDB } from '../db';
 import { Link } from '@/shared/types/entities';
 import { LinkService } from '@/shared/types/services';
-import { validateLink } from '@/entities/link';
 import { nanoid } from 'nanoid';
 import { folderService } from './folder';
 import { tagService } from './tag';
+
+// Helper function
+function validateLink(data: Partial<Link>): void {
+  if (!data.title || data.title.trim().length === 0) {
+    throw new Error('제목은 필수입니다');
+  }
+  if (!data.url || data.url.trim().length === 0) {
+    throw new Error('URL은 필수입니다');
+  }
+  try {
+    new URL(data.url);
+  } catch {
+    throw new Error('올바른 URL 형식이 아닙니다');
+  }
+  if (data.title.trim().length > 200) {
+    throw new Error('제목은 200자를 초과할 수 없습니다');
+  }
+  if (data.description && data.description.length > 1000) {
+    throw new Error('설명은 1000자를 초과할 수 없습니다');
+  }
+}
 
 class LinkServiceImpl implements LinkService {
   /**
@@ -24,10 +44,13 @@ class LinkServiceImpl implements LinkService {
   }
 
   /**
-   * 폴더 내 링크들 조회
+   * 폴더 내 링크들 조회 (folderId가 null이면 홈의 루트 링크들)
    */
-  async getByFolderId(folderId: string): Promise<Link[]> {
+  async getByFolderId(folderId: string | null): Promise<Link[]> {
     const db = await getDB();
+    if (folderId === null) {
+      return await db.getAllFromIndex('links', 'by-folder', null as any);
+    }
     return await db.getAllFromIndex('links', 'by-folder', folderId);
   }
 
@@ -67,15 +90,12 @@ class LinkServiceImpl implements LinkService {
     url: string;
     description?: string;
     tags: string[];
-    folderId: string;
+    folderId: string | null;
   }): Promise<Link> {
     const db = await getDB();
 
     // Validation
-    const validation = validateLink(data);
-    if (!validation.valid) {
-      throw new Error(validation.errors.join(', '));
-    }
+    validateLink(data);
 
     const now = Date.now();
     const link: Link = {
@@ -92,8 +112,10 @@ class LinkServiceImpl implements LinkService {
 
     await db.put('links', link);
 
-    // 폴더의 linkCount 업데이트
-    await folderService.updateLinkCount(data.folderId, 1);
+    // 폴더의 linkCount 업데이트 (폴더가 있는 경우만)
+    if (data.folderId) {
+      await folderService.updateLinkCount(data.folderId, 1);
+    }
 
     // 태그 카운트 업데이트
     await tagService.incrementTagCounts(data.tags);
@@ -112,10 +134,8 @@ class LinkServiceImpl implements LinkService {
       throw new Error('링크를 찾을 수 없습니다.');
     }
 
-    const validation = validateLink({ ...existing, ...data });
-    if (!validation.valid) {
-      throw new Error(validation.errors.join(', '));
-    }
+    // Validation
+    validateLink({ ...existing, ...data });
 
     const updated: Link = {
       ...existing,

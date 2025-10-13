@@ -52,13 +52,13 @@ export interface LinkStore {
     url: string;
     description?: string;
     tags: string[];
-    folderId: string;
+    folderId: string | null;
   }) => Promise<Link>;
   updateLink: (id: string, data: Partial<Link>) => Promise<void>;
   deleteLink: (id: string) => Promise<void>;
 
   // Selectors
-  getLinksByFolder: (folderId: string) => Link[];
+  getLinksByFolder: (folderId: string | null) => Link[];
   getLinksByTags: (tags: string[]) => Link[];
   searchLinks: (query: string) => Link[];
 }

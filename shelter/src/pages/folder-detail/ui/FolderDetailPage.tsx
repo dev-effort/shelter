@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import {
   IonPage,
@@ -7,11 +8,123 @@ import {
   IonContent,
   IonBackButton,
   IonButtons,
+  IonButton,
+  IonIcon,
+  IonModal,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonTextarea,
 } from '@ionic/react';
+import { addOutline, folderOutline, createOutline } from 'ionicons/icons';
+import { FolderList } from '@/widgets/folder-list';
+import { LinkList } from '@/widgets/link-list';
+import { TagInput } from '@/shared/ui/tag-input';
+import { useFolderStore, useLinkStore } from '@/app/providers/stores';
+import { Folder, Link } from '@/shared/types/entities';
 
 const FolderDetailPage: React.FC = () => {
   const history = useHistory();
   const { folderId } = useParams<{ folderId: string }>();
+  const { folders, currentFolder, loadFolder, getSubfolders, createFolder, updateFolder } =
+    useFolderStore();
+  const { links, getLinksByFolder, createLink } = useLinkStore();
+
+  const [showFolderCreate, setShowFolderCreate] = useState(false);
+  const [showLinkCreate, setShowLinkCreate] = useState(false);
+  const [showFolderEdit, setShowFolderEdit] = useState(false);
+  const [newFolderName, setNewFolderName] = useState('');
+  const [editFolderName, setEditFolderName] = useState('');
+
+  // 링크 생성 폼 상태
+  const [linkTitle, setLinkTitle] = useState('');
+  const [linkUrl, setLinkUrl] = useState('');
+  const [linkDescription, setLinkDescription] = useState('');
+  const [linkTags, setLinkTags] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (folderId) {
+      loadFolder(folderId);
+    }
+  }, [folderId, loadFolder]);
+
+  useEffect(() => {
+    if (currentFolder) {
+      setEditFolderName(currentFolder.name);
+    }
+  }, [currentFolder]);
+
+  const subfolders = getSubfolders(folderId);
+  const folderLinks = getLinksByFolder(folderId);
+
+  const handleFolderClick = (folder: Folder) => {
+    history.push(`/folder/${folder.id}`);
+  };
+
+  const handleLinkClick = (link: Link) => {
+    history.push(`/link/${link.id}`);
+  };
+
+  const handleCreateFolder = async () => {
+    if (!newFolderName.trim()) return;
+
+    try {
+      await createFolder({ name: newFolderName.trim(), parentId: folderId });
+      setNewFolderName('');
+      setShowFolderCreate(false);
+    } catch (error) {
+      console.error('Failed to create folder:', error);
+    }
+  };
+
+  const handleCreateLink = async () => {
+    if (!linkTitle.trim() || !linkUrl.trim()) return;
+
+    try {
+      await createLink({
+        title: linkTitle.trim(),
+        url: linkUrl.trim(),
+        description: linkDescription.trim(),
+        tags: linkTags,
+        folderId: folderId,
+      });
+      setLinkTitle('');
+      setLinkUrl('');
+      setLinkDescription('');
+      setLinkTags([]);
+      setShowLinkCreate(false);
+    } catch (error) {
+      console.error('Failed to create link:', error);
+    }
+  };
+
+  const handleAddTag = (tag: string) => {
+    const trimmedTag = tag.trim();
+    if (trimmedTag && !linkTags.includes(trimmedTag)) {
+      setLinkTags([...linkTags, trimmedTag]);
+    }
+  };
+
+  const handleRemoveTag = (tag: string) => {
+    setLinkTags(linkTags.filter((t) => t !== tag));
+  };
+
+  const handleEditFolder = () => {
+    setShowFolderEdit(true);
+  };
+
+  const handleSaveFolderEdit = async () => {
+    if (!editFolderName.trim()) return;
+
+    try {
+      await updateFolder(folderId, { name: editFolderName.trim() });
+      setShowFolderEdit(false);
+      // 변경사항 반영을 위해 다시 로드
+      await loadFolder(folderId);
+    } catch (error) {
+      console.error('Failed to update folder:', error);
+    }
+  };
 
   return (
     <IonPage>
@@ -20,16 +133,168 @@ const FolderDetailPage: React.FC = () => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/home" />
           </IonButtons>
-          <IonTitle>폴더 상세</IonTitle>
+          <IonTitle>{currentFolder?.name || '폴더'}</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={handleEditFolder}>
+              <IonIcon slot="icon-only" icon={createOutline} />
+            </IonButton>
+            <IonButton onClick={() => setShowFolderCreate(true)}>
+              <IonIcon slot="icon-only" icon={folderOutline} />
+            </IonButton>
+            <IonButton onClick={() => setShowLinkCreate(true)}>
+              <IonIcon slot="icon-only" icon={addOutline} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
 
       <IonContent>
-        <div className="p-4">
-          <p className="text-muted-foreground">폴더 ID: {folderId}</p>
-          <p className="text-muted-foreground">폴더 상세 페이지 (구현 예정)</p>
+        <div className="space-y-4 p-4">
+          {/* 하위 폴더 */}
+          {subfolders.length > 0 && (
+            <div>
+              <h2 className="mb-2 text-sm font-medium text-muted-foreground">폴더</h2>
+              <FolderList folders={subfolders} onFolderClick={handleFolderClick} />
+            </div>
+          )}
+
+          {/* 링크 */}
+          {folderLinks.length > 0 && (
+            <div>
+              <h2 className="mb-2 text-sm font-medium text-muted-foreground">링크</h2>
+              <LinkList links={folderLinks} onLinkClick={handleLinkClick} />
+            </div>
+          )}
+
+          {/* 빈 상태 */}
+          {subfolders.length === 0 && folderLinks.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-16 text-center">
+              <p className="mb-4 text-muted-foreground">아직 항목이 없습니다</p>
+              <div className="flex gap-2">
+                <IonButton onClick={() => setShowFolderCreate(true)}>
+                  <IonIcon slot="start" icon={folderOutline} />
+                  폴더 추가
+                </IonButton>
+                <IonButton onClick={() => setShowLinkCreate(true)}>
+                  <IonIcon slot="start" icon={addOutline} />
+                  링크 추가
+                </IonButton>
+              </div>
+            </div>
+          )}
         </div>
       </IonContent>
+
+      {/* 폴더 생성 모달 */}
+      <IonModal isOpen={showFolderCreate} onDidDismiss={() => setShowFolderCreate(false)}>
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>새 폴더</IonTitle>
+            <IonButton slot="end" fill="clear" onClick={() => setShowFolderCreate(false)}>
+              취소
+            </IonButton>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          <div className="space-y-4 p-4">
+            <IonItem>
+              <IonLabel position="stacked">폴더 이름</IonLabel>
+              <IonInput
+                value={newFolderName}
+                onIonInput={(e) => setNewFolderName(e.detail.value || '')}
+                placeholder="예: 개발 자료"
+                clearInput
+              />
+            </IonItem>
+            <IonButton expand="block" onClick={handleCreateFolder}>
+              생성
+            </IonButton>
+          </div>
+        </IonContent>
+      </IonModal>
+
+      {/* 링크 생성 모달 */}
+      <IonModal isOpen={showLinkCreate} onDidDismiss={() => setShowLinkCreate(false)}>
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>새 링크</IonTitle>
+            <IonButton slot="end" fill="clear" onClick={() => setShowLinkCreate(false)}>
+              취소
+            </IonButton>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          <div className="space-y-4 p-4">
+            <IonItem>
+              <IonLabel position="stacked">제목 *</IonLabel>
+              <IonInput
+                value={linkTitle}
+                onIonInput={(e) => setLinkTitle(e.detail.value || '')}
+                placeholder="예: React 공식 문서"
+                clearInput
+              />
+            </IonItem>
+
+            <IonItem>
+              <IonLabel position="stacked">URL *</IonLabel>
+              <IonInput
+                value={linkUrl}
+                onIonInput={(e) => setLinkUrl(e.detail.value || '')}
+                placeholder="https://example.com"
+                type="url"
+                clearInput
+              />
+            </IonItem>
+
+            <IonItem>
+              <IonLabel position="stacked">설명</IonLabel>
+              <IonTextarea
+                value={linkDescription}
+                onIonInput={(e) => setLinkDescription(e.detail.value || '')}
+                placeholder="링크에 대한 간단한 설명을 입력하세요"
+                rows={3}
+              />
+            </IonItem>
+
+            <div>
+              <IonLabel className="text-sm font-medium">태그</IonLabel>
+              <TagInput tags={linkTags} onAddTag={handleAddTag} onRemoveTag={handleRemoveTag} />
+            </div>
+
+            <IonButton expand="block" onClick={handleCreateLink}>
+              생성
+            </IonButton>
+          </div>
+        </IonContent>
+      </IonModal>
+
+      {/* 폴더 편집 모달 */}
+      <IonModal isOpen={showFolderEdit} onDidDismiss={() => setShowFolderEdit(false)}>
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>폴더 편집</IonTitle>
+            <IonButton slot="end" fill="clear" onClick={() => setShowFolderEdit(false)}>
+              취소
+            </IonButton>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          <div className="space-y-4 p-4">
+            <IonItem>
+              <IonLabel position="stacked">폴더 이름</IonLabel>
+              <IonInput
+                value={editFolderName}
+                onIonInput={(e) => setEditFolderName(e.detail.value || '')}
+                placeholder="폴더 이름"
+                clearInput
+              />
+            </IonItem>
+            <IonButton expand="block" onClick={handleSaveFolderEdit}>
+              저장
+            </IonButton>
+          </div>
+        </IonContent>
+      </IonModal>
     </IonPage>
   );
 };

@@ -64,8 +64,8 @@ export interface Link {
   /** Array of tag names (normalized to lowercase, max 20 tags) */
   tags: string[];
 
-  /** Parent folder ID (required) */
-  folderId: string;
+  /** Parent folder ID (null이면 홈에 직접 저장된 링크) */
+  folderId: string | null;
 
   /** Creation timestamp (Unix milliseconds) */
   createdAt: number;

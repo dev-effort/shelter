@@ -138,19 +138,33 @@ export interface URLService {
  */
 export interface ShareService {
   /**
-   * Register app as share target
+   * Initialize share service and register listeners
    */
-  register(): Promise<void>;
+  initialize(): Promise<void>;
 
   /**
-   * Handle incoming share data
+   * Add listener for share events
    */
-  handleShare(data: ShareData): Promise<void>;
+  addListener(callback: (info: SharedUrlInfo) => void): void;
 
   /**
-   * Get pending shares (for offline queueing)
+   * Remove listener for share events
    */
-  getPendingShares(): Promise<ShareData[]>;
+  removeListener(callback: (info: SharedUrlInfo) => void): void;
+
+  /**
+   * Check if app was launched with a shared URL
+   */
+  checkLaunchUrl(): Promise<SharedUrlInfo | null>;
+}
+
+/**
+ * Shared URL information
+ */
+export interface SharedUrlInfo {
+  url: string;
+  title?: string;
+  text?: string;
 }
 
 /**

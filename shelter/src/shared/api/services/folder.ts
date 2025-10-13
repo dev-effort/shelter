@@ -1,8 +1,26 @@
 import { getDB } from '../db';
 import { Folder } from '@/shared/types/entities';
 import { FolderService } from '@/shared/types/services';
-import { validateFolder, calculateFolderDepth } from '@/entities/folder';
 import { nanoid } from 'nanoid';
+
+// Helper functions
+function validateFolder(data: Partial<Folder>): void {
+  if (!data.name || data.name.trim().length === 0) {
+    throw new Error('폴더 이름은 필수입니다');
+  }
+  if (data.name.trim().length > 100) {
+    throw new Error('폴더 이름은 100자를 초과할 수 없습니다');
+  }
+}
+
+async function calculateFolderDepth(parentId: string | null, db: any): Promise<number> {
+  if (!parentId) return 0;
+
+  const parent = await db.get('folders', parentId);
+  if (!parent) return 0;
+
+  return parent.depth + 1;
+}
 
 class FolderServiceImpl implements FolderService {
   /**
@@ -34,20 +52,18 @@ class FolderServiceImpl implements FolderService {
    */
   async create(data: { name: string; parentId: string | null }): Promise<Folder> {
     const db = await getDB();
-    const allFolders = await this.getAll();
 
     // Validation
-    const validation = validateFolder(data, allFolders);
-    if (!validation.valid) {
-      throw new Error(validation.errors.join(', '));
-    }
+    validateFolder(data);
+
+    const depth = await calculateFolderDepth(data.parentId, db);
 
     const now = Date.now();
     const folder: Folder = {
       id: nanoid(),
       name: data.name,
       parentId: data.parentId,
-      depth: calculateFolderDepth(data.parentId, allFolders),
+      depth,
       linkCount: 0,
       folderCount: 0,
       createdAt: now,
@@ -75,12 +91,8 @@ class FolderServiceImpl implements FolderService {
       throw new Error('폴더를 찾을 수 없습니다.');
     }
 
-    const allFolders = await this.getAll();
-    const validation = validateFolder({ ...existing, ...data }, allFolders);
-
-    if (!validation.valid) {
-      throw new Error(validation.errors.join(', '));
-    }
+    // Validation
+    validateFolder({ ...existing, ...data });
 
     const updated: Folder = {
       ...existing,
