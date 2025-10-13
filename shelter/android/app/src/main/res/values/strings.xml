@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">shelter</string>
+    <string name="title_activity_main">shelter</string>
+    <string name="package_name">com.shelter.app</string>
+    <string name="custom_url_scheme">com.shelter.app</string>
+</resources>
