@@ -15,6 +15,7 @@ import {
   IonLabel,
   IonList,
   IonTextarea,
+  useIonToast,
 } from '@ionic/react';
 import { addOutline, folderOutline } from 'ionicons/icons';
 import { NavigationBar } from '@/widgets/navigation-bar';
@@ -22,7 +23,8 @@ import { FolderList } from '@/widgets/folder-list';
 import { LinkList } from '@/widgets/link-list';
 import { TagInput } from '@/shared/ui/tag-input';
 import { useFolderStore, useLinkStore } from '@/app/providers/stores';
-import { Folder } from '@/shared/types/entities';
+import { Folder, Link } from '@/shared/types/entities';
+import { useDeleteItem, DeleteConfirmDialog } from '@/features/item-delete';
 
 const HomePage: React.FC = () => {
   const history = useHistory();
@@ -33,6 +35,18 @@ const HomePage: React.FC = () => {
   const [showLinkCreate, setShowLinkCreate] = useState(false);
   const [newFolderName, setNewFolderName] = useState('');
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
+
+  // 삭제 기능
+  const {
+    isOpen,
+    itemToDelete,
+    isDeleting,
+    error,
+    openDeleteDialog,
+    closeDeleteDialog,
+    confirmDelete,
+  } = useDeleteItem();
+  const [presentToast] = useIonToast();
 
   // 링크 생성 폼 상태
   const [linkTitle, setLinkTitle] = useState('');
@@ -58,6 +72,37 @@ const HomePage: React.FC = () => {
 
   const handleLinkClick = (link: any) => {
     history.push(`/link/${link.id}`);
+  };
+
+  const handleFolderLongPress = (folder: Folder) => {
+    openDeleteDialog({
+      id: folder.id,
+      type: 'folder',
+      name: folder.name,
+    });
+  };
+
+  const handleLinkLongPress = (link: Link) => {
+    openDeleteDialog({
+      id: link.id,
+      type: 'link',
+      name: link.title,
+    });
+  };
+
+  const handleConfirmDelete = async () => {
+    const success = await confirmDelete();
+    if (success) {
+      await loadFolders();
+      await loadLinks();
+
+      presentToast({
+        message: `${itemToDelete?.type === 'folder' ? '폴더' : '링크'}가 삭제되었습니다`,
+        duration: 2000,
+        position: 'bottom',
+        color: 'success',
+      });
+    }
   };
 
   const openFolderCreate = () => {
@@ -147,7 +192,11 @@ const HomePage: React.FC = () => {
           {rootFolders.length > 0 && (
             <div>
               <h2 className="mb-2 text-sm font-medium text-muted-foreground">폴더</h2>
-              <FolderList folders={rootFolders} onFolderClick={handleFolderClick} />
+              <FolderList
+                folders={rootFolders}
+                onFolderClick={handleFolderClick}
+                onFolderLongPress={handleFolderLongPress}
+              />
             </div>
           )}
 
@@ -155,7 +204,11 @@ const HomePage: React.FC = () => {
           {rootLinks.length > 0 && (
             <div>
               <h2 className="mb-2 text-sm font-medium text-muted-foreground">링크</h2>
-              <LinkList links={rootLinks} onLinkClick={handleLinkClick} />
+              <LinkList
+                links={rootLinks}
+                onLinkClick={handleLinkClick}
+                onLinkLongPress={handleLinkLongPress}
+              />
             </div>
           )}
 
@@ -292,6 +345,16 @@ const HomePage: React.FC = () => {
           </div>
         </IonContent>
       </IonModal>
+
+      {/* 삭제 확인 다이얼로그 */}
+      <DeleteConfirmDialog
+        isOpen={isOpen}
+        item={itemToDelete}
+        isDeleting={isDeleting}
+        error={error}
+        onConfirm={handleConfirmDelete}
+        onCancel={closeDeleteDialog}
+      />
     </IonPage>
   );
 };

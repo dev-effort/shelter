@@ -15,6 +15,7 @@ import {
   IonItem,
   IonLabel,
   IonTextarea,
+  useIonToast,
 } from '@ionic/react';
 import { addOutline, folderOutline, createOutline } from 'ionicons/icons';
 import { FolderList } from '@/widgets/folder-list';
@@ -22,6 +23,7 @@ import { LinkList } from '@/widgets/link-list';
 import { TagInput } from '@/shared/ui/tag-input';
 import { useFolderStore, useLinkStore } from '@/app/providers/stores';
 import { Folder, Link } from '@/shared/types/entities';
+import { useDeleteItem, DeleteConfirmDialog } from '@/features/item-delete';
 
 const FolderDetailPage: React.FC = () => {
   const history = useHistory();
@@ -35,6 +37,18 @@ const FolderDetailPage: React.FC = () => {
   const [showFolderEdit, setShowFolderEdit] = useState(false);
   const [newFolderName, setNewFolderName] = useState('');
   const [editFolderName, setEditFolderName] = useState('');
+
+  // 삭제 기능
+  const {
+    isOpen,
+    itemToDelete,
+    isDeleting,
+    error,
+    openDeleteDialog,
+    closeDeleteDialog,
+    confirmDelete,
+  } = useDeleteItem();
+  const [presentToast] = useIonToast();
 
   // 링크 생성 폼 상태
   const [linkTitle, setLinkTitle] = useState('');
@@ -63,6 +77,46 @@ const FolderDetailPage: React.FC = () => {
 
   const handleLinkClick = (link: Link) => {
     history.push(`/link/${link.id}`);
+  };
+
+  const handleFolderLongPress = (folder: Folder) => {
+    openDeleteDialog({
+      id: folder.id,
+      type: 'folder',
+      name: folder.name,
+    });
+  };
+
+  const handleLinkLongPress = (link: Link) => {
+    openDeleteDialog({
+      id: link.id,
+      type: 'link',
+      name: link.title,
+    });
+  };
+
+  const handleConfirmDelete = async () => {
+    const success = await confirmDelete();
+    if (success) {
+      // 현재 폴더가 삭제된 경우 상위 폴더로 이동
+      if (itemToDelete?.type === 'folder' && itemToDelete.id === folderId) {
+        if (currentFolder?.parentId) {
+          history.replace(`/folder/${currentFolder.parentId}`);
+        } else {
+          history.replace('/home');
+        }
+      } else {
+        // 하위 항목 삭제 시 현재 페이지 새로고침
+        await loadFolder(folderId);
+      }
+
+      presentToast({
+        message: `${itemToDelete?.type === 'folder' ? '폴더' : '링크'}가 삭제되었습니다`,
+        duration: 2000,
+        position: 'bottom',
+        color: 'success',
+      });
+    }
   };
 
   const handleCreateFolder = async () => {
@@ -154,7 +208,11 @@ const FolderDetailPage: React.FC = () => {
           {subfolders.length > 0 && (
             <div>
               <h2 className="mb-2 text-sm font-medium text-muted-foreground">폴더</h2>
-              <FolderList folders={subfolders} onFolderClick={handleFolderClick} />
+              <FolderList
+                folders={subfolders}
+                onFolderClick={handleFolderClick}
+                onFolderLongPress={handleFolderLongPress}
+              />
             </div>
           )}
 
@@ -162,7 +220,11 @@ const FolderDetailPage: React.FC = () => {
           {folderLinks.length > 0 && (
             <div>
               <h2 className="mb-2 text-sm font-medium text-muted-foreground">링크</h2>
-              <LinkList links={folderLinks} onLinkClick={handleLinkClick} />
+              <LinkList
+                links={folderLinks}
+                onLinkClick={handleLinkClick}
+                onLinkLongPress={handleLinkLongPress}
+              />
             </div>
           )}
 
@@ -295,6 +357,16 @@ const FolderDetailPage: React.FC = () => {
           </div>
         </IonContent>
       </IonModal>
+
+      {/* 삭제 확인 다이얼로그 */}
+      <DeleteConfirmDialog
+        isOpen={isOpen}
+        item={itemToDelete}
+        isDeleting={isDeleting}
+        error={error}
+        onConfirm={handleConfirmDelete}
+        onCancel={closeDeleteDialog}
+      />
     </IonPage>
   );
 };

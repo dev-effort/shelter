@@ -23,7 +23,7 @@ const SearchPage: React.FC = () => {
   };
 
   const handleLinkClick = (link: Link) => {
-    history.push(`/links/${link.id}`);
+    history.push(`/link/${link.id}`);
   };
 
   const handleTagClick = (tag: string) => {

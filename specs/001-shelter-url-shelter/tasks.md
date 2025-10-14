@@ -805,74 +805,76 @@ search/
 
 ---
 
-## Phase 8: US6 - 문서 및 폴더 삭제 (P3)
+## Phase 8: US6 - 문서 및 폴더 삭제 (P3) ✅
 
 **목표**: 링크와 폴더를 안전하게 삭제  
 **의존성**: Phase 3 완료  
-**예상 기간**: 1-2일
+**예상 기간**: 1-2일  
+**상태**: ✅ 완료
 
 **독립 테스트 기준**:
 ✅ 폴더나 문서를 길게 눌러 삭제 팝업이 나타나고 삭제 확인 후 해당 항목이 목록에서 제거되는지 확인
 
-### T056: [US6] Item delete feature 구현
+### T056: [US6] Item delete feature 구현 ✅
 
 **파일**: `/shelter/src/features/item-delete/`
 
 ```
 item-delete/
-├── index.ts
+├── index.ts                      ✅
 ├── ui/
-│   ├── DeleteConfirmDialog.tsx
-│   └── DeleteButton.tsx         # 옵션 메뉴에 통합
+│   └── DeleteConfirmDialog.tsx   ✅
 └── model/
-    └── use-delete-item.ts
+    └── use-delete-item.ts        ✅
 ```
 
-- 롱프레스 이벤트 처리
-- 삭제 확인 다이얼로그
-- design-system.md 패턴 참고
+- ✅ 롱프레스 이벤트 처리 (500ms)
+- ✅ 삭제 확인 다이얼로그 (IonAlert)
+- ✅ `useDeleteItem` hook 구현
 
-### T057: [US6] Cascade delete 로직 구현
+### T057: [US6] Cascade delete 로직 구현 ✅
 
 **파일**: `/shelter/src/shared/api/services/folder.ts`
 
-- 재귀적 삭제
-- 하위 항목 카운트 계산
-- Tag 카운트 업데이트
+- ✅ 재귀적 삭제 (이미 구현됨)
+- ✅ `countItemsRecursive` 메서드로 하위 항목 카운트 계산
+- ✅ 폴더 삭제 시 하위 폴더 및 링크 모두 삭제
+- ✅ 부모 폴더의 folderCount 자동 업데이트
 
-### T058: [US6] 삭제 경고 메시지
+### T058: [US6] 삭제 경고 메시지 ✅
 
 **파일**: DeleteConfirmDialog 컴포넌트
 
-- 하위 항목 수 표시
-- "N개의 폴더와 M개의 링크가 삭제됩니다"
-- 되돌릴 수 없음 경고
+- ✅ 하위 항목 수 표시
+- ✅ "N개의 폴더와 M개의 링크가 함께 삭제됩니다"
+- ✅ "이 작업은 되돌릴 수 없습니다" 경고
+- ✅ 폴더/링크별 맞춤 메시지
 
-### T059: [US6] Item 카드에 삭제 옵션 추가
+### T059: [US6] Item 카드에 삭제 옵션 추가 ✅
 
 **파일**: 기존 카드 컴포넌트들
 
-- 롱프레스 핸들러
-- 옵션 메뉴 (MoreVertical 아이콘)
-- 삭제 외 편집, 이동 등 (추후)
+- ✅ FolderCard, LinkCard 롱프레스 핸들러 (이미 구현됨)
+- ✅ HomePage에 삭제 기능 통합
+- ✅ FolderDetailPage에 삭제 기능 통합
 
-### T060: [US6] 삭제 후 처리
+### T060: [US6] 삭제 후 처리 ✅
 
 **파일**: 각 페이지 컴포넌트
 
-- 목록 업데이트
-- 상위 폴더로 네비게이션 (현재 폴더 삭제 시)
-- 성공 Toast
+- ✅ 목록 자동 업데이트 (store reload)
+- ✅ 현재 폴더 삭제 시 상위 폴더로 네비게이션
+- ✅ 성공 Toast (IonToast, 2초, bottom)
+- ✅ 삭제 실패 시 에러 메시지
 
-### T061: [US6] Undo 기능 (선택사항)
+### T061: [US6] Undo 기능 ⏸️
 
 **파일**: `/shelter/src/features/item-delete/model/delete-history.ts`
 
-- 최근 삭제 항목 임시 저장
-- Toast에 "실행 취소" 버튼
-- 5초 내 복원 가능
+- ⏸️ 추후 개선 항목으로 postpone
+- Phase 8의 핵심 기능은 모두 완료
 
-**✅ Checkpoint 8**: 안전하게 링크와 폴더를 삭제할 수 있음
+**✅ Checkpoint 8**: 안전하게 링크와 폴더를 삭제할 수 있음 ✅
 
 ---
 
