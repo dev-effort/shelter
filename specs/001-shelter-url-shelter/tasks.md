@@ -624,16 +624,17 @@ folder-select/
 
 ---
 
-## Phase 5: US3 - 링크 열기 및 실행 (P3)
+## Phase 5: US3 - 링크 열기 및 실행 (P3) ✅ **COMPLETED**
 
 **목표**: 링크 클릭 시 네이티브 앱 또는 브라우저로 열기  
 **의존성**: Phase 3 완료  
-**예상 기간**: 1일
+**예상 기간**: 1일  
+**실제 완료**: 2025-10-13
 
 **독립 테스트 기준**:
 ✅ 저장된 유튜브 링크를 클릭하여 유튜브 앱이 열리는지, 일반 웹사이트 링크는 브라우저로 열리는지 확인
 
-### T040: [US3] URL 서비스 구현
+### T040: [US3] URL 서비스 구현 ✅
 
 **파일**: `/shelter/src/shared/api/services/url.ts`
 
@@ -641,38 +642,36 @@ folder-select/
 - APP_SCHEMES 매핑 활용
 - Capacitor Browser/AppLauncher 플러그인 연동
 
-### T041: [US3] Link Open feature 구현
+### T041: [US3] Link Open feature 구현 ✅
 
-**파일**: `/shelter/src/features/link-open/`
+**파일**: `/shelter/src/features/link/`
 
 ```
-link-open/
+link/
 ├── index.ts
-├── ui/
-│   └── LinkOpenButton.tsx       # 링크 카드에 통합
-└── model/
-    └── use-open-link.ts
+└── use-open-link.ts
 ```
 
-- 앱 실행 여부 확인
-- Fallback to browser
-- 에러 처리
+- ✅ 앱 실행 여부 확인
+- ✅ Fallback to browser
+- ✅ 에러 처리 (IonToast 사용)
 
-### T042: [US3] Link 카드에 클릭 핸들러 추가
+### T042: [US3] Link 카드에 클릭 핸들러 추가 ✅
 
-**파일**: 기존 LinkCard 컴포넌트들
+**파일**: LinkDetailPage
 
-- 클릭 이벤트 연결
-- 로딩 상태 표시
-- lastAccessedAt 업데이트
+- ✅ 클릭 이벤트 연결 (useOpenLink hook)
+- ✅ 로딩 상태 표시
+- ✅ lastAccessedAt 업데이트
 
-### T043: [US3] URL validation 강화
+### T043: [US3] URL validation 강화 ✅
 
 **파일**: `/shelter/src/entities/link/model/validation.ts`
 
-- URL 형식 검증
-- 지원되지 않는 scheme 경고
-- 사용자 피드백
+- ✅ URL 형식 검증 (HTTP/HTTPS + 앱 스킴)
+- ✅ 도메인 형식 검증
+- ✅ 지원되지 않는 scheme 경고
+- ✅ 사용자 피드백 (console.warn)
 
 **✅ Checkpoint 5**: 링크 클릭 시 올바른 앱/브라우저로 열림
 

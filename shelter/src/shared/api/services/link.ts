@@ -4,25 +4,22 @@ import { LinkService } from '@/shared/types/services';
 import { nanoid } from 'nanoid';
 import { folderService } from './folder';
 import { tagService } from './tag';
+import { validateLink as validateLinkEntity } from '@/entities/link/model/validation';
 
-// Helper function
+// Helper function - 강화된 validation 사용
 function validateLink(data: Partial<Link>): void {
-  if (!data.title || data.title.trim().length === 0) {
-    throw new Error('제목은 필수입니다');
+  const validation = validateLinkEntity(data);
+
+  if (!validation.valid) {
+    // 첫 번째 에러 메시지를 throw
+    throw new Error(validation.errors[0]);
   }
-  if (!data.url || data.url.trim().length === 0) {
-    throw new Error('URL은 필수입니다');
-  }
-  try {
-    new URL(data.url);
-  } catch {
-    throw new Error('올바른 URL 형식이 아닙니다');
-  }
-  if (data.title.trim().length > 200) {
-    throw new Error('제목은 200자를 초과할 수 없습니다');
-  }
-  if (data.description && data.description.length > 1000) {
-    throw new Error('설명은 1000자를 초과할 수 없습니다');
+
+  // 경고가 있으면 콘솔에 출력
+  if (validation.warnings && validation.warnings.length > 0) {
+    validation.warnings.forEach((warning) => {
+      console.warn('⚠️ URL 경고:', warning);
+    });
   }
 }
 

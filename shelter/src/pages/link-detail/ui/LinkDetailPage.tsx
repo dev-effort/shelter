@@ -24,11 +24,13 @@ import {
 import { createOutline, openOutline } from 'ionicons/icons';
 import { TagInput } from '@/shared/ui/tag-input';
 import { useLinkStore } from '@/app/providers/stores';
+import { useOpenLink } from '@/features/link';
 
 const LinkDetailPage: React.FC = () => {
   const history = useHistory();
   const { linkId } = useParams<{ linkId: string }>();
   const { currentLink, loadLink, updateLink } = useLinkStore();
+  const { openLink, isOpening } = useOpenLink();
 
   const [showEdit, setShowEdit] = useState(false);
   const [editTitle, setEditTitle] = useState('');
@@ -51,9 +53,13 @@ const LinkDetailPage: React.FC = () => {
     }
   }, [currentLink]);
 
-  const handleOpenLink = () => {
-    if (currentLink?.url) {
-      window.open(currentLink.url, '_blank');
+  const handleOpenLink = async () => {
+    if (currentLink) {
+      try {
+        await openLink(currentLink.id, currentLink.url);
+      } catch (error) {
+        console.error('Failed to open link:', error);
+      }
     }
   };
 
