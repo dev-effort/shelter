@@ -171,14 +171,16 @@ class ShareServiceImpl implements ShareService {
    */
   private async checkAndroidShare(): Promise<SharedUrlInfo | null> {
     try {
+      console.log('========== ANDROID SHARE DATA DEBUG START ==========');
       console.log('🔍 Checking Android share data...');
 
       // Check if there's a pending share
       const pendingResult = await Preferences.get({ key: 'shelter_share_pending' });
-      console.log('shelter_share_pending:', pendingResult);
+      console.log('📌 shelter_share_pending (raw):', JSON.stringify(pendingResult));
 
       if (pendingResult.value !== 'true') {
-        console.log('No pending share found');
+        console.log('❌ No pending share found');
+        console.log('========== ANDROID SHARE DATA DEBUG END ==========');
         return null;
       }
 
@@ -186,11 +188,16 @@ class ShareServiceImpl implements ShareService {
       const urlResult = await Preferences.get({ key: 'shelter_shared_url' });
       const titleResult = await Preferences.get({ key: 'shelter_shared_title' });
 
-      console.log('shelter_shared_url:', urlResult);
-      console.log('shelter_shared_title:', titleResult);
+      console.log('📝 shelter_shared_url (raw):', JSON.stringify(urlResult));
+      console.log('📌 shelter_shared_title (raw):', JSON.stringify(titleResult));
+      console.log('🔗 URL value:', urlResult.value);
+      console.log('📄 Title value:', titleResult.value);
+      console.log('🔢 URL length:', urlResult.value?.length);
+      console.log('🔢 Title length:', titleResult.value?.length);
 
       if (!urlResult.value) {
-        console.log('No shared URL found');
+        console.log('❌ No shared URL found');
+        console.log('========== ANDROID SHARE DATA DEBUG END ==========');
         return null;
       }
 
@@ -202,10 +209,12 @@ class ShareServiceImpl implements ShareService {
         title: titleResult.value || undefined,
       };
 
-      console.log('✅ Returning share info:', shareInfo);
+      console.log('✅ Final share info:', JSON.stringify(shareInfo, null, 2));
+      console.log('========== ANDROID SHARE DATA DEBUG END ==========');
       return shareInfo;
     } catch (error) {
       console.error('❌ Failed to check Android share:', error);
+      console.log('========== ANDROID SHARE DATA DEBUG END ==========');
       return null;
     }
   }

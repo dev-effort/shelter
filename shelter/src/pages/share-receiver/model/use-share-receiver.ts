@@ -17,8 +17,14 @@ export function useShareReceiver() {
   useEffect(() => {
     // 앱 시작 시 공유된 URL 확인
     const checkLaunchShare = async () => {
+      console.log('========== SHARE RECEIVER HOOK DEBUG START ==========');
       const info = await shareService.checkLaunchUrl();
-      console.log('checkLaunchShare info:', info);
+      console.log('📦 Received share info:', JSON.stringify(info, null, 2));
+      console.log('🔗 URL:', info?.url);
+      console.log('📄 Title:', info?.title);
+      console.log('📊 Text:', info?.text);
+      console.log('========== SHARE RECEIVER HOOK DEBUG END ==========');
+
       if (info) {
         setSharedInfo(info);
       }
@@ -28,6 +34,9 @@ export function useShareReceiver() {
 
     // 공유 이벤트 리스너 등록
     const handleShare = (info: SharedUrlInfo) => {
+      console.log('========== SHARE EVENT RECEIVED ==========');
+      console.log('📦 Event info:', JSON.stringify(info, null, 2));
+      console.log('========== SHARE EVENT END ==========');
       setSharedInfo(info);
     };
 
