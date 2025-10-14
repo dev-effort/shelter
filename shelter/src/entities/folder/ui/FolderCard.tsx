@@ -1,6 +1,7 @@
 import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonIcon } from '@ionic/react';
 import { folderOutline } from 'ionicons/icons';
 import { Folder } from '@/shared/types/entities';
+import { useFolderStore, useLinkStore } from '@/app/providers/stores';
 
 interface FolderCardProps {
   folder: Folder;
@@ -9,6 +10,13 @@ interface FolderCardProps {
 }
 
 export default function FolderCard({ folder, onClick, onLongPress }: FolderCardProps) {
+  const { getSubfolders } = useFolderStore();
+  const { getLinksByFolder } = useLinkStore();
+
+  // 실시간으로 하위 아이템 개수 계산
+  const subfolderCount = getSubfolders(folder.id).length;
+  const linkCount = getLinksByFolder(folder.id).length;
+
   let longPressTimer: NodeJS.Timeout;
 
   const handleTouchStart = () => {
@@ -41,7 +49,7 @@ export default function FolderCard({ folder, onClick, onLongPress }: FolderCardP
 
       <IonCardContent>
         <div className="text-sm text-muted-foreground">
-          {folder.linkCount} 링크, {folder.folderCount} 폴더
+          {linkCount} 링크, {subfolderCount} 폴더
         </div>
       </IonCardContent>
     </IonCard>
