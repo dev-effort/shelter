@@ -15,6 +15,8 @@ import {
   IonItem,
   IonLabel,
   IonTextarea,
+  IonSelect,
+  IonSelectOption,
   useIonToast,
 } from '@ionic/react';
 import { addOutline, folderOutline, createOutline } from 'ionicons/icons';
@@ -53,6 +55,7 @@ const FolderDetailPage: React.FC = () => {
   const [presentToast] = useIonToast();
 
   // 링크 생성 폼 상태
+  const [selectedFolderId, setSelectedFolderId] = useState<string | null>(folderId);
   const [linkTitle, setLinkTitle] = useState('');
   const [linkUrl, setLinkUrl] = useState('');
   const [linkDescription, setLinkDescription] = useState('');
@@ -149,6 +152,11 @@ const FolderDetailPage: React.FC = () => {
     }
   };
 
+  const handleOpenLinkCreate = () => {
+    setSelectedFolderId(folderId); // 현재 폴더를 기본값으로 설정
+    setShowLinkCreate(true);
+  };
+
   const handleCreateLink = async () => {
     if (!linkTitle.trim() || !linkUrl.trim()) return;
 
@@ -158,13 +166,14 @@ const FolderDetailPage: React.FC = () => {
         url: linkUrl.trim(),
         description: linkDescription.trim(),
         tags: linkTags,
-        folderId: folderId,
+        folderId: selectedFolderId, // 선택된 폴더에 저장
       });
       setLinkTitle('');
       setLinkUrl('');
       setLinkDescription('');
       setLinkTags([]);
       setShowLinkCreate(false);
+      setSelectedFolderId(folderId); // 초기화
     } catch (error) {
       console.error('Failed to create link:', error);
     }
@@ -179,6 +188,36 @@ const FolderDetailPage: React.FC = () => {
 
   const handleRemoveTag = (tag: string) => {
     setLinkTags(linkTags.filter((t) => t !== tag));
+  };
+
+  // 폴더를 계층구조 순서로 정렬 (부모 먼저, 그 다음 자식)
+  const sortedFoldersForSelect = useMemo(() => {
+    const sorted: Folder[] = [];
+
+    const addFolderAndChildren = (parentId: string | null, depth: number = 0) => {
+      const children = folders
+        .filter((f) => f.parentId === parentId)
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+      children.forEach((folder) => {
+        sorted.push({ ...folder, depth });
+        addFolderAndChildren(folder.id, depth + 1);
+      });
+    };
+
+    addFolderAndChildren(null, 0);
+    return sorted;
+  }, [folders]);
+
+  // 폴더 이름에 계층 표시 추가
+  const getFolderDisplayName = (folder: Folder) => {
+    // 모든 폴더에 아이콘, depth에 따라 점으로 구분
+    if (folder.depth === 0) {
+      return `📁 ${folder.name}`;
+    }
+    // depth에 따라 점(...)으로 계층 표시
+    const dots = '...'.repeat(folder.depth);
+    return `📁 ${dots} ${folder.name}`;
   };
 
   const handleEditFolder = () => {
@@ -213,7 +252,7 @@ const FolderDetailPage: React.FC = () => {
             <IonButton onClick={() => setShowFolderCreate(true)}>
               <IonIcon slot="icon-only" icon={folderOutline} />
             </IonButton>
-            <IonButton onClick={() => setShowLinkCreate(true)}>
+            <IonButton onClick={handleOpenLinkCreate}>
               <IonIcon slot="icon-only" icon={addOutline} />
             </IonButton>
           </IonButtons>
@@ -305,6 +344,24 @@ const FolderDetailPage: React.FC = () => {
         </IonHeader>
         <IonContent>
           <div className="space-y-4 p-4">
+            <IonItem>
+              <IonLabel position="stacked">저장 위치</IonLabel>
+              <IonSelect
+                value={selectedFolderId || 'home'}
+                onIonChange={(e) =>
+                  setSelectedFolderId(e.detail.value === 'home' ? null : e.detail.value)
+                }
+                interface="popover"
+              >
+                <IonSelectOption value="home">홈 (폴더 없음)</IonSelectOption>
+                {sortedFoldersForSelect.map((folder) => (
+                  <IonSelectOption key={folder.id} value={folder.id}>
+                    {getFolderDisplayName(folder)}
+                  </IonSelectOption>
+                ))}
+              </IonSelect>
+            </IonItem>
+
             <IonItem>
               <IonLabel position="stacked">제목 *</IonLabel>
               <IonInput

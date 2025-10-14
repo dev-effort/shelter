@@ -74,3 +74,51 @@ ion-content {
 ion-content > div {
   display: block !important;
 }
+
+/* IonSelect Popover 스타일 개선 */
+ion-select-popover {
+  --width: auto;
+  --min-width: 480px;
+  --max-width: 90vw;
+}
+
+/* Popover 내부 리스트 스크롤 설정 (7개 항목) */
+ion-select-popover ion-list {
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+/* Popover 배경 및 테두리 */
+ion-popover {
+  --background: var(--ion-background-color, #fff);
+  --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.dark ion-popover {
+  --background: hsl(var(--card));
+  --box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+ion-popover::part(content) {
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+}
+
+.dark ion-popover::part(content) {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Select 옵션 항목 스타일 */
+ion-select-popover ion-item {
+  --background: transparent;
+  --border-color: transparent;
+}
+
+ion-select-popover ion-label {
+  font-family: 'Courier New', Courier, monospace;
+  white-space: pre;
+}
+
+ion-select-popover ion-radio {
+  --color-checked: hsl(var(--primary));
+}
