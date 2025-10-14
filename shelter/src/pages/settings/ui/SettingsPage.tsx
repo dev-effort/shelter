@@ -92,7 +92,7 @@ const SettingsPage: React.FC = () => {
       </IonHeader>
 
       <IonContent>
-        <div className="space-y-4 p-4 pb-20">
+        <div className="space-y-4 p-4 pb-32">
           {/* 표시 설정 */}
           <IonCard>
             <IonCardHeader>

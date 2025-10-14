@@ -221,7 +221,7 @@ const FolderDetailPage: React.FC = () => {
       </IonHeader>
 
       <IonContent>
-        <div className="space-y-4 p-4">
+        <div className="space-y-4 p-4 pb-8">
           {/* 하위 폴더 */}
           {subfolders.length > 0 && (
             <div>

@@ -84,6 +84,7 @@ async function initializeDefaultSettings(db: IDBPDatabase<ShelterDB>): Promise<v
   const existingSettings = await db.get('settings', 'user-settings');
 
   if (!existingSettings) {
+    // 설정이 없으면 기본값으로 생성
     const defaultSettings: Settings = {
       id: 'user-settings',
       viewMode: 'list',
@@ -96,6 +97,39 @@ async function initializeDefaultSettings(db: IDBPDatabase<ShelterDB>): Promise<v
     };
 
     await db.put('settings', defaultSettings);
+  } else {
+    // 기존 설정이 있지만 theme이 제대로 설정되지 않은 경우 업데이트
+    let needsUpdate = false;
+    const updatedSettings = { ...existingSettings };
+
+    // theme이 없거나 잘못된 경우
+    if (
+      !updatedSettings.theme ||
+      (updatedSettings.theme !== 'light' && updatedSettings.theme !== 'dark')
+    ) {
+      updatedSettings.theme = 'dark';
+      needsUpdate = true;
+    }
+
+    // 다른 필수 필드가 없는 경우도 체크
+    if (!updatedSettings.viewMode) {
+      updatedSettings.viewMode = 'list';
+      needsUpdate = true;
+    }
+    if (!updatedSettings.defaultSortBy) {
+      updatedSettings.defaultSortBy = 'updatedAt';
+      needsUpdate = true;
+    }
+    if (!updatedSettings.defaultSortOrder) {
+      updatedSettings.defaultSortOrder = 'desc';
+      needsUpdate = true;
+    }
+
+    if (needsUpdate) {
+      updatedSettings.updatedAt = Date.now();
+      await db.put('settings', updatedSettings);
+      console.log('Settings updated with default values');
+    }
   }
 }
 

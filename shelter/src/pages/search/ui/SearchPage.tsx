@@ -49,7 +49,7 @@ const SearchPage: React.FC = () => {
           />
         </div>
 
-        <div className="p-4 pb-20">
+        <div className="p-4 pb-32">
           {/* Empty State */}
           {!query && !isSearching && results.length === 0 && (
             <IonCard>

@@ -133,7 +133,7 @@ const LinkDetailPage: React.FC = () => {
       </IonHeader>
 
       <IonContent>
-        <div className="space-y-4 p-4">
+        <div className="space-y-4 p-4 pb-8">
           {/* 제목 */}
           <IonCard>
             <IonCardHeader>

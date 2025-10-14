@@ -41,7 +41,7 @@ const TagsPage: React.FC = () => {
       </IonHeader>
 
       <IonContent>
-        <div className="space-y-4 p-4 pb-20">
+        <div className="space-y-4 p-4 pb-32">
           {/* 로딩 상태 */}
           {isLoading && (
             <div className="flex justify-center py-8">

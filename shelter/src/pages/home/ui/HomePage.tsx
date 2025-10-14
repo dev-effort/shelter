@@ -205,7 +205,7 @@ const HomePage: React.FC = () => {
       </IonHeader>
 
       <IonContent>
-        <div className="space-y-4 p-4 pb-20">
+        <div className="space-y-4 px-4 pb-32 pt-4">
           {/* 폴더 섹션 */}
           {rootFolders.length > 0 && (
             <div>

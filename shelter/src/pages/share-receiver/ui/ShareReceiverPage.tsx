@@ -109,7 +109,7 @@ const ShareReceiverPage: React.FC = () => {
       </IonHeader>
 
       <IonContent>
-        <div className="space-y-4 p-4">
+        <div className="space-y-4 p-4 pb-8">
           {/* 공유된 URL 표시 */}
           <IonCard>
             <IonCardHeader>

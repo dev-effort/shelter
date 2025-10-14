@@ -53,3 +53,24 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Ionic 페이지와 스크롤 설정 */
+html,
+body,
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
+.ion-page {
+  height: 100%;
+}
+
+ion-content {
+  --overflow: auto;
+}
+
+/* Tailwind의 space-y가 flex를 방해하지 않도록 */
+ion-content > div {
+  display: block !important;
+}
