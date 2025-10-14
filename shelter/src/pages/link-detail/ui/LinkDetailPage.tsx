@@ -188,11 +188,11 @@ const LinkDetailPage: React.FC = () => {
             </IonCard>
           )}
 
-          {/* 링크 열기 버튼 */}
-          <IonButton expand="block" onClick={handleOpenLink}>
+          {/* 링크 열기 버튼 - URL 클릭으로 충분히 잘 동작하므로 일단 주석처리 */}
+          {/* <IonButton expand="block" onClick={handleOpenLink}>
             <IonIcon slot="start" icon={openOutline} />
             링크 열기
-          </IonButton>
+          </IonButton> */}
 
           {/* 메타 정보 */}
           <IonCard>
