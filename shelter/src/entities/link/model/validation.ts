@@ -141,3 +141,27 @@ export function validateLink(link: Partial<Link>): LinkValidationResult {
     warnings: warnings.length > 0 ? warnings : undefined,
   };
 }
+
+/**
+ * URL 정규화 - http:// 또는 https://가 없으면 자동으로 추가
+ */
+export function normalizeURL(url: string): string {
+  if (!url || typeof url !== 'string') {
+    return url;
+  }
+
+  const trimmedUrl = url.trim();
+
+  // 이미 프로토콜이 있으면 그대로 반환
+  if (trimmedUrl.startsWith('http://') || trimmedUrl.startsWith('https://')) {
+    return trimmedUrl;
+  }
+
+  // 앱 스킴인 경우 (youtube://, instagram:// 등) 그대로 반환
+  if (trimmedUrl.includes('://')) {
+    return trimmedUrl;
+  }
+
+  // 프로토콜이 없으면 https:// 추가
+  return `https://${trimmedUrl}`;
+}

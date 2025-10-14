@@ -4,7 +4,7 @@ import { LinkService } from '@/shared/types/services';
 import { nanoid } from 'nanoid';
 import { folderService } from './folder';
 import { tagService } from './tag';
-import { validateLink as validateLinkEntity } from '@/entities/link/model/validation';
+import { validateLink as validateLinkEntity, normalizeURL } from '@/entities/link/model/validation';
 
 // Helper function - 강화된 validation 사용
 function validateLink(data: Partial<Link>): void {
@@ -91,17 +91,21 @@ class LinkServiceImpl implements LinkService {
   }): Promise<Link> {
     const db = await getDB();
 
+    // URL 정규화 (http:// 또는 https:// 자동 추가)
+    const normalizedUrl = normalizeURL(data.url);
+    const normalizedData = { ...data, url: normalizedUrl };
+
     // Validation
-    validateLink(data);
+    validateLink(normalizedData);
 
     const now = Date.now();
     const link: Link = {
       id: nanoid(),
-      title: data.title,
-      url: data.url,
-      description: data.description || '',
-      tags: data.tags,
-      folderId: data.folderId,
+      title: normalizedData.title,
+      url: normalizedData.url,
+      description: normalizedData.description || '',
+      tags: normalizedData.tags,
+      folderId: normalizedData.folderId,
       createdAt: now,
       updatedAt: now,
       lastAccessedAt: null,
@@ -131,12 +135,15 @@ class LinkServiceImpl implements LinkService {
       throw new Error('링크를 찾을 수 없습니다.');
     }
 
+    // URL이 수정되는 경우 정규화
+    const normalizedData = data.url ? { ...data, url: normalizeURL(data.url) } : data;
+
     // Validation
-    validateLink({ ...existing, ...data });
+    validateLink({ ...existing, ...normalizedData });
 
     const updated: Link = {
       ...existing,
-      ...data,
+      ...normalizedData,
       id, // ID는 변경 불가
       updatedAt: Date.now(),
     };

@@ -18,6 +18,7 @@ export function useShareReceiver() {
     // 앱 시작 시 공유된 URL 확인
     const checkLaunchShare = async () => {
       const info = await shareService.checkLaunchUrl();
+      console.log('checkLaunchShare info:', info);
       if (info) {
         setSharedInfo(info);
       }
