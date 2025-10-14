@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
-import { IonTabBar, IonTabButton, IonIcon, IonLabel } from '@ionic/react';
-import { homeOutline, pricetagsOutline, searchOutline, settingsOutline } from 'ionicons/icons';
+import { IonTabBar, IonTabButton, IonIcon } from '@ionic/react';
+import { home, pricetags, search, settings } from 'ionicons/icons';
 
 interface NavigationBarProps {
   onNavigate: (route: string) => void;
@@ -10,10 +10,10 @@ export default function NavigationBar({ onNavigate }: NavigationBarProps) {
   const location = useLocation();
 
   const navItems = [
-    { id: '/home', label: '홈', icon: homeOutline },
-    { id: '/tags', label: '태그', icon: pricetagsOutline },
-    { id: '/search', label: '검색', icon: searchOutline },
-    { id: '/settings', label: '설정', icon: settingsOutline },
+    { id: '/home', label: '홈', icon: home },
+    { id: '/tags', label: '태그', icon: pricetags },
+    { id: '/search', label: '검색', icon: search },
+    { id: '/settings', label: '설정', icon: settings },
   ];
 
   return (
@@ -30,7 +30,6 @@ export default function NavigationBar({ onNavigate }: NavigationBarProps) {
           selected={location.pathname === item.id}
         >
           <IonIcon icon={item.icon} />
-          <IonLabel>{item.label}</IonLabel>
         </IonTabButton>
       ))}
     </IonTabBar>
