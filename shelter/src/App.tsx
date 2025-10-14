@@ -18,6 +18,8 @@ import SettingsPage from '@/pages/settings/ui/SettingsPage';
 import { ShareReceiverPage } from '@/pages/share-receiver';
 import { Toaster } from '@/shared/ui/toaster';
 import { shareService } from '@/shared/api/services/share';
+import { ThemeProvider } from '@/app/providers/theme-provider';
+import { useSettingsStore } from '@/app/providers/stores';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -47,9 +49,13 @@ const AppContent: React.FC = () => {
   const history = useHistory();
   const shareListenerRef = useRef<((info: any) => void) | null>(null);
   const isCheckingShareRef = useRef(false);
+  const { loadSettings } = useSettingsStore();
 
   useEffect(() => {
     let mounted = true;
+
+    // Load settings for theme
+    loadSettings();
 
     // Initialize share service
     shareService.initialize().catch((error) => {
@@ -125,7 +131,7 @@ const AppContent: React.FC = () => {
   }, [history]);
 
   return (
-    <>
+    <ThemeProvider>
       <IonRouterOutlet>
         <Route exact path="/home" component={HomePage} />
         <Route exact path="/folder/:folderId" component={FolderDetailPage} />
@@ -155,7 +161,7 @@ const AppContent: React.FC = () => {
         </Route>
       </IonRouterOutlet>
       <Toaster />
-    </>
+    </ThemeProvider>
   );
 };
 

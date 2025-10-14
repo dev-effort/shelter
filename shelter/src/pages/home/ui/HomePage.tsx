@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   IonPage,
@@ -22,14 +22,16 @@ import { NavigationBar } from '@/widgets/navigation-bar';
 import { FolderList } from '@/widgets/folder-list';
 import { LinkList } from '@/widgets/link-list';
 import { TagInput } from '@/shared/ui/tag-input';
-import { useFolderStore, useLinkStore } from '@/app/providers/stores';
+import { useFolderStore, useLinkStore, useSettingsStore } from '@/app/providers/stores';
 import { Folder, Link } from '@/shared/types/entities';
 import { useDeleteItem, DeleteConfirmDialog } from '@/features/item-delete';
+import { sortFolders, sortLinks } from '@/shared/lib/utils/sort';
 
 const HomePage: React.FC = () => {
   const history = useHistory();
   const { folders, loadFolders, getRootFolders, createFolder } = useFolderStore();
   const { links, loadLinks, createLink, getLinksByFolder } = useLinkStore();
+  const { settings } = useSettingsStore();
   const [showFolderCreate, setShowFolderCreate] = useState(false);
   const [showFolderSelect, setShowFolderSelect] = useState(false);
   const [showLinkCreate, setShowLinkCreate] = useState(false);
@@ -59,8 +61,24 @@ const HomePage: React.FC = () => {
     loadLinks();
   }, [loadFolders, loadLinks]);
 
-  const rootFolders = getRootFolders();
-  const rootLinks = getLinksByFolder(null); // folderId가 null인 링크들
+  // 정렬된 폴더와 링크
+  const rootFolders = useMemo(() => {
+    const folderList = getRootFolders();
+    return sortFolders(
+      folderList,
+      settings?.defaultSortBy || 'updatedAt',
+      settings?.defaultSortOrder || 'desc'
+    );
+  }, [folders, settings?.defaultSortBy, settings?.defaultSortOrder]);
+
+  const rootLinks = useMemo(() => {
+    const linkList = getLinksByFolder(null);
+    return sortLinks(
+      linkList,
+      settings?.defaultSortBy || 'updatedAt',
+      settings?.defaultSortOrder || 'desc'
+    );
+  }, [links, settings?.defaultSortBy, settings?.defaultSortOrder]);
 
   const handleNavigate = (route: string) => {
     history.push(route);

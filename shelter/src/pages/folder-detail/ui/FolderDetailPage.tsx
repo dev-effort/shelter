@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import {
   IonPage,
@@ -21,9 +21,10 @@ import { addOutline, folderOutline, createOutline } from 'ionicons/icons';
 import { FolderList } from '@/widgets/folder-list';
 import { LinkList } from '@/widgets/link-list';
 import { TagInput } from '@/shared/ui/tag-input';
-import { useFolderStore, useLinkStore } from '@/app/providers/stores';
+import { useFolderStore, useLinkStore, useSettingsStore } from '@/app/providers/stores';
 import { Folder, Link } from '@/shared/types/entities';
 import { useDeleteItem, DeleteConfirmDialog } from '@/features/item-delete';
+import { sortFolders, sortLinks } from '@/shared/lib/utils/sort';
 
 const FolderDetailPage: React.FC = () => {
   const history = useHistory();
@@ -31,6 +32,7 @@ const FolderDetailPage: React.FC = () => {
   const { folders, currentFolder, loadFolder, getSubfolders, createFolder, updateFolder } =
     useFolderStore();
   const { links, getLinksByFolder, createLink } = useLinkStore();
+  const { settings } = useSettingsStore();
 
   const [showFolderCreate, setShowFolderCreate] = useState(false);
   const [showLinkCreate, setShowLinkCreate] = useState(false);
@@ -68,8 +70,24 @@ const FolderDetailPage: React.FC = () => {
     }
   }, [currentFolder]);
 
-  const subfolders = getSubfolders(folderId);
-  const folderLinks = getLinksByFolder(folderId);
+  // 정렬된 폴더와 링크
+  const subfolders = useMemo(() => {
+    const folderList = getSubfolders(folderId);
+    return sortFolders(
+      folderList,
+      settings?.defaultSortBy || 'updatedAt',
+      settings?.defaultSortOrder || 'desc'
+    );
+  }, [folders, folderId, settings?.defaultSortBy, settings?.defaultSortOrder]);
+
+  const folderLinks = useMemo(() => {
+    const linkList = getLinksByFolder(folderId);
+    return sortLinks(
+      linkList,
+      settings?.defaultSortBy || 'updatedAt',
+      settings?.defaultSortOrder || 'desc'
+    );
+  }, [links, folderId, settings?.defaultSortBy, settings?.defaultSortOrder]);
 
   const handleFolderClick = (folder: Folder) => {
     history.push(`/folder/${folder.id}`);

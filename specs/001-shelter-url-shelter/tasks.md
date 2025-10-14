@@ -878,75 +878,75 @@ item-delete/
 
 ---
 
-## Phase 9: US7 - 홈 화면 표시 설정 (P4)
+## Phase 9: US7 - 홈 화면 표시 설정 (P4) ✅
 
 **목표**: 리스트/그리드 뷰 전환  
 **의존성**: Phase 3 완료  
-**예상 기간**: 1일
+**예상 기간**: 1일  
+**상태**: ✅ 완료
 
 **독립 테스트 기준**:
 ✅ 설정 화면에서 표시 방식을 변경한 후 홈 화면으로 돌아가 실제로 리스트/그리드 구조가 변경되는지 확인
 
-### T062: [US7] Settings 페이지 구현
+### T062: [US7] Settings 페이지 구현 ✅
 
 **파일**: `/shelter/src/pages/settings/`
 
 ```
 settings/
-├── index.ts
-├── ui/
-│   ├── SettingsPage.tsx
-│   └── SettingSection.tsx
-└── model/
-    └── use-settings.ts
+├── index.ts                ✅
+└── ui/
+    └── SettingsPage.tsx    ✅
 ```
 
-- 표시 방식 선택 (List/Grid)
-- 테마 설정 (Light/Dark/System)
-- 앱 버전 표시
-- 정렬 기본값 설정
+- ✅ 표시 방식 선택 (List/Grid)
+- ✅ 테마 설정 (Light/Dark/System)
+- ✅ 앱 버전 표시
+- ✅ 정렬 기본값 설정 (정렬 기준, 정렬 순서)
+- ✅ IonSelect 기반 UI
+- ✅ useSettingsStore 연동
 
-### T063: [US7] View mode toggle 구현
+### T063: [US7] View mode toggle 구현 ✅
 
-**파일**: `/shelter/src/features/view-mode-toggle/`
+**파일**: SettingsPage에 통합
 
-```
-view-mode-toggle/
-├── index.ts
-├── ui/
-│   └── ViewModeToggle.tsx       # Switch 컴포넌트
-└── model/
-    └── use-view-mode.ts
-```
+- ✅ Settings store 연동
+- ✅ IonSelect로 구현
+- ✅ 즉시 반영 (Settings store 업데이트)
 
-- Settings store 연동
-- 즉시 반영
-
-### T064: [US7] List/Grid 뷰 전환 로직
+### T064: [US7] List/Grid 뷰 전환 로직 ✅
 
 **파일**: FolderList, LinkList 위젯
 
-- viewMode 설정 읽기
-- 조건부 렌더링
-- 애니메이션 (선택사항)
+- ✅ viewMode 설정 읽기 (useSettingsStore)
+- ✅ 조건부 렌더링
+  - List 뷰: `space-y-2` (세로 배열)
+  - Grid 뷰: `grid grid-cols-2 gap-2` (2열 그리드)
+- ✅ 즉시 반영
 
-### T065: [US7] 다크모드 지원
+### T065: [US7] 다크모드 지원 ✅
 
 **파일**: `/shelter/src/app/providers/theme-provider.tsx`
 
-- Tailwind dark: 클래스 활용
-- System 설정 감지
-- 수동 전환 지원
+- ✅ Tailwind `dark:` 클래스 활용
+- ✅ System 설정 감지 (`prefers-color-scheme`)
+- ✅ 수동 전환 지원 (light/dark)
+- ✅ ThemeProvider 컴포넌트 구현
+- ✅ App.tsx에 통합
+- ✅ Settings 변경 시 즉시 반영
 
-### T066: [US7] 정렬 기본값 설정
+### T066: [US7] 정렬 기본값 설정 ✅
 
 **파일**: Settings 페이지 내
 
-- 폴더 정렬 (이름/생성일/수정일)
-- 링크 정렬 (제목/생성일/접근일)
-- 오름차순/내림차순
+- ✅ 정렬 기준 선택 (이름/생성일/수정일)
+- ✅ 정렬 순서 선택 (오름차순/내림차순)
+- ✅ Settings store에 저장
+- ✅ IonSelect 기반 UI
 
-**✅ Checkpoint 9**: 사용자가 표시 방식과 테마를 커스터마이즈할 수 있음
+**참고**: 실제 정렬 적용은 추후 각 리스트 컴포넌트에서 구현 필요
+
+**✅ Checkpoint 9**: 사용자가 표시 방식과 테마를 커스터마이즈할 수 있음 ✅
 
 ---
 
