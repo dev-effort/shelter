@@ -116,7 +116,7 @@ export interface Settings {
   viewMode: 'list' | 'grid';
 
   /** Theme preference */
-  theme: 'light' | 'dark' | 'system';
+  theme: 'light' | 'dark';
 
   // Sorting preferences
   /** Default sort field */
@@ -141,7 +141,7 @@ export interface Settings {
  */
 export const DEFAULT_SETTINGS: Omit<Settings, 'id' | 'createdAt' | 'updatedAt'> = {
   viewMode: 'list',
-  theme: 'system',
+  theme: 'dark',
   defaultSortBy: 'updatedAt',
   defaultSortOrder: 'desc',
   appVersion: '1.0.0',

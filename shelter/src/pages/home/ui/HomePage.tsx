@@ -192,7 +192,7 @@ const HomePage: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Shelter</IonTitle>
+          <IonTitle>SHELTER</IonTitle>
           <IonButtons slot="end">
             <IonButton onClick={openFolderCreate}>
               <IonIcon slot="icon-only" icon={folderOutline} />

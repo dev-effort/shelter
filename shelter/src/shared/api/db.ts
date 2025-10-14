@@ -87,7 +87,7 @@ async function initializeDefaultSettings(db: IDBPDatabase<ShelterDB>): Promise<v
     const defaultSettings: Settings = {
       id: 'user-settings',
       viewMode: 'list',
-      theme: 'system',
+      theme: 'dark',
       defaultSortBy: 'updatedAt',
       defaultSortOrder: 'desc',
       appVersion: '1.0.0',

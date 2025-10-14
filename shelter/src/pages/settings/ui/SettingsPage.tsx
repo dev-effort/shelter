@@ -40,7 +40,7 @@ const SettingsPage: React.FC = () => {
     }
   };
 
-  const handleThemeChange = async (theme: 'light' | 'dark' | 'system') => {
+  const handleThemeChange = async (theme: 'light' | 'dark') => {
     try {
       await updateSettings({ theme });
       // 테마는 ThemeProvider에서 자동으로 적용됨
@@ -119,7 +119,6 @@ const SettingsPage: React.FC = () => {
                     onIonChange={(e) => handleThemeChange(e.detail.value)}
                     interface="popover"
                   >
-                    <IonSelectOption value="system">시스템 설정</IonSelectOption>
                     <IonSelectOption value="light">라이트 모드</IonSelectOption>
                     <IonSelectOption value="dark">다크 모드</IonSelectOption>
                   </IonSelect>
