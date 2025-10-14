@@ -1,5 +1,5 @@
 import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonIcon } from '@ionic/react';
-import { linkOutline } from 'ionicons/icons';
+import { linkOutline, openOutline } from 'ionicons/icons';
 import { Link } from '@/shared/types/entities';
 import { TagBadge } from '@/features/tag-filter';
 
@@ -39,10 +39,19 @@ export default function LinkCard({ link, onClick, onLongPress, onTagClick }: Lin
       onTouchEnd={handleTouchEnd}
     >
       <IonCardHeader className="flex flex-row items-center justify-between pb-2">
-        <IonCardTitle className="flex items-center gap-2 text-base font-medium">
+        <IonCardTitle className="flex flex-1 items-center gap-2 text-base font-medium">
           <IonIcon icon={linkOutline} className="h-5 w-5 text-muted-foreground" />
           {link.title}
         </IonCardTitle>
+        <a
+          href={link.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          className="flex items-center justify-center rounded-md border-primary p-2 text-primary transition-colors"
+        >
+          <IonIcon icon={openOutline} className="h-5 w-5" />
+        </a>
       </IonCardHeader>
 
       <IonCardContent>
