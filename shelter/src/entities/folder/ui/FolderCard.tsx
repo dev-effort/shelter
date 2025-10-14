@@ -1,3 +1,4 @@
+import React from 'react';
 import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonIcon } from '@ionic/react';
 import { folderOutline } from 'ionicons/icons';
 import { Folder } from '@/shared/types/entities';
@@ -9,7 +10,11 @@ interface FolderCardProps {
   onLongPress?: (folder: Folder) => void;
 }
 
-export default function FolderCard({ folder, onClick, onLongPress }: FolderCardProps) {
+const FolderCard = React.memo(function FolderCard({
+  folder,
+  onClick,
+  onLongPress,
+}: FolderCardProps) {
   const { getSubfolders } = useFolderStore();
   const { getLinksByFolder } = useLinkStore();
 
@@ -33,12 +38,23 @@ export default function FolderCard({ folder, onClick, onLongPress }: FolderCardP
     onClick?.(folder);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onClick?.(folder);
+    }
+  };
+
   return (
     <IonCard
       className="m-0 mb-2 cursor-pointer transition-transform active:scale-[0.98]"
       onClick={handleClick}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      role="button"
+      aria-label={`폴더: ${folder.name}, ${linkCount}개의 링크, ${subfolderCount}개의 하위 폴더`}
     >
       <IonCardHeader className="flex flex-row items-center justify-between pb-2">
         <IonCardTitle className="flex items-center gap-2 text-base font-medium">
@@ -54,4 +70,6 @@ export default function FolderCard({ folder, onClick, onLongPress }: FolderCardP
       </IonCardContent>
     </IonCard>
   );
-}
+});
+
+export default FolderCard;

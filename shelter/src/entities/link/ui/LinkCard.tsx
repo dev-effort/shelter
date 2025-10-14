@@ -1,3 +1,4 @@
+import React from 'react';
 import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonIcon } from '@ionic/react';
 import { linkOutline, openOutline } from 'ionicons/icons';
 import { Link } from '@/shared/types/entities';
@@ -10,7 +11,12 @@ interface LinkCardProps {
   onTagClick?: (tag: string) => void;
 }
 
-export default function LinkCard({ link, onClick, onLongPress, onTagClick }: LinkCardProps) {
+const LinkCard = React.memo(function LinkCard({
+  link,
+  onClick,
+  onLongPress,
+  onTagClick,
+}: LinkCardProps) {
   let longPressTimer: NodeJS.Timeout;
 
   const handleTouchStart = () => {
@@ -31,16 +37,50 @@ export default function LinkCard({ link, onClick, onLongPress, onTagClick }: Lin
     onTagClick?.(tag);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onClick?.(link);
+    }
+  };
+
+  // Extract domain for favicon
+  const getFaviconUrl = (url: string) => {
+    try {
+      const urlObj = new URL(url);
+      return `https://www.google.com/s2/favicons?domain=${urlObj.hostname}&sz=32`;
+    } catch {
+      return null;
+    }
+  };
+
+  const faviconUrl = getFaviconUrl(link.url);
+  const [faviconError, setFaviconError] = React.useState(false);
+
   return (
     <IonCard
       className="m-0 mb-2 cursor-pointer transition-transform active:scale-[0.98]"
       onClick={handleClick}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      role="button"
+      aria-label={`링크: ${link.title}, URL: ${link.url}`}
     >
       <IonCardHeader className="flex flex-row items-center justify-between pb-2">
         <IonCardTitle className="flex flex-1 items-center gap-2 text-base font-medium">
-          <IonIcon icon={linkOutline} className="h-5 w-5 text-muted-foreground" />
+          {faviconUrl && !faviconError ? (
+            <img
+              src={faviconUrl}
+              alt=""
+              loading="lazy"
+              onError={() => setFaviconError(true)}
+              className="h-5 w-5 rounded"
+            />
+          ) : (
+            <IonIcon icon={linkOutline} className="h-5 w-5 text-muted-foreground" />
+          )}
           {link.title}
         </IonCardTitle>
         <a
@@ -49,8 +89,9 @@ export default function LinkCard({ link, onClick, onLongPress, onTagClick }: Lin
           rel="noopener noreferrer"
           onClick={(e) => e.stopPropagation()}
           className="flex items-center justify-center rounded-md border-primary p-2 text-primary transition-colors"
+          aria-label={`${link.title} 링크 열기`}
         >
-          <IonIcon icon={openOutline} className="h-5 w-5" />
+          <IonIcon icon={openOutline} className="h-5 w-5" aria-hidden="true" />
         </a>
       </IonCardHeader>
 
@@ -74,4 +115,6 @@ export default function LinkCard({ link, onClick, onLongPress, onTagClick }: Lin
       </IonCardContent>
     </IonCard>
   );
-}
+});
+
+export default LinkCard;

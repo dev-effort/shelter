@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   IonPage,
@@ -82,33 +82,48 @@ const HomePage: React.FC = () => {
     );
   }, [links, settings?.defaultSortBy, settings?.defaultSortOrder]);
 
-  const handleNavigate = (route: string) => {
-    history.push(route);
-  };
+  const handleNavigate = useCallback(
+    (route: string) => {
+      history.push(route);
+    },
+    [history]
+  );
 
-  const handleFolderClick = (folder: Folder) => {
-    history.push(`/folder/${folder.id}`);
-  };
+  const handleFolderClick = useCallback(
+    (folder: Folder) => {
+      history.push(`/folder/${folder.id}`);
+    },
+    [history]
+  );
 
-  const handleLinkClick = (link: any) => {
-    history.push(`/link/${link.id}`);
-  };
+  const handleLinkClick = useCallback(
+    (link: any) => {
+      history.push(`/link/${link.id}`);
+    },
+    [history]
+  );
 
-  const handleFolderLongPress = (folder: Folder) => {
-    openDeleteDialog({
-      id: folder.id,
-      type: 'folder',
-      name: folder.name,
-    });
-  };
+  const handleFolderLongPress = useCallback(
+    (folder: Folder) => {
+      openDeleteDialog({
+        id: folder.id,
+        type: 'folder',
+        name: folder.name,
+      });
+    },
+    [openDeleteDialog]
+  );
 
-  const handleLinkLongPress = (link: Link) => {
-    openDeleteDialog({
-      id: link.id,
-      type: 'link',
-      name: link.title,
-    });
-  };
+  const handleLinkLongPress = useCallback(
+    (link: Link) => {
+      openDeleteDialog({
+        id: link.id,
+        type: 'link',
+        name: link.title,
+      });
+    },
+    [openDeleteDialog]
+  );
 
   const handleConfirmDelete = async () => {
     const success = await confirmDelete();
