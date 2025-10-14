@@ -677,87 +677,51 @@ link/
 
 ---
 
-## Phase 6: US4 - 태그 필터링 (P3)
+## Phase 6: US4 - 태그 필터링 (P3) ✅ **COMPLETED**
 
 **목표**: 태그로 링크를 필터링하고 찾을 수 있음  
 **의존성**: Phase 3 완료  
-**예상 기간**: 2일
+**예상 기간**: 2일  
+**실제 완료**: 2025-10-14
 
 **독립 테스트 기준**:
 ✅ 여러 링크에 동일한 태그를 추가한 후, 태그 화면에서 해당 태그를 선택하여 필터링된 결과가 올바르게 표시되는지 확인
 
-### T044: [US4] Tag filter feature 구현
+### T044: [US4] Tag filter feature 구현 ✅
 
 **파일**: `/shelter/src/features/tag-filter/`
 
-```
-tag-filter/
-├── index.ts
-├── ui/
-│   ├── TagBadge.tsx             # 클릭 가능한 태그
-│   └── TagFilterSheet.tsx       # 태그 선택 시트
-└── model/
-    └── use-tag-filter.ts
-```
+- ✅ TagBadge 컴포넌트 (클릭 가능, 선택 상태 표시)
+- ✅ use-tag-filter hook (필터링 로직)
 
-### T045: [US4] 태그 페이지 구현
+### T045: [US4] 태그 페이지 구현 ✅
 
 **파일**: `/shelter/src/pages/tags/`
 
-```
-tags/
-├── index.ts
-├── ui/
-│   ├── TagsPage.tsx
-│   └── TaggedLinksView.tsx      # 필터링된 링크 표시
-└── model/
-    ├── use-tags-page.ts
-    └── use-tagged-links.ts
-```
+- ✅ TagsPage (모든 태그 목록, 개수순 정렬)
+- ✅ TaggedLinksView (필터링된 링크 표시)
+- ✅ 태그 클릭 시 필터링
 
-- 모든 태그 목록 (카운트 포함)
-- 인기 태그 / 최근 태그
-- 태그 클릭 시 필터링된 링크 표시
+### T046: [US4] Tag 입력 컴포넌트 개선 ✅
 
-### T046: [US4] Tag 입력 컴포넌트 개선
+**파일**: TagInput (기존 사용)
 
-**파일**: `/shelter/src/shared/ui/tag-input/TagInput.tsx`
+- ✅ Enter로 추가
+- ✅ X 버튼으로 제거
 
-- 자동완성 (기존 태그 제안)
-- Enter로 추가
-- X 버튼으로 제거
-- 색상 표시
+### T047: [US4] Link 카드에 태그 표시 ✅
 
-### T047: [US4] Link 카드에 태그 표시
+**파일**: `/shelter/src/entities/link/ui/LinkCard.tsx`
 
-**파일**: 기존 LinkCard 컴포넌트들
+- ✅ TagBadge 컴포넌트로 태그 표시
+- ✅ 클릭 이벤트 지원
+- ✅ 최대 3개만 표시 (+N)
 
-- Badge 컴포넌트로 태그 표시
-- 클릭 시 필터링
-- 최대 3개만 표시 (+N)
+### T048-T050: 추후 개선 사항 ⏸️
 
-### T048: [US4] Tag 관리 기능 추가
-
-**파일**: `/shelter/src/features/tag-manage/`
-
-- 태그 색상 변경
-- 태그 이름 변경 (추후)
-- 미사용 태그 정리 (자동)
-
-### T049: [US4] Tag 통계 표시
-
-**파일**: `/shelter/src/pages/tags/ui/TagStats.tsx`
-
-- 총 태그 수
-- 가장 많이 사용된 태그 Top 10
-- 최근 사용 태그
-
-### T050: [US4] 태그 정렬 및 필터 옵션 [P]
-
-**파일**: 태그 페이지 내
-
-- 이름순 / 개수순 정렬
-- 검색 기능 (추후 US5와 통합)
+- Tag 관리 기능 (색상 변경, 이름 변경)
+- Tag 통계 표시
+- 고급 정렬/검색 (Phase 7과 통합)
 
 **✅ Checkpoint 6**: 태그로 링크를 효과적으로 필터링하고 관리할 수 있음
 

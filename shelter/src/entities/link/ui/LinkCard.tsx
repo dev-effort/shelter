@@ -1,21 +1,16 @@
-import {
-  IonBadge,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
-  IonIcon,
-} from '@ionic/react';
+import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonIcon } from '@ionic/react';
 import { linkOutline } from 'ionicons/icons';
 import { Link } from '@/shared/types/entities';
+import { TagBadge } from '@/features/tag-filter';
 
 interface LinkCardProps {
   link: Link;
   onClick?: (link: Link) => void;
   onLongPress?: (link: Link) => void;
+  onTagClick?: (tag: string) => void;
 }
 
-export default function LinkCard({ link, onClick, onLongPress }: LinkCardProps) {
+export default function LinkCard({ link, onClick, onLongPress, onTagClick }: LinkCardProps) {
   let longPressTimer: NodeJS.Timeout;
 
   const handleTouchStart = () => {
@@ -30,6 +25,10 @@ export default function LinkCard({ link, onClick, onLongPress }: LinkCardProps) 
 
   const handleClick = () => {
     onClick?.(link);
+  };
+
+  const handleTagClick = (tag: string) => {
+    onTagClick?.(tag);
   };
 
   return (
@@ -55,11 +54,12 @@ export default function LinkCard({ link, onClick, onLongPress }: LinkCardProps) 
 
         {link.tags.length > 0 && (
           <div className="mt-2 flex flex-wrap gap-1">
-            {link.tags.map((tag) => (
-              <IonBadge key={tag} color="light" className="text-xs">
-                #{tag}
-              </IonBadge>
+            {link.tags.slice(0, 3).map((tag) => (
+              <TagBadge key={tag} tag={tag} onClick={onTagClick} />
             ))}
+            {link.tags.length > 3 && (
+              <span className="text-xs text-muted-foreground">+{link.tags.length - 3}</span>
+            )}
           </div>
         )}
       </IonCardContent>
