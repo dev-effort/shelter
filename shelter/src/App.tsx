@@ -153,7 +153,7 @@ const AppContent: React.FC = () => {
                   height: '100vh',
                 }}
               >
-                <IonSpinner name="crescent" />
+                <IonSpinner name="crescent" style={{ marginTop: '350px' }} />
                 <p style={{ marginTop: '16px', color: 'var(--ion-color-medium)' }}>Loading...</p>
               </div>
             </IonContent>
