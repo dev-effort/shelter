@@ -9,17 +9,28 @@ import {
 } from '@capacitor-community/admob';
 
 /**
- * AdMob 테스트 광고 ID
- * 실제 배포 시에는 실제 광고 ID로 교체해야 합니다.
+ * ⚠️ 여기에 실제 AdMob ID를 입력하세요!
+ *
+ * AdMob 대시보드에서 받은 ID로 교체:
+ * 1. https://admob.google.com 로그인
+ * 2. 앱 선택 → App ID 복사
+ * 3. 광고 단위 선택 → Ad Unit ID 복사
+ *
+ * 테스트 시에는 isTesting: true 설정 (아래 showBannerBelowHeader 참고)
+ * 실제 배포 시에는 isTesting: false로 변경
  */
-const TEST_AD_IDS = {
+const AD_IDS = {
   android: {
-    appId: 'ca-app-pub-3940256099942544~3347511713',
-    banner: 'ca-app-pub-3940256099942544/6300978111',
+    // TODO: 여기에 Android App ID 입력 (예: ca-app-pub-1234567890123456~1234567890)
+    appId: 'ca-app-pub-6352567934659315~6702767075', // 👈 교체 필요!
+    // TODO: 여기에 Android Banner Ad Unit ID 입력
+    banner: 'ca-app-pub-6352567934659315/4777982320', // 👈 교체 필요!
   },
   ios: {
-    appId: 'ca-app-pub-3940256099942544~1458002511',
-    banner: 'ca-app-pub-3940256099942544/2934735716',
+    // TODO: 여기에 iOS App ID 입력
+    appId: 'ca-app-pub-3940256099942544~1458002511', // 👈 교체 필요!
+    // TODO: 여기에 iOS Banner Ad Unit ID 입력
+    banner: 'ca-app-pub-3940256099942544/2934735716', // 👈 교체 필요!
   },
 };
 
@@ -45,8 +56,8 @@ class AdMobService {
     try {
       console.log('🔧 Initializing AdMob...');
       await AdMob.initialize({
-        testingDevices: [],
-        initializeForTesting: true,
+        testingDevices: [], // 테스트 기기 ID (선택사항)
+        initializeForTesting: false, // ⚠️ 실제 광고 사용 시 false로 설정!
       });
 
       this.initialized = true;
@@ -120,7 +131,7 @@ class AdMobService {
     }
 
     const platform = Capacitor.getPlatform();
-    const adId = platform === 'android' ? TEST_AD_IDS.android.banner : TEST_AD_IDS.ios.banner;
+    const adId = platform === 'android' ? AD_IDS.android.banner : AD_IDS.ios.banner;
 
     // Safe Area Top + 헤더 높이(50px) 계산
     const safeAreaTop = await this.getSafeAreaTop();
@@ -136,7 +147,7 @@ class AdMobService {
       adSize: BannerAdSize.BANNER,
       position: BannerAdPosition.TOP_CENTER,
       margin: totalMargin,
-      isTesting: true,
+      isTesting: false, // ⚠️ 테스트 완료 후 false로 변경!
     };
 
     try {
