@@ -40,7 +40,7 @@ const SearchContent: React.FC<SearchContentProps> = ({ history, onTabChange }) =
       {/* 헤더 아래 배너 광고 */}
       <AdBanner />
 
-      <IonContent style={{ '--padding-top': '50px' } as any}>
+      <IonContent>
         <div className="sticky top-0 z-10 bg-background">
           <SearchBar
             value={query}

@@ -40,7 +40,7 @@ const TagsContent: React.FC<TagsContentProps> = ({ history }) => {
       {/* 헤더 아래 배너 광고 */}
       <AdBanner />
 
-      <IonContent style={{ '--padding-top': '50px' } as any}>
+      <IonContent>
         <div className="space-y-4 p-4 pb-32">
           {/* 로딩 상태 */}
           {isLoading && (

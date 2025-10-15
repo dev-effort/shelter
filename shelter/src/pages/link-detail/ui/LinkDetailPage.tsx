@@ -25,6 +25,7 @@ import { createOutline, openOutline } from 'ionicons/icons';
 import { TagInput } from '@/shared/ui/tag-input';
 import { useLinkStore } from '@/app/providers/stores';
 import { useOpenLink } from '@/features/link';
+import { adMobService } from '@/shared/api/services/admob';
 
 const LinkDetailPage: React.FC = () => {
   const history = useHistory();
@@ -52,6 +53,15 @@ const LinkDetailPage: React.FC = () => {
       setEditTags(currentLink.tags);
     }
   }, [currentLink]);
+
+  // 페이지 진입 시 광고 숨김, 나갈 때 다시 표시
+  useEffect(() => {
+    adMobService.hideBanner();
+
+    return () => {
+      adMobService.resumeBanner();
+    };
+  }, []);
 
   const handleOpenLink = async () => {
     if (currentLink) {
@@ -107,6 +117,7 @@ const LinkDetailPage: React.FC = () => {
             <IonTitle>링크 상세</IonTitle>
           </IonToolbar>
         </IonHeader>
+
         <IonContent>
           <div className="flex items-center justify-center p-4">
             <p className="text-muted-foreground">링크를 찾을 수 없습니다</p>

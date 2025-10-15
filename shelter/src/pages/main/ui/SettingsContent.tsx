@@ -93,7 +93,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ history }) => {
       {/* 헤더 아래 배너 광고 */}
       <AdBanner />
 
-      <IonContent style={{ '--padding-top': '50px' } as any}>
+      <IonContent>
         <div className="space-y-4 p-4 pb-32">
           {/* 표시 설정 */}
           <IonCard>

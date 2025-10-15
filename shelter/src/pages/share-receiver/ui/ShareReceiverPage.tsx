@@ -23,6 +23,7 @@ import { closeOutline, folderOutline } from 'ionicons/icons';
 import { useShareReceiver } from '../model/use-share-receiver';
 import { TagInput } from '@/shared/ui/tag-input';
 import { useFolderStore } from '@/app/providers/stores';
+import { adMobService } from '@/shared/api/services/admob';
 
 const ShareReceiverPage: React.FC = () => {
   const { sharedInfo, isProcessing, saveSharedLink, cancelShare } = useShareReceiver();
@@ -49,6 +50,15 @@ const ShareReceiverPage: React.FC = () => {
       setDescription(sharedInfo.text || '');
     }
   }, [sharedInfo]);
+
+  // 페이지 진입 시 광고 숨김, 나갈 때 다시 표시
+  useEffect(() => {
+    adMobService.hideBanner();
+
+    return () => {
+      adMobService.resumeBanner();
+    };
+  }, []);
 
   const handleSelectFolder = (folderId: string | null, folderName: string) => {
     setSelectedFolderId(folderId);

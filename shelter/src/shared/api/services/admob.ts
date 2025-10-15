@@ -161,9 +161,25 @@ class AdMobService {
 
     try {
       await AdMob.hideBanner();
-      console.log('Banner ad hidden');
+      console.log('📍 Banner ad hidden');
     } catch (error) {
-      console.error('Failed to hide banner ad:', error);
+      console.error('❌ Failed to hide banner ad:', error);
+    }
+  }
+
+  /**
+   * 숨겨진 배너 광고 다시 표시
+   */
+  async resumeBanner(): Promise<void> {
+    if (!Capacitor.isNativePlatform() || !this.currentBannerId) {
+      return;
+    }
+
+    try {
+      await AdMob.resumeBanner();
+      console.log('📍 Banner ad resumed');
+    } catch (error) {
+      console.error('❌ Failed to resume banner ad:', error);
     }
   }
 
@@ -181,22 +197,6 @@ class AdMobService {
       console.log('Banner ad removed');
     } catch (error) {
       console.error('Failed to remove banner ad:', error);
-    }
-  }
-
-  /**
-   * 배너 광고 재개
-   */
-  async resumeBanner(): Promise<void> {
-    if (!Capacitor.isNativePlatform() || !this.currentBannerId) {
-      return;
-    }
-
-    try {
-      await AdMob.resumeBanner();
-      console.log('Banner ad resumed');
-    } catch (error) {
-      console.error('Failed to resume banner ad:', error);
     }
   }
 

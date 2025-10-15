@@ -27,6 +27,7 @@ import { useFolderStore, useLinkStore, useSettingsStore } from '@/app/providers/
 import { Folder, Link } from '@/shared/types/entities';
 import { useDeleteItem, DeleteConfirmDialog } from '@/features/item-delete';
 import { sortFolders, sortLinks } from '@/shared/lib/utils/sort';
+import { adMobService } from '@/shared/api/services/admob';
 
 const FolderDetailPage: React.FC = () => {
   const history = useHistory();
@@ -67,11 +68,27 @@ const FolderDetailPage: React.FC = () => {
     }
   }, [folderId, loadFolder]);
 
+  // 페이지 진입 시 광고 숨김, 나갈 때 다시 표시
+  useEffect(() => {
+    adMobService.hideBanner();
+
+    return () => {
+      adMobService.resumeBanner();
+    };
+  }, []);
+
   useEffect(() => {
     if (currentFolder) {
       setEditFolderName(currentFolder.name);
     }
   }, [currentFolder]);
+
+  // 모달이 열릴 때 광고 숨김 (이미 숨겨져 있지만 명시적으로 확인)
+  useEffect(() => {
+    if (showFolderCreate || showLinkCreate || showFolderEdit) {
+      adMobService.hideBanner();
+    }
+  }, [showFolderCreate, showLinkCreate, showFolderEdit]);
 
   // 정렬된 폴더와 링크
   const subfolders = useMemo(() => {
