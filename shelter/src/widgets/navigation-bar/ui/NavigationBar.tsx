@@ -15,20 +15,37 @@ export default function NavigationBar({ activeTab, onTabChange }: NavigationBarP
   ];
 
   return (
-    <IonTabBar slot="bottom" className="border-t border-border">
+    <div
+      slot="bottom"
+      className="border-t border-border"
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        height: '50px',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 'env(safe-area-inset-bottom)',
+      }}
+    >
       {navItems.map((item) => (
-        <IonTabButton
+        <div
           key={item.id}
-          tab={item.id}
           onClick={(e) => {
             e.preventDefault();
             onTabChange(item.id);
           }}
-          selected={activeTab === item.id}
+          style={{
+            color: activeTab === item.id ? 'var(--ion-color-primary)' : 'var(--ion-color-medium)',
+            height: '50px',
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+          }}
         >
-          <IonIcon icon={item.icon} />
-        </IonTabButton>
+          <IonIcon icon={item.icon} style={{ width: '30px', height: '30px', marginTop: '5px' }} />
+        </div>
       ))}
-    </IonTabBar>
+    </div>
   );
 }
