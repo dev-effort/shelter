@@ -17,8 +17,10 @@ import {
   IonTextarea,
   IonSelect,
   IonSelectOption,
+  IonAlert,
   useIonToast,
 } from '@ionic/react';
+import { App } from '@capacitor/app';
 import { addOutline, folderOutline } from 'ionicons/icons';
 import { NavigationBar } from '@/widgets/navigation-bar';
 import { FolderList } from '@/widgets/folder-list';
@@ -39,6 +41,7 @@ const HomePage: React.FC = () => {
   const [showLinkCreate, setShowLinkCreate] = useState(false);
   const [newFolderName, setNewFolderName] = useState('');
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
+  const [showExitAlert, setShowExitAlert] = useState(false);
 
   // 삭제 기능
   const {
@@ -62,6 +65,25 @@ const HomePage: React.FC = () => {
     loadFolders();
     loadLinks();
   }, [loadFolders, loadLinks]);
+
+  // 뒤로가기 버튼 처리 (홈 화면에서만 앱 종료 확인)
+  useEffect(() => {
+    const backButtonListener = App.addListener('backButton', ({ canGoBack }) => {
+      // 홈 화면이고 더 이상 뒤로 갈 수 없는 경우
+      if (!canGoBack) {
+        setShowExitAlert(true);
+      }
+    });
+
+    return () => {
+      backButtonListener.then((listener) => listener.remove());
+    };
+  }, []);
+
+  // 앱 종료 핸들러
+  const handleExitApp = () => {
+    App.exitApp();
+  };
 
   // 정렬된 폴더와 링크
   const rootFolders = useMemo(() => {
@@ -441,6 +463,28 @@ const HomePage: React.FC = () => {
         error={error}
         onConfirm={handleConfirmDelete}
         onCancel={closeDeleteDialog}
+      />
+
+      {/* 앱 종료 확인 Alert */}
+      <IonAlert
+        isOpen={showExitAlert}
+        onDidDismiss={() => setShowExitAlert(false)}
+        header="앱 종료"
+        message="앱을 종료하시겠습니까?"
+        buttons={[
+          {
+            text: '취소',
+            role: 'cancel',
+            handler: () => {
+              setShowExitAlert(false);
+            },
+          },
+          {
+            text: '종료',
+            role: 'destructive',
+            handler: handleExitApp,
+          },
+        ]}
       />
     </IonPage>
   );
