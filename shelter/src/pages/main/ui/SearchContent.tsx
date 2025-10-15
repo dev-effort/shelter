@@ -7,6 +7,7 @@ import {
   IonCardContent,
   IonSpinner,
 } from '@ionic/react';
+import { AdBanner } from '@/widgets/ad-banner';
 import { SearchBar, useSearch } from '@/features/search-query';
 import SearchResults from '@/pages/search/ui/SearchResults';
 import { Link } from '@/shared/types/entities';
@@ -36,7 +37,10 @@ const SearchContent: React.FC<SearchContentProps> = ({ history, onTabChange }) =
         </IonToolbar>
       </IonHeader>
 
-      <IonContent>
+      {/* 헤더 아래 배너 광고 */}
+      <AdBanner />
+
+      <IonContent style={{ '--padding-top': '50px' } as any}>
         <div className="sticky top-0 z-10 bg-background">
           <SearchBar
             value={query}

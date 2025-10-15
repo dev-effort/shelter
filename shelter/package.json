@@ -13,6 +13,7 @@
     "build:android": "ionic capacitor build android --prod"
   },
   "dependencies": {
+    "@capacitor-community/admob": "^7.0.3",
     "@capacitor/app": "7.1.0",
     "@capacitor/browser": "^7.0.2",
     "@capacitor/core": "7.4.3",

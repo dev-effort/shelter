@@ -9,6 +9,7 @@ import {
   IonCardContent,
   IonSpinner,
 } from '@ionic/react';
+import { AdBanner } from '@/widgets/ad-banner';
 import { useTagStore } from '@/app/providers/stores';
 import { useTagFilter, TagBadge } from '@/features/tag-filter';
 import TaggedLinksView from '@/pages/tags/ui/TaggedLinksView';
@@ -36,7 +37,10 @@ const TagsContent: React.FC<TagsContentProps> = ({ history }) => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent>
+      {/* 헤더 아래 배너 광고 */}
+      <AdBanner />
+
+      <IonContent style={{ '--padding-top': '50px' } as any}>
         <div className="space-y-4 p-4 pb-32">
           {/* 로딩 상태 */}
           {isLoading && (

@@ -18,6 +18,7 @@ import {
   useIonToast,
 } from '@ionic/react';
 import { addOutline, folderOutline } from 'ionicons/icons';
+import { AdBanner } from '@/widgets/ad-banner';
 import { FolderList } from '@/widgets/folder-list';
 import { LinkList } from '@/widgets/link-list';
 import { TagInput } from '@/shared/ui/tag-input';
@@ -244,7 +245,10 @@ const HomeContent: React.FC<HomeContentProps> = ({ history }) => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent>
+      {/* 헤더 아래 배너 광고 */}
+      <AdBanner />
+
+      <IonContent style={{ '--padding-top': '50px' } as any}>
         <div className="space-y-4 px-4 pb-32 pt-4">
           {/* 폴더 섹션 */}
           {rootFolders.length > 0 && (

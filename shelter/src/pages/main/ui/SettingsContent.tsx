@@ -14,6 +14,7 @@ import {
   IonCardContent,
   IonSpinner,
 } from '@ionic/react';
+import { AdBanner } from '@/widgets/ad-banner';
 import { useSettingsStore } from '@/app/providers/stores';
 
 interface SettingsContentProps {
@@ -68,7 +69,11 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ history }) => {
             <IonTitle>설정</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonContent>
+
+        {/* 헤더 아래 배너 광고 */}
+        <AdBanner />
+
+        <IonContent style={{ '--padding-top': '50px' } as any}>
           <div className="flex justify-center py-8">
             <IonSpinner />
           </div>
@@ -85,7 +90,10 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ history }) => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent>
+      {/* 헤더 아래 배너 광고 */}
+      <AdBanner />
+
+      <IonContent style={{ '--padding-top': '50px' } as any}>
         <div className="space-y-4 p-4 pb-32">
           {/* 표시 설정 */}
           <IonCard>
