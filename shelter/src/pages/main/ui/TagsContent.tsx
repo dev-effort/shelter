@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import {
-  IonPage,
   IonHeader,
   IonToolbar,
   IonTitle,
@@ -11,13 +9,15 @@ import {
   IonCardContent,
   IonSpinner,
 } from '@ionic/react';
-import { NavigationBar } from '@/widgets/navigation-bar';
 import { useTagStore } from '@/app/providers/stores';
 import { useTagFilter, TagBadge } from '@/features/tag-filter';
-import TaggedLinksView from './TaggedLinksView';
+import TaggedLinksView from '@/pages/tags/ui/TaggedLinksView';
 
-const TagsPage: React.FC = () => {
-  const history = useHistory();
+interface TagsContentProps {
+  history: any;
+}
+
+const TagsContent: React.FC<TagsContentProps> = ({ history }) => {
   const { tags, isLoading, loadTags } = useTagStore();
   const { selectedTags, filteredLinks, toggleTag, removeTag, clearTags } = useTagFilter();
 
@@ -25,15 +25,11 @@ const TagsPage: React.FC = () => {
     loadTags();
   }, [loadTags]);
 
-  const handleNavigate = (route: string) => {
-    history.push(route);
-  };
-
   // 태그를 개수 순으로 정렬
   const sortedTags = [...tags].sort((a, b) => b.count - a.count);
 
   return (
-    <IonPage>
+    <>
       <IonHeader>
         <IonToolbar>
           <IonTitle>태그</IonTitle>
@@ -93,10 +89,8 @@ const TagsPage: React.FC = () => {
           />
         </div>
       </IonContent>
-
-      <NavigationBar onNavigate={handleNavigate} />
-    </IonPage>
+    </>
   );
 };
 
-export default TagsPage;
+export default TagsContent;

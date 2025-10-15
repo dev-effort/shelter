@@ -1,7 +1,5 @@
 import { useEffect, useState, useMemo, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
 import {
-  IonPage,
   IonHeader,
   IonToolbar,
   IonTitle,
@@ -17,12 +15,9 @@ import {
   IonTextarea,
   IonSelect,
   IonSelectOption,
-  IonAlert,
   useIonToast,
 } from '@ionic/react';
-import { App } from '@capacitor/app';
 import { addOutline, folderOutline } from 'ionicons/icons';
-import { NavigationBar } from '@/widgets/navigation-bar';
 import { FolderList } from '@/widgets/folder-list';
 import { LinkList } from '@/widgets/link-list';
 import { TagInput } from '@/shared/ui/tag-input';
@@ -31,8 +26,11 @@ import { Folder, Link } from '@/shared/types/entities';
 import { useDeleteItem, DeleteConfirmDialog } from '@/features/item-delete';
 import { sortFolders, sortLinks } from '@/shared/lib/utils/sort';
 
-const HomePage: React.FC = () => {
-  const history = useHistory();
+interface HomeContentProps {
+  history: any;
+}
+
+const HomeContent: React.FC<HomeContentProps> = ({ history }) => {
   const { folders, loadFolders, getRootFolders, createFolder } = useFolderStore();
   const { links, loadLinks, createLink, getLinksByFolder } = useLinkStore();
   const { settings } = useSettingsStore();
@@ -41,7 +39,6 @@ const HomePage: React.FC = () => {
   const [showLinkCreate, setShowLinkCreate] = useState(false);
   const [newFolderName, setNewFolderName] = useState('');
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
-  const [showExitAlert, setShowExitAlert] = useState(false);
 
   // 삭제 기능
   const {
@@ -66,25 +63,6 @@ const HomePage: React.FC = () => {
     loadLinks();
   }, [loadFolders, loadLinks]);
 
-  // 뒤로가기 버튼 처리 (홈 화면에서만 앱 종료 확인)
-  useEffect(() => {
-    const backButtonListener = App.addListener('backButton', ({ canGoBack }) => {
-      // 홈 화면이고 더 이상 뒤로 갈 수 없는 경우
-      if (!canGoBack) {
-        setShowExitAlert(true);
-      }
-    });
-
-    return () => {
-      backButtonListener.then((listener) => listener.remove());
-    };
-  }, []);
-
-  // 앱 종료 핸들러
-  const handleExitApp = () => {
-    App.exitApp();
-  };
-
   // 정렬된 폴더와 링크
   const rootFolders = useMemo(() => {
     const folderList = getRootFolders();
@@ -103,13 +81,6 @@ const HomePage: React.FC = () => {
       settings?.defaultSortOrder || 'desc'
     );
   }, [links, settings?.defaultSortBy, settings?.defaultSortOrder]);
-
-  const handleNavigate = useCallback(
-    (route: string) => {
-      history.push(route);
-    },
-    [history]
-  );
 
   const handleFolderClick = useCallback(
     (folder: Folder) => {
@@ -258,7 +229,7 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <IonPage>
+    <>
       <IonHeader>
         <IonToolbar>
           <IonTitle>SHELTER</IonTitle>
@@ -317,8 +288,6 @@ const HomePage: React.FC = () => {
           )}
         </div>
       </IonContent>
-
-      <NavigationBar onNavigate={handleNavigate} />
 
       {/* 폴더 생성 모달 */}
       <IonModal isOpen={showFolderCreate} onDidDismiss={closeFolderCreate}>
@@ -464,30 +433,8 @@ const HomePage: React.FC = () => {
         onConfirm={handleConfirmDelete}
         onCancel={closeDeleteDialog}
       />
-
-      {/* 앱 종료 확인 Alert */}
-      <IonAlert
-        isOpen={showExitAlert}
-        onDidDismiss={() => setShowExitAlert(false)}
-        header="앱 종료"
-        message="앱을 종료하시겠습니까?"
-        buttons={[
-          {
-            text: '취소',
-            role: 'cancel',
-            handler: () => {
-              setShowExitAlert(false);
-            },
-          },
-          {
-            text: '종료',
-            role: 'destructive',
-            handler: handleExitApp,
-          },
-        ]}
-      />
-    </IonPage>
+    </>
   );
 };
 
-export default HomePage;
+export default HomeContent;

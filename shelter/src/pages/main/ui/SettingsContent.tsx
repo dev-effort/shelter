@@ -1,7 +1,5 @@
 import { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import {
-  IonPage,
   IonHeader,
   IonToolbar,
   IonTitle,
@@ -9,7 +7,6 @@ import {
   IonList,
   IonItem,
   IonLabel,
-  IonToggle,
   IonSelect,
   IonSelectOption,
   IonCard,
@@ -17,20 +14,18 @@ import {
   IonCardContent,
   IonSpinner,
 } from '@ionic/react';
-import { NavigationBar } from '@/widgets/navigation-bar';
 import { useSettingsStore } from '@/app/providers/stores';
 
-const SettingsPage: React.FC = () => {
-  const history = useHistory();
+interface SettingsContentProps {
+  history: any;
+}
+
+const SettingsContent: React.FC<SettingsContentProps> = ({ history }) => {
   const { settings, isLoading, loadSettings, updateSettings } = useSettingsStore();
 
   useEffect(() => {
     loadSettings();
   }, [loadSettings]);
-
-  const handleNavigate = (route: string) => {
-    history.push(route);
-  };
 
   const handleViewModeChange = async (viewMode: 'list' | 'grid') => {
     try {
@@ -67,7 +62,7 @@ const SettingsPage: React.FC = () => {
 
   if (isLoading || !settings) {
     return (
-      <IonPage>
+      <>
         <IonHeader>
           <IonToolbar>
             <IonTitle>설정</IonTitle>
@@ -78,13 +73,12 @@ const SettingsPage: React.FC = () => {
             <IonSpinner />
           </div>
         </IonContent>
-        <NavigationBar onNavigate={handleNavigate} />
-      </IonPage>
+      </>
     );
   }
 
   return (
-    <IonPage>
+    <>
       <IonHeader>
         <IonToolbar>
           <IonTitle>설정</IonTitle>
@@ -180,10 +174,8 @@ const SettingsPage: React.FC = () => {
           </IonCard>
         </div>
       </IonContent>
-
-      <NavigationBar onNavigate={handleNavigate} />
-    </IonPage>
+    </>
   );
 };
 
-export default SettingsPage;
+export default SettingsContent;

@@ -9,12 +9,9 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Route, useHistory } from 'react-router-dom';
-import HomePage from '@/pages/home/ui/HomePage';
+import { MainPage } from '@/pages/main';
 import FolderDetailPage from '@/pages/folder-detail/ui/FolderDetailPage';
 import LinkDetailPage from '@/pages/link-detail/ui/LinkDetailPage';
-import TagsPage from '@/pages/tags/ui/TagsPage';
-import SearchPage from '@/pages/search/ui/SearchPage';
-import SettingsPage from '@/pages/settings/ui/SettingsPage';
 import { ShareReceiverPage } from '@/pages/share-receiver';
 import { Toaster } from '@/shared/ui/toaster';
 import { shareService } from '@/shared/api/services/share';
@@ -107,18 +104,18 @@ const AppContent: React.FC = () => {
         return;
       }
 
-      // No share data found - go to home
-      console.log('❌ No share data found - navigating to home');
+      // No share data found - go to main
+      console.log('❌ No share data found - navigating to main');
       if (mounted) {
-        history.replace('/home');
+        history.replace('/main');
       }
     };
 
     checkShare().catch((error) => {
       console.error('Error checking share:', error);
-      // On error, navigate to home
+      // On error, navigate to main
       if (mounted) {
-        history.replace('/home');
+        history.replace('/main');
       }
     });
 
@@ -133,12 +130,9 @@ const AppContent: React.FC = () => {
   return (
     <ThemeProvider>
       <IonRouterOutlet>
-        <Route exact path="/home" component={HomePage} />
+        <Route exact path="/main" component={MainPage} />
         <Route exact path="/folder/:folderId" component={FolderDetailPage} />
         <Route exact path="/link/:linkId" component={LinkDetailPage} />
-        <Route exact path="/tags" component={TagsPage} />
-        <Route exact path="/search" component={SearchPage} />
-        <Route exact path="/settings" component={SettingsPage} />
         <Route exact path="/share" component={ShareReceiverPage} />
         <Route exact path="/">
           {/* Show loading while checking for shared data */}

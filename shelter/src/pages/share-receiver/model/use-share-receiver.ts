@@ -70,9 +70,9 @@ export function useShareReceiver() {
       // Clear shared data from storage
       await shareService.clearSharedData();
 
-      // 성공 시 홈으로 이동
+      // 성공 시 메인으로 이동
       setSharedInfo(null);
-      history.replace('/home');
+      history.replace('/main');
     } catch (error) {
       console.error('Failed to save shared link:', error);
       throw error;
@@ -89,7 +89,7 @@ export function useShareReceiver() {
     await shareService.clearSharedData();
 
     setSharedInfo(null);
-    history.replace('/home');
+    history.replace('/main');
   };
 
   return {

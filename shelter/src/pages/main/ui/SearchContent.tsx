@@ -1,6 +1,4 @@
-import { useHistory } from 'react-router-dom';
 import {
-  IonPage,
   IonHeader,
   IonToolbar,
   IonTitle,
@@ -9,30 +7,29 @@ import {
   IonCardContent,
   IonSpinner,
 } from '@ionic/react';
-import { NavigationBar } from '@/widgets/navigation-bar';
 import { SearchBar, useSearch } from '@/features/search-query';
-import SearchResults from './SearchResults';
+import SearchResults from '@/pages/search/ui/SearchResults';
 import { Link } from '@/shared/types/entities';
 
-const SearchPage: React.FC = () => {
-  const history = useHistory();
-  const { query, setQuery, results, isSearching, error, clearSearch } = useSearch();
+interface SearchContentProps {
+  history: any;
+  onTabChange: (tab: string) => void;
+}
 
-  const handleNavigate = (route: string) => {
-    history.push(route);
-  };
+const SearchContent: React.FC<SearchContentProps> = ({ history, onTabChange }) => {
+  const { query, setQuery, results, isSearching, error, clearSearch } = useSearch();
 
   const handleLinkClick = (link: Link) => {
     history.push(`/link/${link.id}`);
   };
 
   const handleTagClick = (tag: string) => {
-    // Navigate to tags page with the selected tag
-    history.push('/tags', { selectedTag: tag });
+    // 태그 페이지로 전환
+    onTabChange('tags');
   };
 
   return (
-    <IonPage>
+    <>
       <IonHeader>
         <IonToolbar>
           <IonTitle>검색</IonTitle>
@@ -93,10 +90,8 @@ const SearchPage: React.FC = () => {
           )}
         </div>
       </IonContent>
-
-      <NavigationBar onNavigate={handleNavigate} />
-    </IonPage>
+    </>
   );
 };
 
-export default SearchPage;
+export default SearchContent;
