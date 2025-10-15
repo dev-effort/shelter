@@ -62,6 +62,9 @@ importers:
       '@types/react-router-dom':
         specifier: ^5.3.3
         version: 5.3.3
+      capacitor-plugin-safe-area:
+        specifier: ^4.0.0
+        version: 4.0.0(@capacitor/core@7.4.3)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -2081,6 +2084,11 @@ packages:
 
   caniuse-lite@1.0.30001750:
     resolution: {integrity: sha512-cuom0g5sdX6rw00qOoLNSFCJ9/mYIsuSOA+yzpDw8eopiFqcVwQvZHqov0vmEighRxX++cfC0Vg1G+1Iy/mSpQ==}
+
+  capacitor-plugin-safe-area@4.0.0:
+    resolution: {integrity: sha512-5VHT4wG2TlwHtyy3zKrAjKwgJQgC3KeMfRW1bc8abTETLYNLxb85zvfpA0QFE59BxbtYHD57GvXKJuUPgEHl3g==}
+    peerDependencies:
+      '@capacitor/core': '>=7.0.0'
 
   caseless@0.12.0:
     resolution: {integrity: sha512-4tYFyifaFfGacoiObjJegolkwSU4xQNGbVgUiNYVUxbQ2x2lUsFvY4hVgVzGiIe6WLOPqycWXA40l+PWsxthUw==}
@@ -6538,6 +6546,10 @@ snapshots:
   camelcase-css@2.0.1: {}
 
   caniuse-lite@1.0.30001750: {}
+
+  capacitor-plugin-safe-area@4.0.0(@capacitor/core@7.4.3):
+    dependencies:
+      '@capacitor/core': 7.4.3
 
   caseless@0.12.0: {}
 

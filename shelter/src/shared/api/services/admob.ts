@@ -1,4 +1,5 @@
 import { Capacitor } from '@capacitor/core';
+import { SafeArea } from 'capacitor-plugin-safe-area';
 import {
   AdMob,
   BannerAdOptions,
@@ -58,6 +59,48 @@ class AdMobService {
   }
 
   /**
+   * Safe Area Top 값 가져오기
+   */
+  private async getSafeAreaTop(): Promise<number> {
+    try {
+      // 1. capacitor-plugin-safe-area를 사용하여 safe area 값 가져오기
+      if (Capacitor.isNativePlatform()) {
+        const safeAreaData = await SafeArea.getSafeAreaInsets();
+
+        if (safeAreaData && safeAreaData.insets) {
+          const topInset = safeAreaData.insets.top;
+          console.log(`📏 Safe area top from SafeArea plugin: ${topInset}px`);
+          return topInset;
+        }
+      }
+
+      // 2. Fallback: CSS env(safe-area-inset-top) 확인
+      const testDiv = document.createElement('div');
+      testDiv.style.cssText =
+        'padding-top: env(safe-area-inset-top); position: absolute; top: -9999px;';
+      document.body.appendChild(testDiv);
+
+      const paddingTop = parseFloat(getComputedStyle(testDiv).paddingTop);
+      document.body.removeChild(testDiv);
+
+      if (!isNaN(paddingTop) && paddingTop > 0) {
+        console.log(`📏 Safe area top from CSS env(): ${paddingTop}px`);
+        return paddingTop;
+      }
+
+      // 3. 최종 Fallback: 플랫폼별 기본값
+      const platform = Capacitor.getPlatform();
+      const defaultValue = platform === 'ios' ? 44 : 24; // iOS 노치 or Android 상태바
+      console.log(`📏 Using default safe area top for ${platform}: ${defaultValue}px`);
+      return defaultValue;
+    } catch (error) {
+      console.error('❌ Failed to get safe area top:', error);
+      const platform = Capacitor.getPlatform();
+      return platform === 'ios' ? 44 : 24;
+    }
+  }
+
+  /**
    * 배너 광고 표시 (헤더 아래 고정)
    */
   async showBannerBelowHeader(): Promise<void> {
@@ -79,11 +122,20 @@ class AdMobService {
     const platform = Capacitor.getPlatform();
     const adId = platform === 'android' ? TEST_AD_IDS.android.banner : TEST_AD_IDS.ios.banner;
 
+    // Safe Area Top + 헤더 높이(50px) 계산
+    const safeAreaTop = await this.getSafeAreaTop();
+    const headerHeight = 50;
+    const totalMargin = Math.round(safeAreaTop + headerHeight);
+
+    console.log(
+      `📐 Calculated margin: ${safeAreaTop}px (safe area) + ${headerHeight}px (header) = ${totalMargin}px`
+    );
+
     const bannerOptions: BannerAdOptions = {
       adId,
       adSize: BannerAdSize.BANNER,
       position: BannerAdPosition.TOP_CENTER,
-      margin: 62, // 헤더 + safe area를 고려한 높이
+      margin: totalMargin,
       isTesting: true,
     };
 
