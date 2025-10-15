@@ -22,16 +22,40 @@ const FolderCard = React.memo(function FolderCard({
   const subfolderCount = getSubfolders(folder.id).length;
   const linkCount = getLinksByFolder(folder.id).length;
 
-  let longPressTimer: NodeJS.Timeout;
+  const longPressTimerRef = React.useRef<NodeJS.Timeout | undefined>(undefined);
+  const touchStartPos = React.useRef<{ x: number; y: number } | null>(null);
 
-  const handleTouchStart = () => {
-    longPressTimer = setTimeout(() => {
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    touchStartPos.current = { x: touch.clientX, y: touch.clientY };
+
+    longPressTimerRef.current = setTimeout(() => {
       onLongPress?.(folder);
     }, 500);
   };
 
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!touchStartPos.current) return;
+
+    const touch = e.touches[0];
+    const deltaX = Math.abs(touch.clientX - touchStartPos.current.x);
+    const deltaY = Math.abs(touch.clientY - touchStartPos.current.y);
+
+    // 10px 이상 이동하면 스와이프로 간주하고 long press 취소
+    if (deltaX > 10 || deltaY > 10) {
+      if (longPressTimerRef.current) {
+        clearTimeout(longPressTimerRef.current);
+        longPressTimerRef.current = undefined;
+      }
+    }
+  };
+
   const handleTouchEnd = () => {
-    clearTimeout(longPressTimer);
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = undefined;
+    }
+    touchStartPos.current = null;
   };
 
   const handleClick = () => {
@@ -50,6 +74,7 @@ const FolderCard = React.memo(function FolderCard({
       className="m-0 mb-2 cursor-pointer transition-transform active:scale-[0.98]"
       onClick={handleClick}
       onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       onKeyDown={handleKeyDown}
       tabIndex={0}
