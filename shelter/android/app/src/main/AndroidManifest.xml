@@ -40,14 +40,10 @@
                 android:resource="@xml/file_paths"></meta-data>
         </provider>
 
-        <!-- 
-          ⚠️ AdMob App ID - 실제 ID로 교체 필요!
-          AdMob 대시보드 → 앱 선택 → App ID 복사
-          예: ca-app-pub-1234567890123456~1234567890
-        -->
+        <!-- AdMob App ID -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
+            android:value="ca-app-pub-6352567934659315~6702767075"/>
     </application>
 
     <!-- Permissions -->
