@@ -243,21 +243,25 @@ const HomeContent: React.FC<HomeContentProps> = ({ history, onTabChange }) => {
 
   return (
     <>
-      <IonContent>
-        <div className="space-y-4 pb-32" style={{ paddingTop: '100px' }}>
-          {/* 검색바 */}
-          <div className="px-4">
-            <SearchBar
-              value={query}
-              onChange={setQuery}
-              onClear={clearSearch}
-              placeholder="제목, URL, 설명 검색..."
-            />
-          </div>
+      {/* 검색바 - 고정 영역 */}
+      <div
+        className="fixed left-0 right-0 top-0 z-10 px-4 pb-2"
+        style={{ paddingTop: '90px', backgroundColor: 'hsl(var(--background))' }}
+      >
+        <SearchBar
+          value={query}
+          onChange={setQuery}
+          onClear={clearSearch}
+          placeholder="제목, URL, 설명 검색..."
+        />
+      </div>
 
+      {/* 스크롤 컨텐츠 영역 */}
+      <IonContent style={{ '--offset-top': '130px' } as any}>
+        <div className="space-y-4 px-4 pb-32" style={{ paddingTop: '130px' }}>
           {/* 검색 결과 표시 */}
           {isSearching ? (
-            <div className="px-4">
+            <div>
               <div className="mb-3 text-sm text-muted-foreground">
                 {searchResults.length}개의 결과
               </div>
@@ -274,7 +278,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ history, onTabChange }) => {
               )}
             </div>
           ) : (
-            <div className="space-y-4 px-4">
+            <div className="space-y-4">
               {/* 폴더 섹션 */}
               <div>
                 <h2 className="mb-2 text-sm font-medium text-muted-foreground">폴더</h2>
