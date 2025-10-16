@@ -275,58 +275,75 @@ const FolderDetailPage: React.FC = () => {
             <IonButton onClick={handleEditFolder}>
               <IonIcon slot="icon-only" icon={createOutline} />
             </IonButton>
-            <IonButton onClick={() => setShowFolderCreate(true)}>
-              <IonIcon slot="icon-only" icon={folderOutline} />
-            </IonButton>
-            <IonButton onClick={handleOpenLinkCreate}>
-              <IonIcon slot="icon-only" icon={addOutline} />
-            </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
 
       <IonContent>
         <div className="space-y-4 p-4 pb-8">
-          {/* 하위 폴더 */}
-          {subfolders.length > 0 && (
-            <div>
-              <h2 className="mb-2 text-sm font-medium text-muted-foreground">폴더</h2>
-              <FolderList
-                folders={subfolders}
-                onFolderClick={handleFolderClick}
-                onFolderLongPress={handleFolderLongPress}
-              />
-            </div>
-          )}
-
-          {/* 링크 */}
-          {folderLinks.length > 0 && (
-            <div>
-              <h2 className="mb-2 text-sm font-medium text-muted-foreground">링크</h2>
-              <LinkList
-                links={folderLinks}
-                onLinkClick={handleLinkClick}
-                onLinkLongPress={handleLinkLongPress}
-              />
-            </div>
-          )}
-
-          {/* 빈 상태 */}
-          {subfolders.length === 0 && folderLinks.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <p className="mb-4 text-muted-foreground">아직 항목이 없습니다</p>
-              <div className="flex gap-2">
-                <IonButton onClick={() => setShowFolderCreate(true)}>
-                  <IonIcon slot="start" icon={folderOutline} />
-                  폴더 추가
-                </IonButton>
-                <IonButton onClick={() => setShowLinkCreate(true)}>
-                  <IonIcon slot="start" icon={addOutline} />
-                  링크 추가
-                </IonButton>
+          {/* 하위 폴더 섹션 */}
+          <div>
+            <h2 className="mb-2 text-sm font-medium text-muted-foreground">폴더</h2>
+            <div className="space-y-2">
+              {/* 새 폴더 추가 카드 */}
+              <div
+                onClick={() => setShowFolderCreate(true)}
+                className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 transition-colors hover:border-gray-400 active:bg-gray-50"
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setShowFolderCreate(true);
+                  }
+                }}
+              >
+                <IonIcon icon={folderOutline} className="text-2xl text-gray-400" />
+                <span className="text-sm text-gray-500">새 폴더 추가</span>
               </div>
+
+              {/* 하위 폴더 리스트 */}
+              {subfolders.length > 0 && (
+                <FolderList
+                  folders={subfolders}
+                  onFolderClick={handleFolderClick}
+                  onFolderLongPress={handleFolderLongPress}
+                />
+              )}
             </div>
-          )}
+          </div>
+
+          {/* 링크 섹션 */}
+          <div>
+            <h2 className="mb-2 text-sm font-medium text-muted-foreground">링크</h2>
+            <div className="space-y-2">
+              {/* 새 링크 추가 카드 */}
+              <div
+                onClick={handleOpenLinkCreate}
+                className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 transition-colors hover:border-gray-400 active:bg-gray-50"
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleOpenLinkCreate();
+                  }
+                }}
+              >
+                <IonIcon icon={addOutline} className="text-2xl text-gray-400" />
+                <span className="text-sm text-gray-500">새 링크 추가</span>
+              </div>
+
+              {/* 링크 리스트 */}
+              {folderLinks.length > 0 && (
+                <LinkList
+                  links={folderLinks}
+                  onLinkClick={handleLinkClick}
+                  onLinkLongPress={handleLinkLongPress}
+                />
+              )}
+            </div>
+          </div>
         </div>
       </IonContent>
 

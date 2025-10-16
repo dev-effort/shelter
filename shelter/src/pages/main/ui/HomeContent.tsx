@@ -1,11 +1,6 @@
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
-  IonButtons,
-  IonButton,
   IonIcon,
   IonModal,
   IonInput,
@@ -15,6 +10,10 @@ import {
   IonTextarea,
   IonSelect,
   IonSelectOption,
+  IonButton,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
   useIonToast,
 } from '@ionic/react';
 import { addOutline, folderOutline } from 'ionicons/icons';
@@ -239,65 +238,74 @@ const HomeContent: React.FC<HomeContentProps> = ({ history }) => {
 
   return (
     <>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>SHELTER</IonTitle>
-          <IonButtons slot="end">
-            <IonButton onClick={openFolderCreate}>
-              <IonIcon slot="icon-only" icon={folderOutline} />
-            </IonButton>
-            <IonButton onClick={handleQuickAddLink}>
-              <IonIcon slot="icon-only" icon={addOutline} />
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
-
-      {/* 헤더 아래 배너 광고 */}
+      {/* 배너 광고 */}
       <AdBanner />
 
       <IonContent>
         <div className="space-y-4 px-4 pb-32 pt-4">
           {/* 폴더 섹션 */}
-          {rootFolders.length > 0 && (
-            <div>
-              <h2 className="mb-2 text-sm font-medium text-muted-foreground">폴더</h2>
-              <FolderList
-                folders={rootFolders}
-                onFolderClick={handleFolderClick}
-                onFolderLongPress={handleFolderLongPress}
-              />
+          <div>
+            <h2 className="mb-2 text-sm font-medium text-muted-foreground">폴더</h2>
+            <div className="space-y-2">
+              {/* 새 폴더 추가 카드 */}
+              <div
+                onClick={openFolderCreate}
+                className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 transition-colors hover:border-gray-400 active:bg-gray-50"
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openFolderCreate();
+                  }
+                }}
+              >
+                <IonIcon icon={folderOutline} className="text-2xl text-gray-400" />
+                <span className="text-sm text-gray-500">새 폴더 추가</span>
+              </div>
+
+              {/* 폴더 리스트 */}
+              {rootFolders.length > 0 && (
+                <FolderList
+                  folders={rootFolders}
+                  onFolderClick={handleFolderClick}
+                  onFolderLongPress={handleFolderLongPress}
+                />
+              )}
             </div>
-          )}
+          </div>
 
           {/* 링크 섹션 */}
-          {rootLinks.length > 0 && (
-            <div>
-              <h2 className="mb-2 text-sm font-medium text-muted-foreground">링크</h2>
-              <LinkList
-                links={rootLinks}
-                onLinkClick={handleLinkClick}
-                onLinkLongPress={handleLinkLongPress}
-              />
-            </div>
-          )}
-
-          {/* 빈 상태 */}
-          {rootFolders.length === 0 && rootLinks.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <p className="mb-4 text-muted-foreground">아직 저장된 항목이 없습니다</p>
-              <div className="flex gap-2">
-                <IonButton onClick={openFolderCreate}>
-                  <IonIcon slot="start" icon={folderOutline} />
-                  폴더 추가
-                </IonButton>
-                <IonButton onClick={handleQuickAddLink}>
-                  <IonIcon slot="start" icon={addOutline} />
-                  링크 추가
-                </IonButton>
+          <div>
+            <h2 className="mb-2 text-sm font-medium text-muted-foreground">링크</h2>
+            <div className="space-y-2">
+              {/* 새 링크 추가 카드 */}
+              <div
+                onClick={handleQuickAddLink}
+                className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 transition-colors hover:border-gray-400 active:bg-gray-50"
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleQuickAddLink();
+                  }
+                }}
+              >
+                <IonIcon icon={addOutline} className="text-2xl text-gray-400" />
+                <span className="text-sm text-gray-500">새 링크 추가</span>
               </div>
+
+              {/* 링크 리스트 */}
+              {rootLinks.length > 0 && (
+                <LinkList
+                  links={rootLinks}
+                  onLinkClick={handleLinkClick}
+                  onLinkLongPress={handleLinkLongPress}
+                />
+              )}
             </div>
-          )}
+          </div>
         </div>
       </IonContent>
 

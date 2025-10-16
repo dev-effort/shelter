@@ -135,12 +135,7 @@ class AdMobService {
 
     // Safe Area Top + 헤더 높이(50px) 계산
     const safeAreaTop = await this.getSafeAreaTop();
-    const headerHeight = 50;
-    const totalMargin = Math.round(safeAreaTop + headerHeight);
-
-    console.log(
-      `📐 Calculated margin: ${safeAreaTop}px (safe area) + ${headerHeight}px (header) = ${totalMargin}px`
-    );
+    const totalMargin = Math.round(safeAreaTop);
 
     const bannerOptions: BannerAdOptions = {
       adId,
