@@ -6,10 +6,9 @@ import { AdBanner } from '@/widgets/ad-banner';
 import { NavigationBar } from '@/widgets/navigation-bar';
 import HomeContent from './HomeContent';
 import TagsContent from './TagsContent';
-import SearchContent from './SearchContent';
 import SettingsContent from './SettingsContent';
 
-export type TabType = 'home' | 'tags' | 'search' | 'settings';
+export type TabType = 'home' | 'tags' | 'settings';
 
 const MainPage: React.FC = () => {
   const history = useHistory();
@@ -63,9 +62,8 @@ const MainPage: React.FC = () => {
       <AdBanner />
 
       {/* 각 탭 컨텐츠 */}
-      {activeTab === 'home' && <HomeContent history={history} />}
+      {activeTab === 'home' && <HomeContent history={history} onTabChange={handleTabChange} />}
       {activeTab === 'tags' && <TagsContent history={history} />}
-      {activeTab === 'search' && <SearchContent history={history} onTabChange={handleTabChange} />}
       {activeTab === 'settings' && <SettingsContent history={history} />}
 
       <NavigationBar activeTab={activeTab} onTabChange={handleTabChange} />

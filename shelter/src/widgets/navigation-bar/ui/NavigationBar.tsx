@@ -1,5 +1,5 @@
 import { IonTabBar, IonTabButton, IonIcon } from '@ionic/react';
-import { home, pricetags, search, settings } from 'ionicons/icons';
+import { home, pricetags, settings } from 'ionicons/icons';
 
 interface NavigationBarProps {
   activeTab: string;
@@ -10,7 +10,6 @@ export default function NavigationBar({ activeTab, onTabChange }: NavigationBarP
   const navItems = [
     { id: 'home', label: '홈', icon: home },
     { id: 'tags', label: '태그', icon: pricetags },
-    { id: 'search', label: '검색', icon: search },
     { id: 'settings', label: '설정', icon: settings },
   ];
 

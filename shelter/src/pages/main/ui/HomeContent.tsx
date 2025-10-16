@@ -17,6 +17,7 @@ import {
   useIonToast,
 } from '@ionic/react';
 import { addOutline, folderOutline } from 'ionicons/icons';
+import { SearchBar, useSearch } from '@/features/search-query';
 import { FolderList } from '@/widgets/folder-list';
 import { LinkList } from '@/widgets/link-list';
 import { TagInput } from '@/shared/ui/tag-input';
@@ -27,9 +28,10 @@ import { sortFolders, sortLinks } from '@/shared/lib/utils/sort';
 
 interface HomeContentProps {
   history: any;
+  onTabChange: (tab: string) => void;
 }
 
-const HomeContent: React.FC<HomeContentProps> = ({ history }) => {
+const HomeContent: React.FC<HomeContentProps> = ({ history, onTabChange }) => {
   const { folders, loadFolders, getRootFolders, createFolder } = useFolderStore();
   const { links, loadLinks, createLink, getLinksByFolder } = useLinkStore();
   const { settings } = useSettingsStore();
@@ -38,6 +40,9 @@ const HomeContent: React.FC<HomeContentProps> = ({ history }) => {
   const [showLinkCreate, setShowLinkCreate] = useState(false);
   const [newFolderName, setNewFolderName] = useState('');
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null);
+
+  // 검색 기능
+  const { query, setQuery, results: searchResults, clearSearch } = useSearch();
 
   // 삭제 기능
   const {
@@ -93,6 +98,14 @@ const HomeContent: React.FC<HomeContentProps> = ({ history }) => {
       history.push(`/link/${link.id}`);
     },
     [history]
+  );
+
+  const handleTagClick = useCallback(
+    (tag: string) => {
+      // 태그 페이지로 전환
+      onTabChange('tags');
+    },
+    [onTabChange]
   );
 
   const handleFolderLongPress = useCallback(
@@ -225,73 +238,108 @@ const HomeContent: React.FC<HomeContentProps> = ({ history }) => {
     return `${dots} ⤷ 📁 ${folder.name}`;
   };
 
+  // 검색 중일 때는 검색 결과만 표시
+  const isSearching = query.trim().length > 0;
+
   return (
     <>
       <IonContent>
-        <div className="space-y-4 px-4 pb-32" style={{ paddingTop: '100px' }}>
-          {/* 폴더 섹션 */}
-          <div>
-            <h2 className="mb-2 text-sm font-medium text-muted-foreground">폴더</h2>
-            <div className="space-y-2">
-              {/* 새 폴더 추가 카드 */}
-              <div
-                onClick={openFolderCreate}
-                className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 transition-colors hover:border-gray-400 active:bg-gray-50"
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    openFolderCreate();
-                  }
-                }}
-              >
-                <IonIcon icon={folderOutline} className="text-2xl text-gray-400" />
-                <span className="text-sm text-gray-500">새 폴더 추가</span>
-              </div>
-
-              {/* 폴더 리스트 */}
-              {rootFolders.length > 0 && (
-                <FolderList
-                  folders={rootFolders}
-                  onFolderClick={handleFolderClick}
-                  onFolderLongPress={handleFolderLongPress}
-                />
-              )}
-            </div>
+        <div className="space-y-4 pb-32" style={{ paddingTop: '100px' }}>
+          {/* 검색바 */}
+          <div className="px-4">
+            <SearchBar
+              value={query}
+              onChange={setQuery}
+              onClear={clearSearch}
+              placeholder="제목, URL, 설명 검색..."
+            />
           </div>
 
-          {/* 링크 섹션 */}
-          <div>
-            <h2 className="mb-2 text-sm font-medium text-muted-foreground">링크</h2>
-            <div className="space-y-2">
-              {/* 새 링크 추가 카드 */}
-              <div
-                onClick={handleQuickAddLink}
-                className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 transition-colors hover:border-gray-400 active:bg-gray-50"
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleQuickAddLink();
-                  }
-                }}
-              >
-                <IonIcon icon={addOutline} className="text-2xl text-gray-400" />
-                <span className="text-sm text-gray-500">새 링크 추가</span>
+          {/* 검색 결과 표시 */}
+          {isSearching ? (
+            <div className="px-4">
+              <div className="mb-3 text-sm text-muted-foreground">
+                {searchResults.length}개의 결과
               </div>
-
-              {/* 링크 리스트 */}
-              {rootLinks.length > 0 && (
+              {searchResults.length > 0 ? (
                 <LinkList
-                  links={rootLinks}
+                  links={searchResults}
                   onLinkClick={handleLinkClick}
                   onLinkLongPress={handleLinkLongPress}
                 />
+              ) : (
+                <div className="py-16 text-center text-sm text-muted-foreground">
+                  검색 결과가 없습니다
+                </div>
               )}
             </div>
-          </div>
+          ) : (
+            <div className="space-y-4 px-4">
+              {/* 폴더 섹션 */}
+              <div>
+                <h2 className="mb-2 text-sm font-medium text-muted-foreground">폴더</h2>
+                <div className="space-y-2">
+                  {/* 새 폴더 추가 카드 */}
+                  <div
+                    onClick={openFolderCreate}
+                    className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 transition-colors hover:border-gray-400 active:bg-gray-50"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        openFolderCreate();
+                      }
+                    }}
+                  >
+                    <IonIcon icon={folderOutline} className="text-2xl text-gray-400" />
+                    <span className="text-sm text-gray-500">새 폴더 추가</span>
+                  </div>
+
+                  {/* 폴더 리스트 */}
+                  {rootFolders.length > 0 && (
+                    <FolderList
+                      folders={rootFolders}
+                      onFolderClick={handleFolderClick}
+                      onFolderLongPress={handleFolderLongPress}
+                    />
+                  )}
+                </div>
+              </div>
+
+              {/* 링크 섹션 */}
+              <div>
+                <h2 className="mb-2 text-sm font-medium text-muted-foreground">링크</h2>
+                <div className="space-y-2">
+                  {/* 새 링크 추가 카드 */}
+                  <div
+                    onClick={handleQuickAddLink}
+                    className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 transition-colors hover:border-gray-400 active:bg-gray-50"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleQuickAddLink();
+                      }
+                    }}
+                  >
+                    <IonIcon icon={addOutline} className="text-2xl text-gray-400" />
+                    <span className="text-sm text-gray-500">새 링크 추가</span>
+                  </div>
+
+                  {/* 링크 리스트 */}
+                  {rootLinks.length > 0 && (
+                    <LinkList
+                      links={rootLinks}
+                      onLinkClick={handleLinkClick}
+                      onLinkLongPress={handleLinkLongPress}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </IonContent>
 
