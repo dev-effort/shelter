@@ -10,7 +10,8 @@
     "test.e2e": "cypress run",
     "test.unit": "vitest",
     "lint": "eslint",
-    "build:android": "ionic capacitor build android --prod"
+    "build:android": "ionic capacitor build android --prod",
+    "release": "bash build-release.sh"
   },
   "dependencies": {
     "@capacitor-community/admob": "^7.0.3",
