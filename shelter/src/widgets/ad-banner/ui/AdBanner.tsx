@@ -59,7 +59,7 @@ const AdBanner: React.FC = () => {
       <div
         style={{
           width: '100%',
-          height: '50px',
+          height: '90px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -79,12 +79,12 @@ const AdBanner: React.FC = () => {
   }
 
   // 네이티브 광고는 플러그인이 직접 렌더링하므로
-  // 광고 높이만큼 공간만 확보
+  // 광고 높이만큼 공간만 확보 (ADAPTIVE_BANNER는 최대 90px)
   return (
     <div
       style={{
         width: '100%',
-        height: '50px',
+        height: '90px',
         backgroundColor: 'transparent',
       }}
     />

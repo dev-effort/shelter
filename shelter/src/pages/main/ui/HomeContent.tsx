@@ -246,7 +246,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ history, onTabChange }) => {
       {/* 검색바 - 고정 영역 */}
       <div
         className="fixed left-0 right-0 top-0 z-10 px-4 pb-2"
-        style={{ paddingTop: '90px', backgroundColor: 'hsl(var(--background))' }}
+        style={{ paddingTop: '100px', backgroundColor: '#000000' }}
       >
         <SearchBar
           value={query}
@@ -257,8 +257,8 @@ const HomeContent: React.FC<HomeContentProps> = ({ history, onTabChange }) => {
       </div>
 
       {/* 스크롤 컨텐츠 영역 */}
-      <IonContent style={{ '--offset-top': '130px' } as any}>
-        <div className="space-y-4 px-4 pb-32" style={{ paddingTop: '130px' }}>
+      <IonContent style={{ '--offset-top': '120px' } as any}>
+        <div className="space-y-4 px-4 pb-32" style={{ paddingTop: '90px' }}>
           {/* 검색 결과 표시 */}
           {isSearching ? (
             <div>

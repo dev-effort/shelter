@@ -139,7 +139,7 @@ class AdMobService {
 
     const bannerOptions: BannerAdOptions = {
       adId,
-      adSize: BannerAdSize.BANNER,
+      adSize: BannerAdSize.ADAPTIVE_BANNER, // 화면 너비에 맞춰 자동 조정
       position: BannerAdPosition.TOP_CENTER,
       margin: totalMargin,
       isTesting: false, // ⚠️ 테스트 완료 후 false로 변경!
