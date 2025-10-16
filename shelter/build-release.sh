@@ -15,6 +15,36 @@ cd "$SCRIPT_DIR"
 echo "📂 작업 디렉토리: $SCRIPT_DIR"
 echo ""
 
+# 0단계: 버전 자동 증가
+echo "0️⃣  버전 자동 증가 중..."
+BUILD_GRADLE="android/app/build.gradle"
+
+# 현재 versionCode 읽기
+CURRENT_VERSION_CODE=$(grep "versionCode" "$BUILD_GRADLE" | awk '{print $2}')
+CURRENT_VERSION_NAME=$(grep "versionName" "$BUILD_GRADLE" | awk '{print $2}' | tr -d '"')
+
+# versionCode 증가
+NEW_VERSION_CODE=$((CURRENT_VERSION_CODE + 1))
+
+# versionName 증가 (1.0.1 -> 1.0.2)
+IFS='.' read -ra VERSION_PARTS <<< "$CURRENT_VERSION_NAME"
+MAJOR=${VERSION_PARTS[0]}
+MINOR=${VERSION_PARTS[1]}
+PATCH=${VERSION_PARTS[2]:-0}
+NEW_PATCH=$((PATCH + 1))
+NEW_VERSION_NAME="$MAJOR.$MINOR.$NEW_PATCH"
+
+echo "  현재 버전: versionCode $CURRENT_VERSION_CODE, versionName \"$CURRENT_VERSION_NAME\""
+echo "  새 버전: versionCode $NEW_VERSION_CODE, versionName \"$NEW_VERSION_NAME\""
+
+# build.gradle 파일 업데이트
+sed -i.bak "s/versionCode $CURRENT_VERSION_CODE/versionCode $NEW_VERSION_CODE/" "$BUILD_GRADLE"
+sed -i.bak "s/versionName \"$CURRENT_VERSION_NAME\"/versionName \"$NEW_VERSION_NAME\"/" "$BUILD_GRADLE"
+rm "${BUILD_GRADLE}.bak"
+
+echo "✅ 버전 증가 완료"
+echo ""
+
 # 1단계: 웹 앱 빌드
 echo "1️⃣  웹 앱 빌드 중..."
 pnpm run build
@@ -45,6 +75,7 @@ if [ -f "$AAB_PATH" ]; then
     echo ""
     echo "📦 파일 위치: $AAB_PATH"
     echo "📊 파일 크기: $AAB_SIZE"
+    echo "🔢 버전: $NEW_VERSION_NAME (코드: $NEW_VERSION_CODE)"
     echo ""
     echo "다음 단계:"
     echo "  1. Play Console에 로그인"
