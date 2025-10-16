@@ -39,6 +39,7 @@ import './theme/variables.css';
 
 setupIonicReact({
   mode: 'ios',
+  swipeBackEnabled: false, // 안드로이드 제스처 네비게이션과 충돌 방지
 });
 
 // App content that has access to router history
@@ -129,7 +130,7 @@ const AppContent: React.FC = () => {
 
   return (
     <ThemeProvider>
-      <IonRouterOutlet>
+      <IonRouterOutlet animated={false}>
         <Route exact path="/main" component={MainPage} />
         <Route exact path="/folder/:folderId" component={FolderDetailPage} />
         <Route exact path="/link/:linkId" component={LinkDetailPage} />
