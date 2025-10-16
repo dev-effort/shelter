@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { IonPage, IonAlert } from '@ionic/react';
 import { App } from '@capacitor/app';
+import { AdBanner } from '@/widgets/ad-banner';
 import { NavigationBar } from '@/widgets/navigation-bar';
 import HomeContent from './HomeContent';
 import TagsContent from './TagsContent';
@@ -58,6 +59,10 @@ const MainPage: React.FC = () => {
 
   return (
     <IonPage>
+      {/* 최상단 배너 광고 */}
+      <AdBanner />
+
+      {/* 각 탭 컨텐츠 */}
       {activeTab === 'home' && <HomeContent history={history} />}
       {activeTab === 'tags' && <TagsContent history={history} />}
       {activeTab === 'search' && <SearchContent history={history} onTabChange={handleTabChange} />}

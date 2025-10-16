@@ -1,8 +1,5 @@
 import { useEffect } from 'react';
 import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonList,
   IonItem,
@@ -14,7 +11,6 @@ import {
   IonCardContent,
   IonSpinner,
 } from '@ionic/react';
-import { AdBanner } from '@/widgets/ad-banner';
 import { useSettingsStore } from '@/app/providers/stores';
 
 interface SettingsContentProps {
@@ -64,17 +60,8 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ history }) => {
   if (isLoading || !settings) {
     return (
       <>
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>설정</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-
-        {/* 헤더 아래 배너 광고 */}
-        <AdBanner />
-
-        <IonContent style={{ '--padding-top': '50px' } as any}>
-          <div className="flex justify-center py-8">
+        <IonContent>
+          <div className="flex justify-center py-8" style={{ paddingTop: '100px' }}>
             <IonSpinner />
           </div>
         </IonContent>
@@ -84,17 +71,8 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ history }) => {
 
   return (
     <>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>설정</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-
-      {/* 헤더 아래 배너 광고 */}
-      <AdBanner />
-
       <IonContent>
-        <div className="space-y-4 p-4 pb-32">
+        <div className="space-y-4 p-4 pb-32" style={{ paddingTop: '100px' }}>
           {/* 표시 설정 */}
           <IonCard>
             <IonCardHeader>

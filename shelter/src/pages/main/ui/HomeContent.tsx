@@ -17,7 +17,6 @@ import {
   useIonToast,
 } from '@ionic/react';
 import { addOutline, folderOutline } from 'ionicons/icons';
-import { AdBanner } from '@/widgets/ad-banner';
 import { FolderList } from '@/widgets/folder-list';
 import { LinkList } from '@/widgets/link-list';
 import { TagInput } from '@/shared/ui/tag-input';
@@ -25,7 +24,6 @@ import { useFolderStore, useLinkStore, useSettingsStore } from '@/app/providers/
 import { Folder, Link } from '@/shared/types/entities';
 import { useDeleteItem, DeleteConfirmDialog } from '@/features/item-delete';
 import { sortFolders, sortLinks } from '@/shared/lib/utils/sort';
-import { adMobService } from '@/shared/api/services/admob';
 
 interface HomeContentProps {
   history: any;
@@ -63,15 +61,6 @@ const HomeContent: React.FC<HomeContentProps> = ({ history }) => {
     loadFolders();
     loadLinks();
   }, [loadFolders, loadLinks]);
-
-  // 모달이 열릴 때 광고 숨김, 닫힐 때 광고 다시 표시
-  useEffect(() => {
-    if (showFolderCreate || showFolderSelect || showLinkCreate) {
-      adMobService.hideBanner();
-    } else {
-      adMobService.resumeBanner();
-    }
-  }, [showFolderCreate, showFolderSelect, showLinkCreate]);
 
   // 정렬된 폴더와 링크
   const rootFolders = useMemo(() => {
@@ -238,11 +227,8 @@ const HomeContent: React.FC<HomeContentProps> = ({ history }) => {
 
   return (
     <>
-      {/* 배너 광고 */}
-      <AdBanner />
-
       <IonContent>
-        <div className="space-y-4 px-4 pb-32 pt-4">
+        <div className="space-y-4 px-4 pb-32" style={{ paddingTop: '100px' }}>
           {/* 폴더 섹션 */}
           <div>
             <h2 className="mb-2 text-sm font-medium text-muted-foreground">폴더</h2>

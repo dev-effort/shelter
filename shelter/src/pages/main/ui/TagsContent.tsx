@@ -1,15 +1,5 @@
 import { useEffect } from 'react';
-import {
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-  IonCard,
-  IonCardHeader,
-  IonCardContent,
-  IonSpinner,
-} from '@ionic/react';
-import { AdBanner } from '@/widgets/ad-banner';
+import { IonContent, IonCard, IonCardHeader, IonCardContent, IonSpinner } from '@ionic/react';
 import { useTagStore } from '@/app/providers/stores';
 import { useTagFilter, TagBadge } from '@/features/tag-filter';
 import TaggedLinksView from '@/pages/tags/ui/TaggedLinksView';
@@ -31,17 +21,8 @@ const TagsContent: React.FC<TagsContentProps> = ({ history }) => {
 
   return (
     <>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>태그</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-
-      {/* 헤더 아래 배너 광고 */}
-      <AdBanner />
-
       <IonContent>
-        <div className="space-y-4 p-4 pb-32">
+        <div className="space-y-4 p-4 pb-32" style={{ paddingTop: '100px' }}>
           {/* 로딩 상태 */}
           {isLoading && (
             <div className="flex justify-center py-8">
