@@ -93,27 +93,27 @@ const LinkCard = React.memo(function LinkCard({
       role="button"
       aria-label={`링크: ${link.title}, URL: ${link.url}`}
     >
-      <IonCardHeader className="flex flex-row items-center justify-between pb-2">
-        <IonCardTitle className="flex flex-1 items-center gap-2 text-base font-medium">
+      <IonCardHeader className="flex flex-row items-center justify-between gap-2 pb-2">
+        <IonCardTitle className="flex min-w-0 flex-1 items-center gap-2 text-base font-medium">
           {faviconUrl && !faviconError ? (
             <img
               src={faviconUrl}
               alt=""
               loading="lazy"
               onError={() => setFaviconError(true)}
-              className="h-5 w-5 rounded"
+              className="h-5 w-5 flex-shrink-0 rounded"
             />
           ) : (
-            <IonIcon icon={linkOutline} className="h-5 w-5 text-muted-foreground" />
+            <IonIcon icon={linkOutline} className="h-5 w-5 flex-shrink-0 text-muted-foreground" />
           )}
-          {link.title}
+          <span className="truncate">{link.title}</span>
         </IonCardTitle>
         <a
           href={link.url}
           target="_blank"
           rel="noopener noreferrer"
           onClick={(e) => e.stopPropagation()}
-          className="flex items-center justify-center rounded-md border-primary p-2 text-primary transition-colors"
+          className="flex flex-shrink-0 items-center justify-center rounded-md border-primary p-2 text-primary transition-colors"
           aria-label={`${link.title} 링크 열기`}
         >
           <IonIcon icon={openOutline} className="h-5 w-5" aria-hidden="true" />
