@@ -18,6 +18,19 @@ const MainPage: React.FC = () => {
   // 뒤로가기 버튼 처리
   useEffect(() => {
     const backButtonListener = App.addListener('backButton', ({ canGoBack }) => {
+      // 모달이 열려있는지 확인
+      const hasOpenModal = document.querySelector('ion-modal.show-modal');
+
+      // 모달이 있으면 백 버튼 이벤트를 무시 (Ionic이 자체적으로 처리)
+      if (hasOpenModal) {
+        return;
+      }
+
+      // 앱 종료 Alert가 이미 열려있으면 무시 (Ionic이 자체적으로 닫음)
+      if (showExitAlert) {
+        return;
+      }
+
       // 더 이상 뒤로 갈 수 없는 경우
       if (!canGoBack) {
         if (activeTab === 'home') {
@@ -33,7 +46,7 @@ const MainPage: React.FC = () => {
     return () => {
       backButtonListener.then((listener) => listener.remove());
     };
-  }, [activeTab]);
+  }, [activeTab, showExitAlert]);
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab as TabType);
