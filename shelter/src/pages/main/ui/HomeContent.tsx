@@ -296,8 +296,8 @@ const HomeContent: React.FC<HomeContentProps> = ({ history, onTabChange }) => {
                       }
                     }}
                   >
-                    <IonIcon icon={folderOutline} className="text-2xl text-gray-400" />
-                    <span className="text-sm text-gray-500">새 폴더 추가</span>
+                    <IonIcon icon={folderOutline} className="text-2xl text-gray-900" />
+                    <span className="text-sm text-gray-900">새 폴더 추가</span>
                   </div>
 
                   {/* 폴더 리스트 */}
@@ -328,8 +328,8 @@ const HomeContent: React.FC<HomeContentProps> = ({ history, onTabChange }) => {
                       }
                     }}
                   >
-                    <IonIcon icon={addOutline} className="text-2xl text-gray-400" />
-                    <span className="text-sm text-gray-500">새 링크 추가</span>
+                    <IonIcon icon={addOutline} className="text-2xl text-gray-900" />
+                    <span className="text-sm text-gray-900">새 링크 추가</span>
                   </div>
 
                   {/* 링크 리스트 */}

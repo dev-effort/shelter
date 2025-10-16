@@ -83,7 +83,7 @@ const FolderCard = React.memo(function FolderCard({
     >
       <IonCardHeader className="flex flex-row items-center justify-between pb-2">
         <IonCardTitle className="flex items-center gap-2 text-base font-medium">
-          <IonIcon icon={folderOutline} className="h-5 w-5 text-muted-foreground" />
+          <IonIcon icon={folderOutline} className="h-5 w-5" color="primary" />
           {folder.name}
         </IonCardTitle>
       </IonCardHeader>

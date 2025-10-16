@@ -298,7 +298,7 @@ const FolderDetailPage: React.FC = () => {
                   }
                 }}
               >
-                <IonIcon icon={folderOutline} className="text-2xl text-gray-400" />
+                <IonIcon icon={folderOutline} className="text-2xl" color="primary" />
                 <span className="text-sm text-gray-500">새 폴더 추가</span>
               </div>
 
