@@ -82,7 +82,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ history }) => {
       settings?.defaultSortBy || 'updatedAt',
       settings?.defaultSortOrder || 'desc'
     );
-  }, [folders, settings?.defaultSortBy, settings?.defaultSortOrder]);
+  }, [folders, getRootFolders, settings?.defaultSortBy, settings?.defaultSortOrder]);
 
   const rootLinks = useMemo(() => {
     const linkList = getLinksByFolder(null);
@@ -91,7 +91,7 @@ const HomeContent: React.FC<HomeContentProps> = ({ history }) => {
       settings?.defaultSortBy || 'updatedAt',
       settings?.defaultSortOrder || 'desc'
     );
-  }, [links, settings?.defaultSortBy, settings?.defaultSortOrder]);
+  }, [links, getLinksByFolder, settings?.defaultSortBy, settings?.defaultSortOrder]);
 
   const handleFolderClick = useCallback(
     (folder: Folder) => {
@@ -131,10 +131,8 @@ const HomeContent: React.FC<HomeContentProps> = ({ history }) => {
 
   const handleConfirmDelete = async () => {
     const success = await confirmDelete();
-    if (success) {
-      await loadFolders();
-      await loadLinks();
 
+    if (success) {
       presentToast({
         message: `${itemToDelete?.type === 'folder' ? '폴더' : '링크'}가 삭제되었습니다`,
         duration: 2000,

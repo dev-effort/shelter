@@ -155,9 +155,6 @@ const FolderDetailPage: React.FC = () => {
         } else {
           history.replace('/home');
         }
-      } else {
-        // 하위 항목 삭제 시 현재 페이지 새로고침
-        await loadFolder(folderId);
       }
 
       presentToast({

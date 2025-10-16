@@ -163,9 +163,15 @@ class LinkServiceImpl implements LinkService {
     }
 
     // 폴더가 변경된 경우 카운트 업데이트
-    if (data.folderId && data.folderId !== existing.folderId) {
-      await folderService.updateLinkCount(existing.folderId, -1);
-      await folderService.updateLinkCount(data.folderId, 1);
+    if (data.folderId !== undefined && data.folderId !== existing.folderId) {
+      // 기존 폴더에서 카운트 감소 (폴더가 있는 경우만)
+      if (existing.folderId) {
+        await folderService.updateLinkCount(existing.folderId, -1);
+      }
+      // 새 폴더에 카운트 증가 (폴더가 있는 경우만)
+      if (data.folderId) {
+        await folderService.updateLinkCount(data.folderId, 1);
+      }
     }
 
     return updated;
@@ -184,8 +190,10 @@ class LinkServiceImpl implements LinkService {
 
     await db.delete('links', id);
 
-    // 폴더의 linkCount 업데이트
-    await folderService.updateLinkCount(link.folderId, -1);
+    // 폴더의 linkCount 업데이트 (폴더가 있는 경우만)
+    if (link.folderId) {
+      await folderService.updateLinkCount(link.folderId, -1);
+    }
 
     // 태그 카운트 업데이트
     await tagService.decrementTagCounts(link.tags);

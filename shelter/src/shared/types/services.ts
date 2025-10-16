@@ -50,8 +50,8 @@ export interface FolderService {
   update(id: string, data: Partial<Folder>): Promise<Folder>;
   delete(id: string): Promise<void>;
   countItemsRecursive(id: string): Promise<{ folderCount: number; linkCount: number }>;
-  updateLinkCount(folderId: string, delta: number): Promise<void>;
-  updateFolderCount(folderId: string, delta: number): Promise<void>;
+  updateLinkCount(folderId: string | null, delta: number): Promise<void>;
+  updateFolderCount(folderId: string | null, delta: number): Promise<void>;
 }
 
 /**

@@ -168,7 +168,9 @@ class FolderServiceImpl implements FolderService {
   /**
    * 폴더의 linkCount 업데이트
    */
-  async updateLinkCount(folderId: string, delta: number): Promise<void> {
+  async updateLinkCount(folderId: string | null, delta: number): Promise<void> {
+    if (!folderId) return; // null이면 홈이므로 카운트 업데이트 불필요
+
     const folder = await this.getById(folderId);
     if (!folder) return;
 
@@ -180,7 +182,9 @@ class FolderServiceImpl implements FolderService {
   /**
    * 폴더의 folderCount 업데이트
    */
-  async updateFolderCount(folderId: string, delta: number): Promise<void> {
+  async updateFolderCount(folderId: string | null, delta: number): Promise<void> {
+    if (!folderId) return; // null이면 홈이므로 카운트 업데이트 불필요
+
     const folder = await this.getById(folderId);
     if (!folder) return;
 

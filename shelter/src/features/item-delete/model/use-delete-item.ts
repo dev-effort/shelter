@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { folderService } from '@/shared/api/services/folder';
-import { linkService } from '@/shared/api/services/link';
+import { useFolderStore } from '@/app/providers/stores/folderStore';
+import { useLinkStore } from '@/app/providers/stores/linkStore';
 
 export type DeleteItemType = 'folder' | 'link';
 
@@ -17,6 +18,10 @@ export function useDeleteItem() {
   const [itemToDelete, setItemToDelete] = useState<DeleteItemInfo | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Zustand 스토어 훅 사용
+  const { deleteFolder } = useFolderStore();
+  const { deleteLink } = useLinkStore();
 
   /**
    * 삭제 다이얼로그 열기
@@ -68,10 +73,12 @@ export function useDeleteItem() {
     setError(null);
 
     try {
+      // Zustand 스토어의 delete 메소드 사용
+      // 이 메소드들은 DB 삭제 + 스토어 상태 업데이트를 모두 수행
       if (itemToDelete.type === 'folder') {
-        await folderService.delete(itemToDelete.id);
+        await deleteFolder(itemToDelete.id);
       } else {
-        await linkService.delete(itemToDelete.id);
+        await deleteLink(itemToDelete.id);
       }
 
       setIsOpen(false);
