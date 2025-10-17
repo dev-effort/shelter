@@ -1,6 +1,14 @@
 import { openDB, DBSchema, IDBPDatabase } from 'idb';
 import { Folder, Link, Tag, Settings } from '@/shared/types/entities';
 
+// OG 메타데이터 캐시 타입
+export interface OGCache {
+  url: string; // Primary key
+  title: string | null;
+  image: string | null;
+  cachedAt: number; // Unix timestamp
+}
+
 // IndexedDB Schema 정의
 // @ts-ignore - DBSchema 타입 정의 문제 회피
 interface ShelterDB extends DBSchema {
@@ -23,10 +31,15 @@ interface ShelterDB extends DBSchema {
     key: string;
     value: Settings;
   };
+  ogCache: {
+    key: string;
+    value: OGCache;
+    indexes: { 'by-cached': number };
+  };
 }
 
 const DB_NAME = 'shelter-db';
-const DB_VERSION = 1;
+const DB_VERSION = 2; // 버전 증가 (새로운 스토어 추가)
 
 let dbInstance: IDBPDatabase<ShelterDB> | null = null;
 
@@ -67,6 +80,12 @@ export async function initDB(): Promise<IDBPDatabase<ShelterDB>> {
       // Settings Object Store
       if (!db.objectStoreNames.contains('settings')) {
         db.createObjectStore('settings', { keyPath: 'id' });
+      }
+
+      // OG Cache Object Store
+      if (!db.objectStoreNames.contains('ogCache')) {
+        const ogCacheStore = db.createObjectStore('ogCache', { keyPath: 'url' });
+        ogCacheStore.createIndex('by-cached', 'cachedAt');
       }
     },
   });

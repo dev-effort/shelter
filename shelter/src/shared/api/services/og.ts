@@ -1,3 +1,6 @@
+import { getDB } from '../db';
+import type { OGCache } from '../db';
+
 /**
  * Open Graph 메타데이터 타입
  */
@@ -19,8 +22,7 @@ export interface OGResult {
 
 class OGService {
   private readonly TIMEOUT_MS = 8000; // 8초 타임아웃
-  private readonly CACHE_DURATION_MS = 7 * 24 * 60 * 60 * 1000; // 7일
-  private memoryCache = new Map<string, { data: OGMetadata; timestamp: number }>();
+  private memoryCache = new Map<string, OGMetadata>(); // 빠른 접근용 메모리 캐시
 
   /**
    * URL에서 OG 메타데이터 가져오기
@@ -36,25 +38,54 @@ class OGService {
         };
       }
 
-      // 메모리 캐시 확인
-      const cached = this.memoryCache.get(url);
-      if (cached && Date.now() - cached.timestamp < this.CACHE_DURATION_MS) {
-        console.log('✅ OG 메타데이터 캐시 사용:', url);
+      // 1. 메모리 캐시 확인 (가장 빠름)
+      const memoryCached = this.memoryCache.get(url);
+      if (memoryCached) {
+        console.log('✅ OG 메타데이터 메모리 캐시 사용:', url);
         return {
           success: true,
-          data: cached.data,
+          data: memoryCached,
         };
       }
 
-      // CORS 프록시를 통해 HTML 가져오기 (타임아웃 포함)
+      // 2. IndexedDB 캐시 확인 (영구 저장)
+      const db = await getDB();
+      const dbCached = await db.get('ogCache', url);
+      if (dbCached) {
+        console.log('✅ OG 메타데이터 IndexedDB 캐시 사용:', url);
+        const metadata: OGMetadata = {
+          title: dbCached.title,
+          description: null,
+          image: dbCached.image,
+          url: null,
+        };
+
+        // 메모리 캐시에도 저장
+        this.memoryCache.set(url, metadata);
+
+        return {
+          success: true,
+          data: metadata,
+        };
+      }
+
+      // 3. 캐시가 없으면 네트워크에서 가져오기
+      console.log('🔄 OG 메타데이터 새로 가져오는 중:', url);
       const html = await this.fetchWithTimeout(url);
       const metadata = this.parseOGTags(html);
 
-      // 캐시에 저장
-      this.memoryCache.set(url, {
-        data: metadata,
-        timestamp: Date.now(),
-      });
+      // 4. IndexedDB와 메모리 캐시 모두에 저장
+      const cacheEntry: OGCache = {
+        url,
+        title: metadata.title,
+        image: metadata.image,
+        cachedAt: Date.now(),
+      };
+
+      await db.put('ogCache', cacheEntry);
+      this.memoryCache.set(url, metadata);
+
+      console.log('✅ OG 메타데이터 캐시에 저장됨:', url);
 
       return {
         success: true,
