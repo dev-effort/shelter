@@ -286,7 +286,11 @@ const HomeContent: React.FC<HomeContentProps> = ({ history, onTabChange }) => {
                   {/* 새 폴더 추가 카드 */}
                   <div
                     onClick={openFolderCreate}
-                    className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 transition-colors hover:border-gray-400 active:bg-gray-50"
+                    className="flex cursor-pointer items-center gap-3 rounded-lg bg-white p-4 transition-all active:bg-gray-50"
+                    style={{
+                      outline: '2px dashed var(--ion-color-primary)',
+                      outlineOffset: '-2px',
+                    }}
                     role="button"
                     tabIndex={0}
                     onKeyDown={(e) => {
@@ -318,7 +322,11 @@ const HomeContent: React.FC<HomeContentProps> = ({ history, onTabChange }) => {
                   {/* 새 링크 추가 카드 */}
                   <div
                     onClick={handleQuickAddLink}
-                    className="flex cursor-pointer items-center gap-3 rounded-lg border-2 border-dashed border-gray-300 bg-white p-4 transition-colors hover:border-gray-400 active:bg-gray-50"
+                    className="flex cursor-pointer items-center gap-3 rounded-lg bg-white p-4 transition-all active:bg-gray-50"
+                    style={{
+                      outline: '2px dashed var(--ion-color-primary)',
+                      outlineOffset: '-2px',
+                    }}
                     role="button"
                     tabIndex={0}
                     onKeyDown={(e) => {
