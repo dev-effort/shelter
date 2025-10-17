@@ -23,6 +23,7 @@ import {
 } from '@ionic/react';
 import { createOutline, openOutline } from 'ionicons/icons';
 import { TagInput } from '@/shared/ui/tag-input';
+import { URLPreview } from '@/shared/ui/url-preview';
 import { useLinkStore } from '@/app/providers/stores';
 import { useOpenLink } from '@/features/link';
 import { adMobService } from '@/shared/api/services/admob';
@@ -168,6 +169,9 @@ const LinkDetailPage: React.FC = () => {
               </a>
             </IonCardContent>
           </IonCard>
+
+          {/* URL 미리보기 */}
+          <URLPreview url={currentLink.url} />
 
           {/* 설명 */}
           {currentLink.description && (
